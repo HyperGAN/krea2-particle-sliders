@@ -1,0 +1,16 @@
+{
+  "model_id": "jimmycarter/krea2-turbo-bbox",
+  "transformer_subfolder": "epoch-14-step-73184/transformer",
+  "pipeline_id": "krea/Krea-2-Raw",
+  "comfy_filename": "krea2-bbox-turbo-comfy-latest.safetensors",
+  "comfy_text_encoder": "qwen3vl_4b_fp8_scaled.safetensors",
+  "comfy_vae": "qwen_image_vae.safetensors",
+  "comfy_org_repo": "Comfy-Org/Krea-2",
+  "variant_label": "epoch-14-step-73184 (raw)",
+  "turbo_steps": 8,
+  "diffusers_guidance_scale": 0.0,
+  "mu": 1.15,
+  "comfy_cfg": 1.0,
+  "is_distilled": "pipeline-level; not a transformer config field",
+  "weights_in_repo": false
+}

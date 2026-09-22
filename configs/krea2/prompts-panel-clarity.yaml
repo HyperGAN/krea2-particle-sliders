@@ -1,0 +1,37 @@
+# Krea-2 turbo-bbox UNI panel-clarity slider.
+#
+# Bare captions. attributes pin unused gender and are not prefixed.
+# Same page: crowded overlapping borders versus clean gutters and
+# speech bubbles that sit inside their panels. Minus is a canary
+# only. Fruit-bowl control is verify-only.
+#
+# These rows are ordinary UNI captions, not the grounding DSL.
+# Use PROMPTING.md when you want boxes at inference time.
+#
+# Base: jimmycarter/krea2-turbo-bbox epoch-14-step-73184/transformer.
+# guidance_scale 0.0 because the locked base is distilled turbo.
+plus_label: Clear
+minus_label: Erased
+recommended_range: [0.0, 2.0]
+concept_words: "clean, open, readable, speech, bubbles"
+control_prompt: "a bowl of fruit on a table"
+bare_captions: true
+rows:
+  - target: "a four-panel comic page, overlapping borders, crowded gutters"
+    positive: "a four-panel comic page, clean panel borders, open gutters, readable speech bubbles inside each panel"
+    neutral: "a four-panel comic page, overlapping borders, crowded gutters"
+    negative: "a four-panel comic page with the panels erased"
+    attributes: ["male", "female"]
+    action: enhance
+    guidance_scale: 0.0
+    resolution: 512
+    batch_size: 1
+  - target: "a three-panel comic strip of one person, overlapping borders, crowded gutters"
+    positive: "a three-panel comic strip of one person, clean panel borders, open gutters, readable speech bubbles inside each panel"
+    neutral: "a three-panel comic strip of one person, overlapping borders, crowded gutters"
+    negative: "a three-panel comic strip of one person with the panels erased"
+    attributes: ["male", "female"]
+    action: enhance
+    guidance_scale: 0.0
+    resolution: 512
+    batch_size: 1

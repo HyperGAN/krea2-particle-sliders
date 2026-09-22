@@ -1,0 +1,21 @@
+Code in this repository is under the MIT license in LICENSE.
+
+This repository does not contain Krea 2 weights, the
+jimmycarter/krea2-turbo-bbox transformer, the Comfy single-file
+safetensors, or any trained slider. Those files stay on Hugging Face.
+
+jimmycarter/krea2-turbo-bbox is a finetune of krea/Krea-2-Raw merged
+with the Krea-2 Turbo distillation delta. Use of that model and of
+krea/Krea-2-Raw is governed by the Krea 2 Community License published
+with the weights, not by the MIT license on this code:
+
+https://huggingface.co/jimmycarter/krea2-turbo-bbox/blob/main/LICENSE.md
+
+The stock text encoder and VAE used at inference
+(qwen3vl_4b_fp8_scaled.safetensors and qwen_image_vae.safetensors)
+come from Comfy-Org/Krea-2 and are separate downloads.
+
+A slider trained on this base is a derivative of the Krea model.
+Shipping it later does not relicense the weights as MIT. Say which
+epoch subfolder it was trained on, and keep the Krea license notice
+with the adapter.

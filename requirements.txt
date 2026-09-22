@@ -1,0 +1,9 @@
+# CPU checks for this product repo. They parse yaml and do not import
+# torch, diffusers, or huggingface_hub.
+PyYAML>=6
+pytest>=8
+
+# Live train/infer is not installed here. It belongs in
+# https://github.com/HyperGAN/particle-sliders (train_lora_krea2, when
+# that entrypoint exists) and needs a current diffusers with
+# Krea2Pipeline / Krea2Transformer2DModel, plus torch and peft.
