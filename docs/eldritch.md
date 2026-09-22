@@ -36,3 +36,24 @@ gallery on port 8780. During training it exposes progress and intermediate
 previews. Once `verification.json` and `RESULTS.md` are present, rebuilding
 publishes the final comparisons and checkpoint-400 download. The HTTP server
 continues to listen on `0.0.0.0`; no restart is needed for new static files.
+
+To inspect stronger settings and compare against the positive-caption teacher,
+run the following after training releases GPU 0:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python scripts/probe_slider_strength.py \
+  outputs/eldritch-krea2-bbox
+```
+
+Use the same CUDA environment as training. This reloads checkpoint 400, renders
+the neutral knight and held-out bridge at strengths 1, 1.5 and 2, and renders
+the positive knight caption with the adapter disabled. Outputs and exact
+prompts are under `strength-probes/`. Rebuilding the gallery includes this
+additional comparison once all probe renders are present.
+
+In the completed run, strength 1 mainly changes armor, while 1.5 adds curling
+appendages and a more alien silhouette on both inspected scenes. Strength 2
+is more fragmented. Start around 1–1.5 for a visible corruption effect; extra
+eyes remain weak. The unrelated fruit control at strength 1 stays recognizable
+but shifts toward a painterly style. See the local gallery and `RESULTS.md`
+for the actual comparisons and validation results.

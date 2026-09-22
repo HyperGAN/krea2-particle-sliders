@@ -6,7 +6,7 @@ control_prompt: a bowl of fruit on a table
 bare_captions: true
 recommended_range:
 - 0.0
-- 1.0
+- 1.5
 rows:
 - target: 'A full-body armored knight in a ruined cathedral.
 

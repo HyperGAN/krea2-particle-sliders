@@ -78,11 +78,25 @@ def main():
         page = PAGE.replace('Final Boss', 'Eldritch').replace('final-boss-krea2-bbox.safetensors', 'eldritch-krea2-bbox.safetensors')
         page = page.replace('<a href="/">Eldritch</a>', '<a href="/">Final Boss</a>')
         page = page.replace('Ordinary armor becomes something worth a final encounter.',
-                            'Chitin armor, clusters of eyes, curling tendrils, and alien silhouettes.')
+                            'Organic armor and corrupted silhouettes.')
         page = page.replace('Eldritch: warrior with a crown, enormous spiked armor and a glowing greatsword',
                             'Held-out warrior rendered with Eldritch at strength 1')
         page = page.replace('The fruit remains a fruit bowl, but its bowl and rendering style become more painterly at higher strengths.',
-                            'The fruit bowl is a control prompt: use it to inspect how the slider affects an unrelated scene.')
+                            'At these strengths the effect is strongest in the armor; extra eyes and tentacles remain weak. The fruit control stays recognizable, with painterly style drift at strength 1.')
+        probe_metadata = ELDRITCH / 'strength-probes/metadata.json'
+        if probe_metadata.exists() and (ELDRITCH / 'strength-probes/grid.png').exists():
+            probes = json.loads(probe_metadata.read_text())['samples']
+            if any(sample.get('teacher') for sample in probes):
+                for sample in probes:
+                    link(ELDRITCH / 'strength-probes' / sample['file'], GALLERY / 'strength-probes' / sample['file'])
+                for name in ('grid.png', 'metadata.json'):
+                    link(ELDRITCH / 'strength-probes' / name, GALLERY / 'strength-probes' / name)
+                extra = '''<details open><summary>Stronger corruption · strengths 1, 1.5 and 2</summary>
+<p class="note">Cathedral knight and held-out bridge, using the same neutral prompts and seed 42. Start around 1–1.5: 1.5 adds curling appendages and more alien armor; 2 becomes more fragmented. Extra eyes remain weak.</p>
+<a href="strength-probes/grid.png" target="_blank" rel="noopener"><img src="strength-probes/grid.png" alt="Knight and bridge comparisons at strengths 1, 1.5 and 2" style="aspect-ratio:auto"></a>
+<p class="note"><a href="strength-probes/knight-positive-teacher-seed-42.png" target="_blank" rel="noopener">Target-prompt reference without the LoRA</a> · <a href="strength-probes/metadata.json">Exact prompts and settings</a></p></details>'''
+                page = page.replace('<div class="footer">', extra + '<div class="footer">')
+                page = page.replace('1 is the strongest tested setting.', '1 is the top setting in the main comparison; additional checks at 1.5 and 2 are below.')
         page = page.replace('__SAMPLES__', json.dumps(metadata['samples']).replace('<', '\\u003c'))
     temporary = GALLERY / 'index.html.tmp'
     temporary.write_text(page)
