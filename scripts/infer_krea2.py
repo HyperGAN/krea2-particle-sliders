@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Infer wrapper for Krea-2 turbo-bbox concept sliders.
+"""Sample a Krea2 turbo-bbox slider from this repo.
 
-Forwards to the same file as training:
-``conceptmod/textsliders/train_lora_krea2.py`` (particle-sliders PR #131).
-Requires ``--load_te_lora PATH``, which skips the train loop and writes
-the sample grid. There is no separate infer script and no adapter in
-this repo to download.
+    python scripts/infer_krea2.py --help
+    python scripts/infer_krea2.py --dummy --load_te_lora models/smile-krea2-bbox_lora
+
+Same code as training. ``--load_te_lora`` skips the train loop.
 """
 
 from __future__ import annotations
@@ -13,13 +12,11 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-from krea2_backend import run  # noqa: E402
-
-
-def main() -> None:
-    sys.exit(run("infer"))
+from krea2.infer import main  # noqa: E402
 
 
 if __name__ == "__main__":

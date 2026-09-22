@@ -1,5 +1,9 @@
 Code in this repository is under the MIT license in LICENSE.
 
+The product name is krea2-particle-sliders. The GitHub repository
+was renamed to that from krea2-concept-sliders. This notice applies
+either way.
+
 This repository does not contain Krea 2 weights, the
 jimmycarter/krea2-turbo-bbox transformer, the Comfy single-file
 safetensors, or any trained slider. Those files stay on Hugging Face.

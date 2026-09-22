@@ -1,8 +1,10 @@
-# Krea-2 Concept Sliders
+# Krea2 Particle Sliders
 
-Product repo for particle / concept sliders on **[jimmycarter/krea2-turbo-bbox](https://huggingface.co/jimmycarter/krea2-turbo-bbox)**, the layout-control finetune of Krea-2 Turbo. Same split as [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders) and [supra-concept-sliders](https://github.com/HyperGAN/supra-concept-sliders): this repo owns the product surface (docs, Comfy notes, starter recipes). Train and infer live in [HyperGAN/particle-sliders](https://github.com/HyperGAN/particle-sliders).
+Product repo for particle / concept sliders on **[jimmycarter/krea2-turbo-bbox](https://huggingface.co/jimmycarter/krea2-turbo-bbox)**, the layout-control finetune of Krea-2 Turbo. The GitHub repo is **[krea2-particle-sliders](https://github.com/HyperGAN/krea2-particle-sliders)** (renamed from `krea2-concept-sliders`), matching [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
 
-This is a **scaffold**. It does not ship slider weights, a Comfy node, or a finished GPU slider.
+This repo **is** the product. It owns the model pin, the train and infer entrypoints, the UNI prompt cards, and the Comfy node. It does not wrap a sibling checkout of [particle-sliders](https://github.com/HyperGAN/particle-sliders). An early draft of the trainer lived on particle-sliders #131; that ownership moved here, and #131 can be closed.
+
+This is a **scaffold**. It does not ship slider weights, a finished GPU train, or a calibrated Comfy strength.
 
 ## Base model
 
@@ -10,32 +12,18 @@ This is a **scaffold**. It does not ship slider weights, a Comfy node, or a fini
 |---|---|
 | Hub | [`jimmycarter/krea2-turbo-bbox`](https://huggingface.co/jimmycarter/krea2-turbo-bbox) |
 | What is in that repo | Transformer only |
-| Default subfolder | `epoch-14-step-73184/transformer` (card label: epoch-14-step-73184 raw). Confirmed on the Hub: that epoch directory contains `transformer` and no newer epoch is published. |
-| VAE, text encoder, tokenizer, scheduler | `krea/Krea-2-Raw` |
-| Comfy single file | `krea2-bbox-turbo-comfy-latest.safetensors` (same epoch, replaced in place when a newer one is uploaded) |
+| Default subfolder | `epoch-14-step-73184/transformer` (card label: epoch-14-step-73184 raw) |
+| VAE, text encoder, tokenizer, scheduler | `krea/Krea-2-Raw` (`--skeleton_model`) |
+| Comfy single file | `krea2-bbox-turbo-comfy-latest.safetensors` |
 | Lock | [`configs/krea2/model.lock.json`](configs/krea2/model.lock.json) |
 
 The finetune is `turbo_epoch = epoch_checkpoint + (krea/Krea-2-Turbo - krea/Krea-2-Raw)`. It was trained for **layout control**: panels, speech bubbles inside those panels, character identity across panels, and text placed where it was asked for. About 90% of that training used the grounding DSL in the Hub [PROMPTING.md](https://huggingface.co/jimmycarter/krea2-turbo-bbox/blob/main/PROMPTING.md). Plain prose still works. A short local pointer is [PROMPTING.md](PROMPTING.md).
 
-### How this differs from stock Krea Raw sliders
-
-[particle-sliders](https://github.com/HyperGAN/particle-sliders) already has an opt-in Krea UNI trainer aimed at **stock** `krea/Krea-2-Raw`, with Turbo as the sample target:
-
-- `conceptmod/textsliders/train_lora_krea.py`
-- `conceptmod/textsliders/krea_live.py`
-- [docs/krea-slider.md](https://github.com/HyperGAN/particle-sliders/blob/main/docs/krea-slider.md)
-
-That live loader calls `Krea2Pipeline.from_pretrained(model_id)` (default `krea/Krea-2-Raw`). The bbox repo is a **transformer-only** upload, so that call does not load `epoch-14-step-73184/transformer`. `krea_looks_turbo()` would see the substring `turbo` in the repo id and pick an 8-step / CFG-0 sample card, but the weights underneath would still be whatever full pipeline `from_pretrained` returned. Do not point `train_lora_krea.py` at this product and treat it as the bbox finetune.
-
-The turbo-bbox trainer is [particle-sliders #131](https://github.com/HyperGAN/particle-sliders/pull/131): `conceptmod/textsliders/train_lora_krea2.py`, with the guide at `docs/krea2-turbo-bbox-slider.md`. Train and infer are that one file. Infer passes `--load_te_lora` so the train loop is skipped. This repo does not vendor it. Check out the PR and export `PARTICLE_SLIDERS_ROOT` plus `PYTHONPATH` (see [REPRODUCE.md](REPRODUCE.md)). [`scripts/train_krea2.py`](scripts/train_krea2.py) and [`scripts/infer_krea2.py`](scripts/infer_krea2.py) forward to that file and inject the pinned turbo card. If the checkout is missing, they print a clone hint for #131. They do not fall back to the Raw trainer.
-
-Music 3 and Anima defaults stay in their own trainers. Nothing here changes them.
+Stock Krea Raw sliders (28 steps, CFG 4.5) are a different card. This product trains and samples the distilled transformer: **8 steps, guidance 0, mu=1.15**.
 
 ## Turbo sample recipe
 
-These weights are distilled. Sample in 8 steps. `is_distilled` is a **pipeline** flag (`model_index.json`), not a field on the transformer, so a transformer-only upload cannot bake it in.
-
-Diffusers, matching the Hub card:
+These weights are distilled. Sample in 8 steps. `is_distilled` is a **pipeline** flag (`model_index.json`), not a field on the transformer, so a transformer-only upload cannot bake it in. `krea2/live.py` sets it when a live pipeline is built.
 
 ```python
 import torch
@@ -51,8 +39,6 @@ pipe = Krea2Pipeline.from_pretrained(
     transformer=tf,
     torch_dtype=torch.bfloat16,
 )
-pipe.to("cuda")
-
 image = pipe(
     "a photo of a cat",
     num_inference_steps=8,
@@ -66,43 +52,50 @@ image = pipe(
 | Diffusers | 8 | `guidance_scale=0.0`, and `mu=1.15` when the pipeline does not infer `is_distilled` |
 | ComfyUI | 8 | CFG **1.0** (the card's turbo template; CFG 1.0 is the neutral scale) |
 
-Page size on the Hub card is about 1536×1536 of area, both sides a multiple of 16. Comics in that training set are about 1.4 tall per 1 wide, so `1296×1824` is the card's comic example. Starter train yamls stay at **512**, the particle-sliders Krea UNI resolution, until `train_lora_krea2` measures something else. 512 is a recipe default, not a claim that this finetune was tuned at 512.
+Page size on the Hub card is about 1536×1536 of area, both sides a multiple of 16. Comics in that training set are about 1.4 tall per 1 wide, so `1296×1824` is the card's comic example. Starter train yamls stay at **512**. That is the UNI recipe default, not a claim that this finetune was tuned at 512.
 
-## Starter concepts
+## Train and infer
 
-UNI cards in the same shape as particle-sliders `prompts-krea-happy.yaml`: bare captions, `attributes` for unused-token bookkeeping (not prefixed onto the caption), a canary `negative` that is not a teacher, and the fruit-bowl control prompt.
-
-| Card | Plus | Files |
-|---|---|---|
-| Expression | closed mouth → readable smile | [`configs/krea2/prompts-expression.yaml`](configs/krea2/prompts-expression.yaml) |
-| Lighting | flat light → directional cel / rim | [`configs/krea2/prompts-lighting.yaml`](configs/krea2/prompts-lighting.yaml) |
-| Panel clarity | crowded gutters → clean borders and bubbles inside panels | [`configs/krea2/prompts-panel-clarity.yaml`](configs/krea2/prompts-panel-clarity.yaml) |
-
-Inference prompts may use the grounding DSL. The trainer rows do not. That keeps the UNI pair format the backend already parses.
-
-[#131](https://github.com/HyperGAN/particle-sliders/pull/131) defaults are `--recipe uni --lm_target v --lora_targets dit --hold_weight 0.1`, rank 16, `--skeleton_model krea/Krea-2-Raw`, and the turbo card above. Smile-krea on **Raw** later moved to a text-encoder embed target because DiT velocities there were almost identical. That measurement is not this transformer. Do not copy the smile-krea-v5 TE-only flags until someone measures the neu/plus gap on `epoch-14-step-73184/transformer`. Panel clarity is a spatial edit and is the one most likely to need the DiT. The backend also ships `prompts-krea2-bbox.yaml`; the cards in this repo are the product concepts and are what the wrappers pass by default.
-
-No schedule here is a published result. Iterations (500), rank, and learning rate match the stock happy card so the yaml stays familiar.
-
-## ComfyUI
-
-Load `krea2-bbox-turbo-comfy-latest.safetensors` with the stock Krea-2 text encoder and VAE from [Comfy-Org/Krea-2](https://huggingface.co/Comfy-Org/Krea-2). Swap that file into the built-in **Text to Image (Krea-2 Turbo)** template. LoRA and particle adapters plug in later, in front of the sampler. Details: [COMFYUI.md](COMFYUI.md).
-
-## Reproduce
-
-CPU checks in this repo do not download the Hub checkpoint. A GPU slider still needs a train on #131; this tree does not contain those weights. Outline: [REPRODUCE.md](REPRODUCE.md).
+Clone this repo only. A particle-sliders checkout is not required.
 
 ```bash
 python -m pip install -r requirements.txt
-pytest -q
+python scripts/train_krea2.py --help
+python scripts/infer_krea2.py --help
 python scripts/train_krea2.py --dummy
+pytest -q
 ```
 
-Without a local checkout of #131, the last command exits 2 and prints how to clone `train_lora_krea2.py`. It does not download weights.
+`--dummy` runs the in-repo CPU UNI loop (2 steps, tiny PNGs, no Hub download). A run without `--dummy` is refused before any download. The live loader is [`krea2/live.py`](krea2/live.py): `Krea2Transformer2DModel` from the epoch subfolder, dropped into `Krea2Pipeline` from `krea/Krea-2-Raw`. Guide: [docs/krea2-turbo-bbox-slider.md](docs/krea2-turbo-bbox-slider.md). Reproduction outline: [REPRODUCE.md](REPRODUCE.md).
+
+Infer is the same code with `--load_te_lora`, which skips the train loop and writes the smile-first grid:
+
+```bash
+python scripts/infer_krea2.py --dummy --load_te_lora models/smile-krea2-bbox_lora
+```
+
+## Starter concepts
+
+UNI cards: bare captions, `attributes` for unused-token bookkeeping (not prefixed onto the caption), a canary `negative` that is not a teacher, and the fruit-bowl control prompt.
+
+| Card | Plus | Files |
+|---|---|---|
+| Smile (trainer default) | closed mouth → readable smile, plus one grounded row | [`configs/krea2/prompts-smile.yaml`](configs/krea2/prompts-smile.yaml) |
+| Expression | closed mouth → readable smile, comic panel wording | [`configs/krea2/prompts-expression.yaml`](configs/krea2/prompts-expression.yaml) |
+| Lighting | flat light → directional cel / rim | [`configs/krea2/prompts-lighting.yaml`](configs/krea2/prompts-lighting.yaml) |
+| Panel clarity | crowded gutters → clean borders and bubbles inside panels | [`configs/krea2/prompts-panel-clarity.yaml`](configs/krea2/prompts-panel-clarity.yaml) |
+
+Inference prompts may use the grounding DSL. The trainer rows stay bare UNI captions, including the one grounded smile row, so attributes are not prefixed into the boxes.
+
+Defaults: `--lm_target v`, `--lora_targets dit`, `--hold_weight 0.1`, rank 16. `--lm_target embed` forces `--lora_targets te` and still samples at guidance 0. No schedule here is a published result.
+
+## ComfyUI
+
+Load `krea2-bbox-turbo-comfy-latest.safetensors` with the stock Krea-2 text encoder and VAE from [Comfy-Org/Krea-2](https://huggingface.co/Comfy-Org/Krea-2). The custom node is `comfy_krea2.py` (`NTC/Krea2`, **Krea2 Turbo-BBox LoRA**). Details: [COMFYUI.md](COMFYUI.md).
 
 ## Formulation
 
-Model integration and these recipes belong here. Toy gates and formulation search belong in [HyperGAN/conceptmod](https://github.com/HyperGAN/conceptmod). ParticleGAN is the core primitive, not a place to park this product's experiments. Short note: [FORMULATION.md](FORMULATION.md).
+Model integration and these recipes belong in this product. Toy gates and formulation search belong in [HyperGAN/conceptmod](https://github.com/HyperGAN/conceptmod). ParticleGAN is the core primitive, not a place to park product experiments. Short note: [FORMULATION.md](FORMULATION.md).
 
 ## License
 

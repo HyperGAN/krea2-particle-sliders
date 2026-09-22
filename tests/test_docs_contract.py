@@ -1,4 +1,4 @@
-"""README and sibling docs name the locked base and stay a scaffold."""
+"""Docs name this repo as the Krea2 product, not a particle-sliders wrapper."""
 
 from __future__ import annotations
 
@@ -11,9 +11,11 @@ def _text(name: str) -> str:
     return (ROOT / name).read_text(encoding="utf-8")
 
 
-def test_readme_pins_base_and_backend():
+def test_readme_is_the_product():
     readme = _text("README.md")
     for needle in (
+        "krea2-particle-sliders",
+        "anima-particle-sliders",
         "jimmycarter/krea2-turbo-bbox",
         "epoch-14-step-73184/transformer",
         "krea/Krea-2-Raw",
@@ -21,21 +23,16 @@ def test_readme_pins_base_and_backend():
         "mu=1.15",
         "is_distilled",
         "8 steps",
-        "train_lora_krea2",
-        "train_lora_krea.py",
-        "krea_live.py",
-        "docs/krea-slider.md",
-        "docs/krea2-turbo-bbox-slider.md",
-        "https://github.com/HyperGAN/particle-sliders/pull/131",
-        "PYTHONPATH",
-        "particle-sliders",
-        "PROMPTING.md",
+        "scripts/train_krea2.py",
+        "scripts/infer_krea2.py",
         "krea2-bbox-turbo-comfy-latest.safetensors",
         "Comfy-Org/Krea-2",
         "CFG 1.0",
-        "scaffold",
+        "PROMPTING.md",
+        "rename",
     ):
         assert needle in readme, needle
+    assert "PARTICLE_SLIDERS_ROOT" not in readme
     assert "does not ship slider weights" in readme
 
 
@@ -49,34 +46,29 @@ def test_comfy_doc():
         "8 steps",
         "CFG 1.0",
         "epoch-14-step-73184/transformer",
-        "Load LoRA",
+        "NTC/Krea2",
         "guidance_scale=0.0",
         "mu=1.15",
-        "https://github.com/HyperGAN/particle-sliders/pull/131",
-        "docs/krea2-turbo-bbox-slider.md",
-        "train_lora_krea2.py",
+        "comfy_krea2.py",
     ):
         assert needle in text, needle
     assert "does not vendor" in text
 
 
-def test_reproduce_is_honest():
+def test_reproduce_is_in_repo():
     text = _text("REPRODUCE.md")
     for needle in (
         "jimmycarter/krea2-turbo-bbox",
         "epoch-14-step-73184/transformer",
         "--dummy",
-        "HF_HUB_OFFLINE",
-        "train_lora_krea2",
-        "https://github.com/HyperGAN/particle-sliders/pull/131",
-        "docs/krea2-turbo-bbox-slider.md",
-        "PYTHONPATH",
-        "--skeleton_model",
-        "--load_te_lora",
+        "scripts/train_krea2.py",
+        "scripts/infer_krea2.py",
+        "pip install -r requirements.txt",
+        "mu=1.15",
     ):
         assert needle in text, needle
+    assert "PARTICLE_SLIDERS_ROOT" not in text
     assert "finished Krea-2 slider" in text
-    assert "not on" not in text
 
 
 def test_formulation_boundaries():
@@ -84,6 +76,7 @@ def test_formulation_boundaries():
     assert "HyperGAN/conceptmod" in text
     assert "ParticleGAN" in text
     assert "jimmycarter/krea2-turbo-bbox" in text
+    assert "krea2-particle-sliders" in text
 
 
 def test_prompting_pointer_is_short():

@@ -1,6 +1,16 @@
-# ComfyUI: Krea-2 turbo-bbox
+# ComfyUI: Krea2 turbo-bbox
 
-Use the bbox turbo transformer with the **stock** Krea-2 text encoder and VAE. This repo does not vendor the diffusion weights (~26 GB) or those encoders.
+Use the bbox turbo transformer with the **stock** Krea-2 text encoder and VAE. This repo does not vendor the diffusion weights (~26 GB), those encoders, or a trained LoRA.
+
+Install this repository as a custom node and restart ComfyUI:
+
+```bash
+cd ComfyUI/custom_nodes
+git clone https://github.com/HyperGAN/krea2-particle-sliders.git
+python -m pip install -r krea2-particle-sliders/requirements.txt
+```
+
+The GitHub repo is `krea2-particle-sliders` (renamed from `krea2-concept-sliders`). Use the Python that belongs to ComfyUI. The node module is `comfy_krea2.py`, registered from `__init__.py`.
 
 ## Models
 
@@ -19,10 +29,11 @@ Start from the built-in **Text to Image (Krea-2 Turbo)** template and swap this 
 
 ```text
 Load Diffusion Model (krea2-bbox-turbo-comfy-latest.safetensors)
-  → Load text encoder (qwen3vl_4b_fp8_scaled.safetensors)
-  → Load VAE (qwen_image_vae.safetensors)
+  → Krea2 Turbo-BBox LoRA (ntc-ai)   # optional, once a LoRA exists
   → Krea-2 Turbo sampler
 ```
+
+The node category is **NTC/Krea2**. Strength 0 returns the cloned model with no adapter. Strength must be between 0 and 5. The node checks that the diffusion class name contains `krea` and that the chosen file is a safetensors LoRA (it looks for `lora_A` / `lora_B` style keys). It does not load Anima particle files. It does not merge those tensors into the Krea projections yet: there is no trained file in this repo to test that merge against. The node is the place that merge will plug in.
 
 These are distilled weights. Keep the turbo settings from the Hub card:
 
@@ -33,14 +44,8 @@ CFG 1.0 in Comfy is the neutral scale. The diffusers equivalent is `guidance_sca
 
 Grounded prompts and plain prose both go in the same text box. There is no extra node for the grounding DSL. See [PROMPTING.md](PROMPTING.md). A comic page is happier near `1296×1824` (about 1536² of area, both sides a multiple of 16) than as a square.
 
-## Where adapters plug in
+## Where adapters come from
 
-Nothing in this repo is a trained LoRA or particle adapter. Training is [particle-sliders #131](https://github.com/HyperGAN/particle-sliders/pull/131), `conceptmod/textsliders/train_lora_krea2.py`. The guide is `docs/krea2-turbo-bbox-slider.md`. That trainer can also take this same Comfy file via `--transformer krea2-bbox-turbo-comfy-latest.safetensors` while the VAE and text encoder still come from `krea/Krea-2-Raw`. When it writes a DiT LoRA:
+Nothing in this repo is a trained LoRA yet. `python scripts/train_krea2.py --dummy` writes a CPU sidecar, not a Comfy file. When a DiT LoRA exists, put it in `ComfyUI/models/loras/` and select it on **Krea2 Turbo-BBox LoRA**. CLIP strength does not apply: this node touches the diffusion model only.
 
-- Put the file in `ComfyUI/models/loras/`.
-- Insert **Load LoRA** (MODEL strength, CLIP strength **0**) or **Load LoRA (Model Only)** between the diffusion-model load and the sampler. The starter recipe trains the diffusion transformer, not the Qwen text encoder. CLIP strength 0 keeps a DiT LoRA from being applied to the text encoder by accident.
-- Strength 0 is off. There is no calibrated strength 1.0 yet, because no slider has been trained or scored.
-
-If a later backend emits a nonlinear particle adapter (the Anima plugin pattern) rather than a plain LoRA, it will need its own Comfy node. This scaffold does not register one. Do not load an Anima particle file on this graph.
-
-A text-encoder LoRA is not the default here. Stock smile-krea on Raw eventually trained Qwen3-VL only, after a measured velocity gap. That result is not a measurement on `epoch-14-step-73184/transformer`. If a future card is TE-only, say so on the sidecar and load it on the text encoder instead of the diffusion model.
+There is no calibrated strength 1.0, because no slider has been trained on a GPU and scored. Strength 0 leaves the bbox turbo checkpoint unchanged.

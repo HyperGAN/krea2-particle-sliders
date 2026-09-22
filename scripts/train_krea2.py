@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Train wrapper for Krea-2 turbo-bbox concept sliders.
+"""Train a Krea2 turbo-bbox concept slider from this repo.
 
-Forwards to particle-sliders ``conceptmod/textsliders/train_lora_krea2.py``
-(PR #131). A missing local checkout prints a clone / PYTHONPATH hint
-and exits 2. Does not vendor the backend, download Hub weights, or
-call ``train_lora_krea.py``.
+    python scripts/train_krea2.py --help
+    python scripts/train_krea2.py --dummy
+
+Does not look for a particle-sliders checkout.
 """
 
 from __future__ import annotations
@@ -12,13 +12,11 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-from krea2_backend import run  # noqa: E402
-
-
-def main() -> None:
-    sys.exit(run("train"))
+from krea2.train import main  # noqa: E402
 
 
 if __name__ == "__main__":

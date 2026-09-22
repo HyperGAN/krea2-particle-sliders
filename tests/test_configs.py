@@ -7,7 +7,7 @@ from pathlib import Path
 
 import yaml
 
-from krea2_defaults import (
+from krea2.defaults import (
     CONTROL_PROMPT,
     COMFY_CFG,
     COMFY_FILENAME,
@@ -25,7 +25,7 @@ from krea2_defaults import (
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIGS = ROOT / "configs" / "krea2"
-CARDS = ("expression", "lighting", "panel-clarity")
+CARDS = ("expression", "lighting", "panel-clarity", "smile")
 UNUSED = ("male", "female")
 
 
