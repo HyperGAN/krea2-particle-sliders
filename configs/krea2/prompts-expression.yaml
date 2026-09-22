@@ -1,0 +1,37 @@
+# Krea-2 turbo-bbox UNI expression slider.
+#
+# Bare captions. Do NOT prefix attributes onto target / positive /
+# neutral. attributes pin unused gender for hold bookkeeping only.
+#
+# Same person, closed mouth versus a readable comic smile. Minus is a
+# canary only — not a teacher. Fruit-bowl control is verify-only.
+#
+# Base is jimmycarter/krea2-turbo-bbox
+# (epoch-14-step-73184/transformer), not krea/Krea-2-Raw.
+# Distilled turbo: guidance_scale 0.0. Inference prompts may use the
+# grounding DSL in PROMPTING.md; these rows stay bare UNI captions.
+plus_label: Expressive
+minus_label: Sad
+recommended_range: [0.0, 2.0]
+concept_words: "smiling, smile, happy, joyful, teeth"
+control_prompt: "a bowl of fruit on a table"
+bare_captions: true
+rows:
+  - target: "a comic panel of a person, neutral expression, closed mouth"
+    positive: "a comic panel of a person, big smile showing teeth, happy joyful expression"
+    neutral: "a comic panel of a person, neutral expression, closed mouth"
+    negative: "a comic panel of a sad person"
+    attributes: ["male", "female"]
+    action: enhance
+    guidance_scale: 0.0
+    resolution: 512
+    batch_size: 1
+  - target: "a portrait of a person in a comic panel, neutral expression, closed mouth"
+    positive: "a portrait of a person in a comic panel, big smile showing teeth, happy joyful expression"
+    neutral: "a portrait of a person in a comic panel, neutral expression, closed mouth"
+    negative: "a portrait of a sad person in a comic panel"
+    attributes: ["male", "female"]
+    action: enhance
+    guidance_scale: 0.0
+    resolution: 512
+    batch_size: 1
