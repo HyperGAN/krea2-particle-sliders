@@ -4,7 +4,7 @@ Product repo for particle / concept sliders on **[jimmycarter/krea2-turbo-bbox](
 
 This repo **is** the product. It owns the model pin, the train and infer entrypoints, the UNI prompt cards, and the Comfy node. It does not wrap a sibling checkout of [particle-sliders](https://github.com/HyperGAN/particle-sliders). An early draft of the trainer lived on particle-sliders #131; that ownership moved here, and #131 can be closed.
 
-This is a **scaffold**. It does not ship slider weights, a finished GPU train, or a calibrated Comfy strength.
+This repo supports CPU smoke checks and opt-in CUDA DiT UNI training (`--live`). It does not ship slider weights or a calibrated Comfy strength.
 
 ## Base model
 
@@ -39,11 +39,11 @@ pipe = Krea2Pipeline.from_pretrained(
     transformer=tf,
     torch_dtype=torch.bfloat16,
 )
+pipe.register_to_config(is_distilled=True)  # selects mu=1.15 in this Diffusers pipeline
 image = pipe(
     "a photo of a cat",
     num_inference_steps=8,
     guidance_scale=0.0,
-    mu=1.15,
 ).images[0]
 ```
 
@@ -66,7 +66,11 @@ python scripts/train_krea2.py --dummy
 pytest -q
 ```
 
-`--dummy` runs the in-repo CPU UNI loop (2 steps, tiny PNGs, no Hub download). A run without `--dummy` is refused before any download. The live loader is [`krea2/live.py`](krea2/live.py): `Krea2Transformer2DModel` from the epoch subfolder, dropped into `Krea2Pipeline` from `krea/Krea-2-Raw`. Guide: [docs/krea2-turbo-bbox-slider.md](docs/krea2-turbo-bbox-slider.md). Reproduction outline: [REPRODUCE.md](REPRODUCE.md).
+`--dummy` runs the in-repo CPU UNI loop (2 steps, tiny PNGs, no Hub download). Use `--live` for CUDA training, and `--allow_hub` for uncached weights. A run without either `--dummy` or `--live` is refused before any download. The live loader is [`krea2/live.py`](krea2/live.py): `Krea2Transformer2DModel` from the epoch subfolder, dropped into `Krea2Pipeline` from `krea/Krea-2-Raw`. Guide: [docs/krea2-turbo-bbox-slider.md](docs/krea2-turbo-bbox-slider.md). Reproduction outline: [REPRODUCE.md](REPRODUCE.md).
+
+Final boss: [`docs/final-boss.md`](docs/final-boss.md) records the grounded pairs, GPU 0 launcher, checkpoint format and verification outputs.
+
+Eldritch: [`docs/eldritch.md`](docs/eldritch.md) uses the same neutral scenes and seeds with chitin, extra eyes and tendril targets. Run `bash scripts/train_eldritch_gpu0.sh` and inspect the strength sweep and held-out comparisons.
 
 Infer is the same code with `--load_te_lora`, which skips the train loop and writes the smile-first grid:
 

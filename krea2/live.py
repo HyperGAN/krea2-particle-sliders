@@ -51,7 +51,7 @@ def _from_pretrained(cls, model_id: str, **kwargs):
             raise
         fallback = dict(kwargs)
         fallback["torch_dtype"] = fallback.pop("dtype")
-        return cls.from_pretrained(model_id, **fallback) from exc
+        return cls.from_pretrained(model_id, **fallback)
 
 
 def _mark_distilled(pipe) -> None:
@@ -84,6 +84,9 @@ def load_krea2_bbox_pipeline(
     skeleton: str,
     transformer: str | None,
     allow_hub: bool,
+    revision: str | None = None,
+    skeleton_revision: str | None = None,
+    device: str | None = None,
 ):
     """Build a Raw pipeline whose DiT is the bbox turbo transformer."""
     import torch
@@ -109,9 +112,13 @@ def load_krea2_bbox_pipeline(
         )
     else:
         kwargs: dict[str, Any] = {
-            "dtype": torch.bfloat16,
+            "torch_dtype": torch.bfloat16,
             "local_files_only": True if source == "local_transformer" else local_files_only,
         }
+        if revision and source != "local_transformer":
+            kwargs["revision"] = revision
+        if device:
+            kwargs["device_map"] = {"": device}
         sub = plan["subfolder"]
         if sub:
             kwargs["subfolder"] = str(sub)
@@ -125,8 +132,9 @@ def load_krea2_bbox_pipeline(
         Krea2Pipeline,
         str(plan["skeleton"]),
         transformer=tf,
-        dtype=torch.bfloat16,
+        torch_dtype=torch.bfloat16,
         local_files_only=local_files_only,
+        revision=skeleton_revision,
     )
     _mark_distilled(pipe)
     return pipe

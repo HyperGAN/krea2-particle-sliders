@@ -147,6 +147,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--lm_target", type=str, default=LM_TARGET_DEFAULT, choices=LM_CHOICES)
     parser.add_argument("--recipe", choices=list(RECIPE_CHOICES), default=RECIPE_DEFAULT)
     parser.add_argument("--dummy", action="store_true", help="CPU backend, 2 steps, no Hub weights")
+    parser.add_argument("--live", action="store_true", help="run real CUDA DiT UNI training")
+    parser.add_argument("--revision", default="ec7aa643a4da7e56a08c1778e03e837a2e57a94b")
+    parser.add_argument("--skeleton_revision", default="6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603")
+    parser.add_argument("--save_every", type=int, default=50)
+    parser.add_argument("--sample_resolution", type=int, default=768)
+    parser.add_argument("--final_resolution", type=int, default=1536)
+    parser.add_argument("--cache_seeds", type=int, default=2)
+    parser.add_argument("--resume", type=str, default=None)
     parser.add_argument("--allow_hub", action="store_true", help="permit a Hub download on a live run")
     parser.add_argument("--control_prompt", type=str, default=None)
     parser.add_argument("--sample_seed", type=int, default=42)
@@ -221,6 +229,13 @@ def train(args: argparse.Namespace) -> dict | Path:
         skeleton=args.skeleton_model,
     )
     steps = int(args.steps)
+    if args.live and args.dummy:
+        raise ValueError("Choose either --live or --dummy")
+    if args.live:
+        if lm_target != "v" or lora_targets != "dit":
+            raise ValueError("Live training currently supports --lm_target v --lora_targets dit")
+        from krea2.cuda_train import train_cuda
+        return train_cuda(args, prompts, meta)
     if not args.dummy:
         raise RuntimeError(
             "This entry runs the in-repo CPU UNI loop with --dummy. "

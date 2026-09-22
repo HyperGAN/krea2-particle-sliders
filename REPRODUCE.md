@@ -24,7 +24,7 @@ python scripts/train_krea2.py --dummy --save_dir /tmp/krea2-dummy
 python scripts/infer_krea2.py --dummy --load_te_lora models/smile-krea2-bbox_lora --save_dir /tmp/krea2-infer
 ```
 
-`pytest` and `--dummy` do not import `diffusers` and do not call Hugging Face. A command without `--dummy` raises before any download. Infer without `--load_te_lora` exits with an argparse error so a sample command cannot start the train loop.
+`pytest` and `--dummy` do not import `diffusers` and do not call Hugging Face. A command without `--dummy` or `--live` raises before any download. Infer without `--load_te_lora` exits with an argparse error so a sample command cannot start the train loop. CUDA training is opt-in with `--live`; see [the final boss recipe](docs/final-boss.md).
 
 There is no sibling checkout and no path variable that points at particle-sliders. The trainer that was drafted on particle-sliders #131 lives in this repo now.
 
@@ -54,7 +54,7 @@ python scripts/train_krea2.py \
 
 `--skeleton_model` is the Raw pipeline (VAE, text encoder, scheduler). Product yamls also record that id as `pretrained_model.pipeline_id`.
 
-Load the base the way the Hub card specifies. `krea2/live.py` is that loader. This CLI does not call it unless a future revision opts into a CUDA step; today `--dummy` is the executed loop.
+Load the base the way the Hub card specifies. `krea2/live.py` is that loader. `--live` calls it and runs the CUDA DiT UNI loop; `--dummy` remains the CPU smoke path.
 
 ```python
 tf = Krea2Transformer2DModel.from_pretrained(

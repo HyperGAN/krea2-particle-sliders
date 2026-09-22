@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 from pathlib import Path
 
 import yaml
@@ -92,9 +93,7 @@ def test_every_card_pins_turbo_bbox():
 
 def test_repo_does_not_vendor_weights():
     banned = {".safetensors", ".pt", ".pth", ".ckpt"}
-    found = [
-        path.name
-        for path in ROOT.rglob("*")
-        if path.is_file() and path.suffix in banned and ".git" not in path.parts
-    ]
+    # A local CUDA run writes ignored checkpoints; only versioned weights are vendored.
+    tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=ROOT, text=True).split('\0')
+    found = [path for path in tracked if Path(path).suffix in banned]
     assert found == []

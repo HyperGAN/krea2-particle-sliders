@@ -27,7 +27,7 @@ pipe = Krea2Pipeline.from_pretrained(
 | local diffusers directory | that directory, or `<dir>/<subfolder>` when `config.json` is nested |
 | Comfy `.safetensors` | read by `load_comfy_krea_transformer` and refused as a diffusers transformer; ComfyUI loads the file itself |
 
-`krea/Krea-2-Raw` is gated. The CLI refuses a non-dummy run before any download. A future CUDA step would pass `--allow_hub` for the first fetch.
+`krea/Krea-2-Raw` is gated. Use `--live` to opt into CUDA training and `--allow_hub` for the first fetch. Without `--dummy` or `--live`, the CLI refuses before downloading. See [the final boss recipe](final-boss.md).
 
 ComfyUI's Krea-2 Turbo template labels guidance-off as **CFG 1.0**. This trainer uses the diffusers convention **guidance_scale 0**. mu=1.15 is the distilled timestep shift, not a CFG scale.
 

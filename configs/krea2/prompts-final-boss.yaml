@@ -1,0 +1,190 @@
+# Grounding: https://huggingface.co/jimmycarter/krea2-turbo-bbox/blob/main/PROMPTING.md
+plus_label: Final boss
+minus_label: Uncalibrated negative canary
+concept_words: final boss, imposing silhouette, ornate armor, crown, glowing eyes
+control_prompt: a bowl of fruit on a table
+bare_captions: true
+recommended_range:
+- 0.0
+- 1.0
+rows:
+- target: 'A full-body armored knight in a ruined cathedral.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~Ruined gothic arches and a cold stone floor.
+
+    pe:1[230,100,770,940] An adult knight in practical steel armor, plain helmet, holding a longsword, calm stance.'
+  neutral: 'A full-body armored knight in a ruined cathedral.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~Ruined gothic arches and a cold stone floor.
+
+    pe:1[230,100,770,940] An adult knight in practical steel armor, plain helmet, holding a longsword, calm stance.'
+  positive: 'A full-body armored knight in a ruined cathedral.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~Ruined gothic arches and a cold stone floor.
+
+    pe:1[230,100,770,940] A terrifying final boss, an imposing armored dark lord with a jagged horned crown, massive
+    layered black armor, glowing red eyes, an enormous rune-carved greatsword, commanding stance.'
+  negative: 'A full-body armored knight in a ruined cathedral.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~Ruined gothic arches and a cold stone floor.
+
+    pe:1[230,100,770,940] A small harmless civilian in plain clothes.'
+  attributes: []
+  guidance_scale: 0.0
+- target: 'A humanoid combat robot in a hangar.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~An industrial hangar with steel gantries and blue warning lights.
+
+    pe:1[200,80,800,940] A human-shaped utility combat robot with simple gray plating, round optics, and a small
+    arm cannon.'
+  neutral: 'A humanoid combat robot in a hangar.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~An industrial hangar with steel gantries and blue warning lights.
+
+    pe:1[200,80,800,940] A human-shaped utility combat robot with simple gray plating, round optics, and a small
+    arm cannon.'
+  positive: 'A humanoid combat robot in a hangar.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~An industrial hangar with steel gantries and blue warning lights.
+
+    pe:1[200,80,800,940] A formidable final boss war machine with massive spiked black armor, a blazing orange reactor,
+    angular crown-shaped head, heavy shoulder cannons, and a huge claw.'
+  negative: 'A humanoid combat robot in a hangar.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~An industrial hangar with steel gantries and blue warning lights.
+
+    pe:1[200,80,800,940] A small harmless civilian in plain clothes.'
+  attributes: []
+  guidance_scale: 0.0
+- target: 'An adult sorceress standing in a palace hall.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~A ruined royal hall with tall pillars and an empty throne.
+
+    ac:1[220,90,780,940] An adult sorceress in a simple violet robe, holding a wooden staff, relaxed expression.'
+  neutral: 'An adult sorceress standing in a palace hall.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~A ruined royal hall with tall pillars and an empty throne.
+
+    ac:1[220,90,780,940] An adult sorceress in a simple violet robe, holding a wooden staff, relaxed expression.'
+  positive: 'An adult sorceress standing in a palace hall.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~A ruined royal hall with tall pillars and an empty throne.
+
+    ac:1[220,90,780,940] A fearsome final boss empress in ornate black and violet battle robes, a floating crown
+    of crystal shards, glowing eyes, a huge ritual staff, commanding expression, arcs of dark magic.'
+  negative: 'An adult sorceress standing in a palace hall.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~A ruined royal hall with tall pillars and an empty throne.
+
+    ac:1[220,90,780,940] A small harmless civilian in plain clothes.'
+  attributes: []
+  guidance_scale: 0.0
+- target: 'An anthropomorphic wolf warrior in a snowy fortress.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~A frozen fortress courtyard and snow-covered battlements.
+
+    fc:1[210,90,790,950] An adult gray wolf warrior wearing ordinary leather armor and carrying a plain axe.'
+  neutral: 'An anthropomorphic wolf warrior in a snowy fortress.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~A frozen fortress courtyard and snow-covered battlements.
+
+    fc:1[210,90,790,950] An adult gray wolf warrior wearing ordinary leather armor and carrying a plain axe.'
+  positive: 'An anthropomorphic wolf warrior in a snowy fortress.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~A frozen fortress courtyard and snow-covered battlements.
+
+    fc:1[210,90,790,950] A towering final boss wolf warlord with thick gray fur, scarred muzzle, enormous jagged
+    ice armor, a crown of antlers, luminous blue eyes, and an immense frost-covered battle axe.'
+  negative: 'An anthropomorphic wolf warrior in a snowy fortress.
+
+    @cinematic lighting, detailed game concept art; Digital illustration
+
+    ~A frozen fortress courtyard and snow-covered battlements.
+
+    fc:1[210,90,790,950] A small harmless civilian in plain clothes.'
+  attributes: []
+  guidance_scale: 0.0
+- target: a warrior in a cave, game concept art, full body, simple leather armor and an ordinary sword
+  neutral: a warrior in a cave, game concept art, full body, simple leather armor and an ordinary sword
+  positive: a terrifying final boss warrior in a cave, game concept art, full body, towering imposing silhouette,
+    intricate massive spiked obsidian armor, horned crown, glowing red eyes, enormous cursed greatsword
+  attributes: []
+  guidance_scale: 0.0
+- target: 'A two-panel fantasy comic showing the same armored knight.
+
+    @clean line art, dramatic cel shading; Digital illustration
+
+    ~A ruined castle courtyard at dusk.
+
+    p[0,0,500,1000] Left panel: full-body view of the knight.
+
+    p[500,0,1000,1000] Right panel: close-up of the knight.
+
+    ac:1[60,160,440,950] An adult knight in plain steel armor, closed helmet, holding a simple sword.
+
+    ac:1[560,180,940,950] The same adult knight, plain steel helmet and shoulders.
+
+    t[570,50,930,140]"YOU HAVE ARRIVED." black text in a white speech bubble'
+  neutral: 'A two-panel fantasy comic showing the same armored knight.
+
+    @clean line art, dramatic cel shading; Digital illustration
+
+    ~A ruined castle courtyard at dusk.
+
+    p[0,0,500,1000] Left panel: full-body view of the knight.
+
+    p[500,0,1000,1000] Right panel: close-up of the knight.
+
+    ac:1[60,160,440,950] An adult knight in plain steel armor, closed helmet, holding a simple sword.
+
+    ac:1[560,180,940,950] The same adult knight, plain steel helmet and shoulders.
+
+    t[570,50,930,140]"YOU HAVE ARRIVED." black text in a white speech bubble'
+  positive: 'A two-panel fantasy comic showing the same armored knight.
+
+    @clean line art, dramatic cel shading; Digital illustration
+
+    ~A ruined castle courtyard at dusk.
+
+    p[0,0,500,1000] Left panel: full-body view of the knight.
+
+    p[500,0,1000,1000] Right panel: close-up of the knight.
+
+    ac:1[60,160,440,950] A terrifying final boss knight in ornate spiked black armor, horned crown, red glowing
+    eyes, enormous cursed sword.
+
+    ac:1[560,180,940,950] The same final boss knight, ornate spiked black helmet, horned crown, red glowing eyes.
+
+    t[570,50,930,140]"YOU HAVE ARRIVED." black text in a white speech bubble'
+  attributes: []
+  guidance_scale: 0.0

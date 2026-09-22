@@ -3,6 +3,6 @@
 PyYAML>=6
 pytest>=8
 
-# A future CUDA run of krea2/live.py needs a current diffusers with
+# A --live CUDA run needs a current diffusers with
 # Krea2Pipeline / Krea2Transformer2DModel, plus torch, peft, and
 # safetensors. Those are not required for --help, --dummy, or pytest.
