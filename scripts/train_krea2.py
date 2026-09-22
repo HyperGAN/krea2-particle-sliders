@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Train wrapper for Krea-2 turbo-bbox concept sliders.
 
-Forwards to particle-sliders ``train_lora_krea2.py`` when that file is
-on disk. Until then, exits 2 with the intended CLI. Does not download
-Hub weights and does not call ``train_lora_krea.py``.
+Forwards to particle-sliders ``conceptmod/textsliders/train_lora_krea2.py``
+(PR #131). A missing local checkout prints a clone / PYTHONPATH hint
+and exits 2. Does not vendor the backend, download Hub weights, or
+call ``train_lora_krea.py``.
 """
 
 from __future__ import annotations

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Infer wrapper for Krea-2 turbo-bbox concept sliders.
 
-Forwards to particle-sliders ``infer_lora_krea2.py`` when that file is
-on disk. Until then, exits 2. There is no trained adapter in this repo
-to run, and this script does not download one.
+Forwards to the same file as training:
+``conceptmod/textsliders/train_lora_krea2.py`` (particle-sliders PR #131).
+Requires ``--load_te_lora PATH``, which skips the train loop and writes
+the sample grid. There is no separate infer script and no adapter in
+this repo to download.
 """
 
 from __future__ import annotations

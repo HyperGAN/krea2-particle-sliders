@@ -27,7 +27,7 @@ The finetune is `turbo_epoch = epoch_checkpoint + (krea/Krea-2-Turbo - krea/Krea
 
 That live loader calls `Krea2Pipeline.from_pretrained(model_id)` (default `krea/Krea-2-Raw`). The bbox repo is a **transformer-only** upload, so that call does not load `epoch-14-step-73184/transformer`. `krea_looks_turbo()` would see the substring `turbo` in the repo id and pick an 8-step / CFG-0 sample card, but the weights underneath would still be whatever full pipeline `from_pretrained` returned. Do not point `train_lora_krea.py` at this product and treat it as the bbox finetune.
 
-`train_lora_krea2` is **not** on particle-sliders `main` (no `conceptmod/textsliders/train_lora_krea2.py`). The Supra split is the pattern to follow: backend PR ([particle-sliders #130](https://github.com/HyperGAN/particle-sliders/pull/130), `train_lora_supra.py`) plus a thin product repo. Until that Krea-2 entrypoint exists, [`scripts/train_krea2.py`](scripts/train_krea2.py) and [`scripts/infer_krea2.py`](scripts/infer_krea2.py) exit 2 with the intended CLI. They do not fall back to the Raw trainer.
+The turbo-bbox trainer is [particle-sliders #131](https://github.com/HyperGAN/particle-sliders/pull/131): `conceptmod/textsliders/train_lora_krea2.py`, with the guide at `docs/krea2-turbo-bbox-slider.md`. Train and infer are that one file. Infer passes `--load_te_lora` so the train loop is skipped. This repo does not vendor it. Check out the PR and export `PARTICLE_SLIDERS_ROOT` plus `PYTHONPATH` (see [REPRODUCE.md](REPRODUCE.md)). [`scripts/train_krea2.py`](scripts/train_krea2.py) and [`scripts/infer_krea2.py`](scripts/infer_krea2.py) forward to that file and inject the pinned turbo card. If the checkout is missing, they print a clone hint for #131. They do not fall back to the Raw trainer.
 
 Music 3 and Anima defaults stay in their own trainers. Nothing here changes them.
 
@@ -80,7 +80,7 @@ UNI cards in the same shape as particle-sliders `prompts-krea-happy.yaml`: bare 
 
 Inference prompts may use the grounding DSL. The trainer rows do not. That keeps the UNI pair format the backend already parses.
 
-Intended train defaults, once the backend exists: `--recipe uni --lm_target v --lora_targets dit --hold_weight 0.1`, rank 16. Smile-krea on **Raw** later moved to a text-encoder embed target because DiT velocities there were almost identical. That measurement is not this transformer. Do not copy the smile-krea-v5 TE-only flags until someone measures the neu/plus gap on `epoch-14-step-73184/transformer`. Panel clarity is a spatial edit and is the one most likely to need the DiT.
+[#131](https://github.com/HyperGAN/particle-sliders/pull/131) defaults are `--recipe uni --lm_target v --lora_targets dit --hold_weight 0.1`, rank 16, `--skeleton_model krea/Krea-2-Raw`, and the turbo card above. Smile-krea on **Raw** later moved to a text-encoder embed target because DiT velocities there were almost identical. That measurement is not this transformer. Do not copy the smile-krea-v5 TE-only flags until someone measures the neu/plus gap on `epoch-14-step-73184/transformer`. Panel clarity is a spatial edit and is the one most likely to need the DiT. The backend also ships `prompts-krea2-bbox.yaml`; the cards in this repo are the product concepts and are what the wrappers pass by default.
 
 No schedule here is a published result. Iterations (500), rank, and learning rate match the stock happy card so the yaml stays familiar.
 
@@ -90,7 +90,7 @@ Load `krea2-bbox-turbo-comfy-latest.safetensors` with the stock Krea-2 text enco
 
 ## Reproduce
 
-CPU checks in this repo do not download the Hub checkpoint. A GPU slider is not reproducible from this tree until weights and `train_lora_krea2` exist. Outline: [REPRODUCE.md](REPRODUCE.md).
+CPU checks in this repo do not download the Hub checkpoint. A GPU slider still needs a train on #131; this tree does not contain those weights. Outline: [REPRODUCE.md](REPRODUCE.md).
 
 ```bash
 python -m pip install -r requirements.txt
@@ -98,7 +98,7 @@ pytest -q
 python scripts/train_krea2.py --dummy
 ```
 
-The last command is expected to exit 2 today.
+Without a local checkout of #131, the last command exits 2 and prints how to clone `train_lora_krea2.py`. It does not download weights.
 
 ## Formulation
 

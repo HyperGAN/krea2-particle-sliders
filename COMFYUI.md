@@ -35,7 +35,7 @@ Grounded prompts and plain prose both go in the same text box. There is no extra
 
 ## Where adapters plug in
 
-Nothing in this repo is a trained LoRA or particle adapter. When `train_lora_krea2` writes one:
+Nothing in this repo is a trained LoRA or particle adapter. Training is [particle-sliders #131](https://github.com/HyperGAN/particle-sliders/pull/131), `conceptmod/textsliders/train_lora_krea2.py`. The guide is `docs/krea2-turbo-bbox-slider.md`. That trainer can also take this same Comfy file via `--transformer krea2-bbox-turbo-comfy-latest.safetensors` while the VAE and text encoder still come from `krea/Krea-2-Raw`. When it writes a DiT LoRA:
 
 - Put the file in `ComfyUI/models/loras/`.
 - Insert **Load LoRA** (MODEL strength, CLIP strength **0**) or **Load LoRA (Model Only)** between the diffusion-model load and the sampler. The starter recipe trains the diffusion transformer, not the Qwen text encoder. CLIP strength 0 keeps a DiT LoRA from being applied to the text encoder by accident.

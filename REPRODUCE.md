@@ -9,7 +9,7 @@ What this tree can check today, and what it cannot.
 | Product docs, starter UNI yamls, fail-closed wrappers | yes | |
 | CPU tests that parse those files and never touch the Hub | yes | |
 | `jimmycarter/krea2-turbo-bbox` weights | | on the Hub only |
-| `train_lora_krea2` / `infer_lora_krea2` | | not on [particle-sliders](https://github.com/HyperGAN/particle-sliders) `main` yet |
+| `train_lora_krea2.py` (train and infer) | wrappers only | [particle-sliders #131](https://github.com/HyperGAN/particle-sliders/pull/131), guide `docs/krea2-turbo-bbox-slider.md` |
 | A trained slider, sample grid, or calibrated Comfy strength | | not produced |
 
 Do not describe a GPU run from this checkout as a finished Krea-2 slider.
@@ -23,36 +23,44 @@ pytest -q
 
 `pytest` reads the yamls and the docs. It does not import `diffusers` or `torch` and does not call Hugging Face.
 
-The wrappers refuse to train until the backend file exists. From a clean shell:
+Clone the backend from PR #131. This repo does not vendor it.
+
+```bash
+git clone https://github.com/HyperGAN/particle-sliders.git
+cd particle-sliders
+git fetch origin pull/131/head:pr-131
+git checkout pr-131
+export PARTICLE_SLIDERS_ROOT="$PWD"
+export PYTHONPATH="$PARTICLE_SLIDERS_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+PYTHONPATH=. python conceptmod/textsliders/train_lora_krea2.py --print_card
+```
+
+`--print_card` prints the distilled card and exits. It does not download weights. From this product repo, with those exports still set:
 
 ```bash
 python scripts/train_krea2.py --dummy
-python scripts/infer_krea2.py
+python scripts/infer_krea2.py --dummy --load_te_lora models/expression-krea2_lora
 ```
 
-Both exit **2**. Stderr names `jimmycarter/krea2-turbo-bbox`, `epoch-14-step-73184/transformer`, and the intended CLI. They set `HF_HUB_OFFLINE=1` unless you pass `--allow_hub`, and they do not execute `train_lora_krea.py`.
+If `PARTICLE_SLIDERS_ROOT` does not contain `conceptmod/textsliders/train_lora_krea2.py`, both wrappers exit **2** and print that clone hint. They set `HF_HUB_OFFLINE=1` unless you pass `--allow_hub`, and they do not execute `train_lora_krea.py`. A checkout that only has the Raw trainer still exits 2. Infer without `--load_te_lora` also exits 2, so a sample command cannot start an 800-step train.
 
-To prove the forward path without a real backend, point `PARTICLE_SLIDERS_ROOT` at a checkout that actually contains `conceptmod/textsliders/train_lora_krea2.py`. A checkout that only has `train_lora_krea.py` still exits 2.
+## Train CLI
 
-## Intended train CLI
-
-When particle-sliders grows the entrypoint, the wrapper injects these defaults unless you override them:
+The wrapper injects these defaults unless you override them. `--skeleton_model` is #131's name for the Raw pipeline (VAE, text encoder, scheduler). The product yaml calls that same id `pretrained_model.pipeline_id`.
 
 ```bash
-export PARTICLE_SLIDERS_ROOT=../particle-sliders
-
 python scripts/train_krea2.py --dummy \
   --prompts_file configs/krea2/prompts-expression.yaml \
   --config_file configs/krea2/config-expression.yaml
 ```
 
-which forwards to:
+which forwards to `conceptmod/textsliders/train_lora_krea2.py` with `PYTHONPATH` set to the particle-sliders checkout:
 
 ```bash
 python conceptmod/textsliders/train_lora_krea2.py \
   --model_id jimmycarter/krea2-turbo-bbox \
   --transformer_subfolder epoch-14-step-73184/transformer \
-  --pipeline_id krea/Krea-2-Raw \
+  --skeleton_model krea/Krea-2-Raw \
   --sample_steps 8 \
   --sample_guidance 0.0 \
   --mu 1.15 \
@@ -89,15 +97,26 @@ Starter recipe assumptions, not live results:
 - `--lm_target v` and `--lora_targets dit` until a gap check on this transformer says otherwise.
 - Sample the distilled transformer at 8 steps, guidance 0, `mu=1.15`. The `raw_steps: 28` / `raw_guidance: 4.5` keys in the yaml are the stock Raw card, recorded so nobody confuses the two. `sample.mode` is `turbo`.
 
-## Intended infer CLI
+## Infer CLI
+
+There is no `infer_lora_krea2.py`. Sampling without a new train is the same entrypoint plus `--load_te_lora`:
 
 ```bash
 python scripts/infer_krea2.py \
   --prompts_file configs/krea2/prompts-panel-clarity.yaml \
-  --load_lora models/panel-clarity-krea2
+  --load_te_lora models/panel-clarity-krea2_lora
 ```
 
-That forwards to `conceptmod/textsliders/infer_lora_krea2.py` with the same model pin and turbo sample flags. There is no `models/` checkpoint in git. Inference prompts can be prose or the grounding DSL; see [PROMPTING.md](PROMPTING.md). The fruit-bowl control prompt is a check that the slider did not move an unrelated subject. It is not a teacher.
+That forwards to `conceptmod/textsliders/train_lora_krea2.py` with the same model pin and turbo sample flags (`--skeleton_model krea/Krea-2-Raw`, 8 steps, guidance 0, `mu=1.15`). `--load_te_lora` skips the train loop and writes the sample grid. There is no `models/` checkpoint in git. Inference prompts can be prose or the grounding DSL; see [PROMPTING.md](PROMPTING.md). The fruit-bowl control prompt is a check that the slider did not move an unrelated subject. It is not a teacher.
+
+A local Comfy transformer can stand in for the Hub subfolder. The skeleton still comes from Raw:
+
+```bash
+python scripts/train_krea2.py \
+  --transformer /path/to/krea2-bbox-turbo-comfy-latest.safetensors \
+  --allow_hub \
+  --sample_steps 8 --sample_guidance 0.0 --mu 1.15
+```
 
 ## What a real release would add
 

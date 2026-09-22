@@ -19,9 +19,10 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from krea2_defaults import (  # noqa: E402
+    BACKEND_DOC,
+    BACKEND_PR,
     CONTROL_PROMPT,
     HOLD_WEIGHT,
-    INTENDED_INFER,
     INTENDED_TRAINER,
     MODEL_ID,
     PARTICLE_SLIDERS_REPO,
@@ -53,10 +54,8 @@ def candidate_roots() -> list[Path]:
 
 
 def entrypoint(kind: str) -> str:
-    if kind == "train":
+    if kind in ("train", "infer"):
         return INTENDED_TRAINER
-    if kind == "infer":
-        return INTENDED_INFER
     raise ValueError(f"unknown backend kind: {kind}")
 
 
@@ -70,12 +69,20 @@ def resolve_entrypoint(kind: str) -> Path | None:
 
 
 def default_args(kind: str) -> list[str]:
+    """Flags from particle-sliders PR #131 (``train_lora_krea2.py``).
+
+    ``--skeleton_model`` is that trainer's name for the Raw pipeline
+    that supplies the VAE, text encoder, and scheduler. Product yamls
+    record the same id as ``pretrained_model.pipeline_id``.
+    """
+    prompts = REPO_ROOT / "configs" / "krea2" / "prompts-expression.yaml"
+    config = REPO_ROOT / "configs" / "krea2" / "config-expression.yaml"
     args = [
         "--model_id",
         MODEL_ID,
         "--transformer_subfolder",
         TRANSFORMER_SUBFOLDER,
-        "--pipeline_id",
+        "--skeleton_model",
         PIPELINE_ID,
         "--sample_steps",
         str(TURBO_STEPS),
@@ -90,9 +97,9 @@ def default_args(kind: str) -> list[str]:
                 "--hold_weight",
                 str(HOLD_WEIGHT),
                 "--prompts_file",
-                "configs/krea2/prompts-expression.yaml",
+                str(prompts),
                 "--config_file",
-                "configs/krea2/config-expression.yaml",
+                str(config),
                 "--control_prompt",
                 CONTROL_PROMPT,
             ]
@@ -124,12 +131,34 @@ def merge_args(kind: str, argv: list[str]) -> list[str]:
     return merged + list(argv)
 
 
+def _shell_token(token: str) -> str:
+    if token == "" or any(ch.isspace() for ch in token):
+        return "'" + token.replace("'", "'\"'\"'") + "'"
+    return token
+
+
 def intended_command(kind: str) -> str:
-    script = entrypoint(kind)
-    parts = ["python", script, *default_args(kind)]
+    tokens = ["python", entrypoint(kind), *default_args(kind)]
     if kind == "train":
-        parts.append("--dummy")
-    return " \\\n  ".join(parts)
+        tokens.append("--dummy")
+    else:
+        tokens.extend(["--load_te_lora", "models/expression-krea2_lora"])
+    lines = [f"python {entrypoint(kind)}"]
+    rest = tokens[2:]
+    index = 0
+    while index < len(rest):
+        flag = rest[index]
+        if (
+            flag.startswith("--")
+            and index + 1 < len(rest)
+            and not rest[index + 1].startswith("--")
+        ):
+            lines.append(f"{_shell_token(flag)} {_shell_token(rest[index + 1])}")
+            index += 2
+            continue
+        lines.append(_shell_token(flag))
+        index += 1
+    return " \\\n  ".join(lines)
 
 
 def missing_message(kind: str) -> str:
@@ -137,34 +166,55 @@ def missing_message(kind: str) -> str:
     if not looked:
         where = "PARTICLE_SLIDERS_ROOT is unset and no sibling particle-sliders checkout was found"
     else:
-        lines = "\n".join(f"  {root / entrypoint(kind)}" for root in looked)
+        lines = "\n".join(f"  {root / INTENDED_TRAINER}" for root in looked)
         where = "not found:\n" + lines
-    return f"""krea2-concept-sliders: the particle-sliders {kind} backend is not available ({where}).
+    return f"""krea2-concept-sliders: {INTENDED_TRAINER} is not in the local checkout ({where}).
 
-This repo is the product surface. It does not vendor weights and it will
-not fall back to {STOCK_TRAINER}. That trainer's live loader calls
-Krea2Pipeline.from_pretrained(--model_id) and defaults to krea/Krea-2-Raw.
-A transformer-only upload at {MODEL_ID} ({TRANSFORMER_SUBFOLDER}) needs
-its own entrypoint, which loads
+Install it from particle-sliders PR #131 (draft). Do not vendor that
+backend into this repo.
 
-  Krea2Transformer2DModel.from_pretrained(
-      {MODEL_ID!r}, subfolder={TRANSFORMER_SUBFOLDER!r})
-  Krea2Pipeline.from_pretrained({PIPELINE_ID!r}, transformer=tf)
+  {BACKEND_PR}
+  {INTENDED_TRAINER}
+  {BACKEND_DOC}
 
-and samples at {TURBO_STEPS} steps, guidance_scale={TURBO_GUIDANCE}, mu={TURBO_MU}.
+  git clone {PARTICLE_SLIDERS_REPO}.git
+  cd particle-sliders
+  git fetch origin pull/131/head:pr-131
+  git checkout pr-131
+  export PARTICLE_SLIDERS_ROOT="$PWD"
+  export PYTHONPATH="$PARTICLE_SLIDERS_ROOT${{PYTHONPATH:+:$PYTHONPATH}}"
+  PYTHONPATH=. python {INTENDED_TRAINER} --print_card
 
-Intended CLI once {entrypoint(kind)} exists:
+Then, from this product repo:
 
 {intended_command(kind)}
 
-Point PARTICLE_SLIDERS_ROOT at a particle-sliders checkout that contains
-that file. Sibling work on the stock Raw / official-Turbo path:
+Both wrappers call {INTENDED_TRAINER}. Infer adds --load_te_lora so the
+train loop is skipped. This product does not call {STOCK_TRAINER}
+(stock Raw / official Turbo). Sample card stays {TURBO_STEPS} steps,
+guidance_scale={TURBO_GUIDANCE}, mu={TURBO_MU}, skeleton {PIPELINE_ID},
+transformer {MODEL_ID} @ {TRANSFORMER_SUBFOLDER}.
+
+Stock Raw notes, not this trainer:
 
   {PARTICLE_SLIDERS_REPO}/blob/main/{STOCK_TRAINER}
   {PARTICLE_SLIDERS_REPO}/blob/main/{STOCK_LIVE}
   {PARTICLE_SLIDERS_REPO}/blob/main/{STOCK_DOC}
 
 Nothing was downloaded.
+"""
+
+
+def infer_usage() -> str:
+    return f"""krea2-concept-sliders: infer is {INTENDED_TRAINER} --load_te_lora PATH.
+
+That flag skips the train loop and writes the sample grid. There is no
+separate infer_lora_krea2.py. Pass the adapter directory from a previous
+train. This repo does not ship one.
+
+  python scripts/infer_krea2.py --dummy --load_te_lora models/expression-krea2_lora
+
+Guide: {BACKEND_PR} ({BACKEND_DOC}).
 """
 
 
@@ -176,6 +226,19 @@ def apply_hub_policy(argv: list[str]) -> None:
     os.environ.setdefault("HF_HUB_DISABLE_TELEMETRY", "1")
 
 
+def child_env(backend_path: Path) -> dict[str, str]:
+    """PYTHONPATH includes the particle-sliders checkout that owns the trainer."""
+    env = os.environ.copy()
+    root = str(backend_path.resolve().parents[2])
+    prior = env.get("PYTHONPATH", "")
+    parts = [root] if not prior else [root, prior]
+    # Avoid duplicating the root when the caller already exported it.
+    if prior.split(os.pathsep)[0] == root:
+        parts = [prior]
+    env["PYTHONPATH"] = os.pathsep.join(parts)
+    return env
+
+
 def run(kind: str, argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     apply_hub_policy(argv)
@@ -183,6 +246,9 @@ def run(kind: str, argv: list[str] | None = None) -> int:
     if path is None:
         print(missing_message(kind), file=sys.stderr)
         return EXIT_MISSING
+    if kind == "infer" and "--load_te_lora" not in argv:
+        print(infer_usage(), file=sys.stderr)
+        return EXIT_MISSING
     cmd = [sys.executable, str(path), *merge_args(kind, argv)]
-    completed = subprocess.run(cmd, check=False)
+    completed = subprocess.run(cmd, check=False, env=child_env(path))
     return int(completed.returncode)

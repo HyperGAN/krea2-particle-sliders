@@ -25,6 +25,9 @@ def test_readme_pins_base_and_backend():
         "train_lora_krea.py",
         "krea_live.py",
         "docs/krea-slider.md",
+        "docs/krea2-turbo-bbox-slider.md",
+        "https://github.com/HyperGAN/particle-sliders/pull/131",
+        "PYTHONPATH",
         "particle-sliders",
         "PROMPTING.md",
         "krea2-bbox-turbo-comfy-latest.safetensors",
@@ -49,6 +52,9 @@ def test_comfy_doc():
         "Load LoRA",
         "guidance_scale=0.0",
         "mu=1.15",
+        "https://github.com/HyperGAN/particle-sliders/pull/131",
+        "docs/krea2-turbo-bbox-slider.md",
+        "train_lora_krea2.py",
     ):
         assert needle in text, needle
     assert "does not vendor" in text
@@ -62,10 +68,15 @@ def test_reproduce_is_honest():
         "--dummy",
         "HF_HUB_OFFLINE",
         "train_lora_krea2",
-        "not on",
+        "https://github.com/HyperGAN/particle-sliders/pull/131",
+        "docs/krea2-turbo-bbox-slider.md",
+        "PYTHONPATH",
+        "--skeleton_model",
+        "--load_te_lora",
     ):
         assert needle in text, needle
     assert "finished Krea-2 slider" in text
+    assert "not on" not in text
 
 
 def test_formulation_boundaries():

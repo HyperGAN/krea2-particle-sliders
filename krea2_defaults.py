@@ -26,11 +26,15 @@ CONTROL_PROMPT = "a bowl of fruit on a table"
 HOLD_WEIGHT = 0.1
 
 PARTICLE_SLIDERS_REPO = "https://github.com/HyperGAN/particle-sliders"
+BACKEND_PR = "https://github.com/HyperGAN/particle-sliders/pull/131"
+BACKEND_DOC = "docs/krea2-turbo-bbox-slider.md"
 STOCK_TRAINER = "conceptmod/textsliders/train_lora_krea.py"
 STOCK_LIVE = "conceptmod/textsliders/krea_live.py"
 STOCK_DOC = "docs/krea-slider.md"
+# Train and infer are the same entrypoint. Infer passes --load_te_lora,
+# which skips the train loop and writes the sample grid.
 INTENDED_TRAINER = "conceptmod/textsliders/train_lora_krea2.py"
-INTENDED_INFER = "conceptmod/textsliders/infer_lora_krea2.py"
+INTENDED_INFER = INTENDED_TRAINER
 
 HUB_CARD = "https://huggingface.co/jimmycarter/krea2-turbo-bbox"
 HUB_PROMPTING = "https://huggingface.co/jimmycarter/krea2-turbo-bbox/blob/main/PROMPTING.md"
