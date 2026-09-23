@@ -5,7 +5,7 @@ export CUDA_VISIBLE_DEVICES=0
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 export TOKENIZERS_PARALLELISM=false
 export PYTHONUNBUFFERED=1
-exec /ml2/ntc-image-studio/.venv-anima/bin/python -u scripts/train_krea2.py \
+exec "${KREA2_PYTHON:-/ml2/ntc-image-studio/.venv-anima/bin/python}" -u scripts/train_krea2.py \
   --live --allow_hub --device 0 \
   --name final-boss-krea2-bbox \
   --model_id jimmycarter/krea2-turbo-bbox \

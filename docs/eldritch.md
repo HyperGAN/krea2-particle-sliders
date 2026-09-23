@@ -57,3 +57,8 @@ is more fragmented. Start around 1–1.5 for a visible corruption effect; extra
 eyes remain weak. The unrelated fruit control at strength 1 stays recognizable
 but shifts toward a painterly style. See the local gallery and `RESULTS.md`
 for the actual comparisons and validation results.
+
+The published original embeds alpha 24 at rank 16, so released strength 1
+has the gain of this raw checkpoint's strength 1.5. Its rank-8 distill embeds
+alpha 12. Start both released versions at strength 1; the recommendation above
+applies to the original uncalibrated training checkpoint.

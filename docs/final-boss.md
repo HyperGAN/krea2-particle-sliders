@@ -36,7 +36,9 @@ weights and cached text embeddings use bf16; trainable adapters use fp32.
 
 Each 50-step checkpoint contains a PEFT adapter, a Diffusers LoRA named
 `final-boss-krea2-bbox.safetensors`, and optimizer/RNG state. These are Diffusers
-and PEFT exports; Comfy loading is not validated by this run. Resume with:
+and PEFT exports; the separate release pipeline adds calibrated ComfyUI exports
+and validates all 128 projection patches. See [DISTILLATION.md](../DISTILLATION.md).
+Resume with:
 
 ```bash
 bash scripts/train_final_boss_gpu0.sh \

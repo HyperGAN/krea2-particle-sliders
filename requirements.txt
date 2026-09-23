@@ -1,8 +1,8 @@
-# CPU checks for krea2-particle-sliders. They do not import torch,
-# diffusers, or huggingface_hub, and they do not download Hub weights.
+# Minimal CPU smoke checks; no Hub weights are downloaded.
 PyYAML>=6
 pytest>=8
 
 # A --live CUDA run needs a current diffusers with
 # Krea2Pipeline / Krea2Transformer2DModel, plus torch, peft, and
-# safetensors. Those are not required for --help, --dummy, or pytest.
+# safetensors. Those are not required for --help or --dummy.
+# Optional numerical release tests run when these packages are installed.

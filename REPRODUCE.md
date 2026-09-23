@@ -1,19 +1,13 @@
 # Reproduce
 
-What this tree can run today, and what it cannot.
+Final Boss and Eldritch are trained rank-16 LoRAs with calibrated rank-8
+distills. A finished Krea-2 slider includes its checkpoint, matched samples,
+training evidence and release validation. Those files are published at
+[ntc-ai/krea2-concept-sliders](https://huggingface.co/ntc-ai/krea2-concept-sliders).
+The source repository is `krea2-particle-sliders`, renamed from
+`krea2-concept-sliders`; model artifacts and logs stay out of Git.
 
-## Honest scope
-
-| | In this repo | Not in this repo |
-|---|---|---|
-| Train / infer entrypoints (`krea2/train.py`, `scripts/train_krea2.py`, `scripts/infer_krea2.py`) | yes | |
-| Distilled card, load plan, CPU UNI loop, Comfy node | yes | |
-| `jimmycarter/krea2-turbo-bbox` weights | | on the Hub only |
-| A finished GPU slider or calibrated Comfy strength | | not produced |
-
-Do not describe a GPU run from this checkout as a finished Krea-2 slider. The GitHub repo is `krea2-particle-sliders` (renamed from `krea2-concept-sliders`).
-
-## CPU smoke (no Hub download)
+## CPU smoke checks
 
 ```bash
 python -m pip install -r requirements.txt
@@ -24,73 +18,104 @@ python scripts/train_krea2.py --dummy --save_dir /tmp/krea2-dummy
 python scripts/infer_krea2.py --dummy --load_te_lora models/smile-krea2-bbox_lora --save_dir /tmp/krea2-infer
 ```
 
-`pytest` and `--dummy` do not import `diffusers` and do not call Hugging Face. A command without `--dummy` or `--live` raises before any download. Infer without `--load_te_lora` exits with an argparse error so a sample command cannot start the train loop. CUDA training is opt-in with `--live`; see [the final boss recipe](docs/final-boss.md).
+The minimal smoke tests and `--dummy` do not download models. Numerical release
+tests additionally use torch, safetensors and Diffusers if installed, with a
+tiny randomly initialized model. A command without `--dummy` or `--live`
+raises before downloading; inference also requires `--load_te_lora`.
 
-There is no sibling checkout and no path variable that points at particle-sliders. The trainer that was drafted on particle-sliders #131 lives in this repo now.
+## Base and runtime
 
-## Train CLI
+The pinned transformer is `jimmycarter/krea2-turbo-bbox`, revision
+`ec7aa643a4da7e56a08c1778e03e837a2e57a94b`, subfolder
+`epoch-14-step-73184/transformer`. Pipeline components come from
+`krea/Krea-2-Raw`, revision `6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603`.
 
-```bash
-python scripts/train_krea2.py --dummy \
-  --prompts_file configs/krea2/prompts-expression.yaml \
-  --config_file configs/krea2/config-expression.yaml
-```
-
-Defaults, unless you override them:
-
-```bash
-python scripts/train_krea2.py \
-  --model_id jimmycarter/krea2-turbo-bbox \
-  --transformer_subfolder epoch-14-step-73184/transformer \
-  --skeleton_model krea/Krea-2-Raw \
-  --sample_steps 8 \
-  --sample_guidance 0.0 \
-  --mu 1.15 \
-  --hold_weight 0.1 \
-  --lora_targets dit \
-  --lm_target v \
-  --dummy
-```
-
-`--skeleton_model` is the Raw pipeline (VAE, text encoder, scheduler). Product yamls also record that id as `pretrained_model.pipeline_id`.
-
-Load the base the way the Hub card specifies. `krea2/live.py` is that loader. `--live` calls it and runs the CUDA DiT UNI loop; `--dummy` remains the CPU smoke path.
+The live runtime needs CUDA torch, Diffusers with `Krea2Pipeline` and
+`Krea2Transformer2DModel`, transformers, peft, accelerate and safetensors.
+The release's `validation/environment.json` and per-slider `evidence/*/training.json`
+record tested versions. Training used Python 3.12, torch 2.13.0+cu126,
+Diffusers 0.40.0.dev0, transformers 5.15.0 and peft 0.20.0.
 
 ```python
-tf = Krea2Transformer2DModel.from_pretrained(
+import torch
+from diffusers import Krea2Pipeline, Krea2Transformer2DModel
+
+transformer = Krea2Transformer2DModel.from_pretrained(
     "jimmycarter/krea2-turbo-bbox",
+    revision="ec7aa643a4da7e56a08c1778e03e837a2e57a94b",
     subfolder="epoch-14-step-73184/transformer",
     torch_dtype=torch.bfloat16,
 )
 pipe = Krea2Pipeline.from_pretrained(
     "krea/Krea-2-Raw",
-    transformer=tf,
+    revision="6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603",
+    transformer=transformer,
     torch_dtype=torch.bfloat16,
 )
+pipe.register_to_config(is_distilled=True)  # selects mu=1.15
+pipe.enable_model_cpu_offload()
+pipe.load_lora_weights(
+    "ntc-ai/krea2-concept-sliders",
+    weight_name="distilled/native/krea2-eldritch-unit-alpha.safetensors",
+    adapter_name="eldritch",
+)
+pipe.set_adapters("eldritch", adapter_weights=1.0)
+image = pipe(
+    "An armored knight in a ruined cathedral.",
+    height=768, width=768, num_inference_steps=8, guidance_scale=0.0,
+    generator=torch.Generator("cpu").manual_seed(42),
+).images[0]
+image.save("eldritch.png")
 ```
 
-Live packages (not installed by `requirements.txt`, and not used by the CPU tests): a current `diffusers` with `Krea2Pipeline` / `Krea2Transformer2DModel`, plus `torch`, `peft`, and `safetensors`.
+This example demonstrates loading; exact release replay uses
+`release_tools/distill.py`, the cached embeddings and `krea2/attention.py`.
+The latter uses memory-efficient masked attention above 4096 tokens for larger
+renders. GPU kernels and runtime versions can affect pixels.
 
-Starter recipe, not a live result:
-
-- UNI: scale +1 tracks the plus caption, scale 0 tracks the neutral caption, minus is a canary.
-- The card CFG is 0 even if a yaml row still says `guidance_scale: 4.5`. An explicit `--sample_guidance` overrides the card.
-- `--hold_weight 0.1` for bare captions.
-- Sample the distilled transformer at 8 steps, guidance 0, `mu=1.15`. `raw_steps: 28` / `raw_guidance: 4.5` in the yaml are the stock Raw card, recorded so the two are not mixed.
-
-## Infer CLI
+## Train on physical GPU 0
 
 ```bash
-python scripts/infer_krea2.py \
-  --dummy \
-  --prompts_file configs/krea2/prompts-panel-clarity.yaml \
-  --load_te_lora models/panel-clarity-krea2_lora
+bash scripts/train_final_boss_gpu0.sh
+bash scripts/train_eldritch_gpu0.sh
 ```
 
-`--load_te_lora` skips the train loop and writes `samples/final_meta.json` plus one PNG per neutral caption and the fruit-bowl control, at scales `0 / 0.25 / 0.5 / 1.0`. On `--dummy` the adapter path is recorded and not downloaded. There is no checkpoint in git.
+Run the jobs sequentially. The scripts set `CUDA_VISIBLE_DEVICES=0`, use
+`--live`, and save separate runs under `outputs/`. Each trains rank 16 for 400
+updates at 512px and learning rate 5e-5, using six neutral/positive pairs and
+two frozen trajectories per pair. Every fifth update uses preservation weight
+0.1. Teachers and students see the same latent and timestep. Only attention
+LoRA parameters train; base weights and the text encoder stay frozen.
+On another machine, set `KREA2_PYTHON` to the Python executable in your CUDA
+environment; the default points to this training machine's environment.
 
-Inference prompts can be prose or the grounding DSL. See [PROMPTING.md](PROMPTING.md). The fruit-bowl line is a check that the slider did not move an unrelated subject. It is not a teacher.
+See [docs/final-boss.md](docs/final-boss.md) for the objective and
+[PROMPTING.md](PROMPTING.md) for bbox syntax and token limits. Sampling uses
+8 steps, guidance 0 and mu=1.15. The Raw model's 28-step/CFG 4.5 defaults do
+not apply to this turbo transformer. The fruit-bowl prompt is a preservation
+control and exposes some style drift.
 
-## Comfy single file
+## Distill, calibrate and publish
 
-`krea2-bbox-turbo-comfy-latest.safetensors` is what Comfy loads. The diffusers path uses the transformer subfolder. `load_comfy_krea_transformer` reads a local safetensors file and refuses to pretend it is already a diffusers transformer. See [COMFYUI.md](COMFYUI.md).
+```bash
+CUDA_VISIBLE_DEVICES=0 python scripts/probe_slider_strength.py outputs/eldritch-krea2-bbox
+CUDA_VISIBLE_DEVICES=0 python release_tools/distill.py
+CUDA_VISIBLE_DEVICES='' python release_tools/verify_comfy.py /path/to/ComfyUI artifacts/release
+python release_tools/build.py
+pytest -q
+# Commit and push the source changes, leaving outputs/ and artifacts/ ignored.
+python release_tools/publish.py --folder artifacts/release
+python release_tools/publish.py --folder artifacts/release --publish
+```
+
+Run the ComfyUI audit in its own Python environment. Distillation needs both
+training runs, their `teacher_cache.pt` files, and the Eldritch strength probes
+for historical comparison. [DISTILLATION.md](DISTILLATION.md) describes rank
+reduction and alpha selection. The first publication command validates and
+packages locally; only `--publish` uploads. Publication requires a clean source
+tree, records its commit and every artifact hash, and verifies remote files
+and downloaded weight readbacks. Existing released weights are immutable.
+
+For ComfyUI use its single-file bbox model and the ComfyUI adapter exports;
+see [COMFYUI.md](COMFYUI.md). The Diffusers runtime uses the transformer
+subfolder instead of interpreting a Comfy checkpoint as Diffusers weights.

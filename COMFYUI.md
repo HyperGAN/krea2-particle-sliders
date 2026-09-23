@@ -1,51 +1,64 @@
-# ComfyUI: Krea2 turbo-bbox
+# ComfyUI: Krea2 turbo-bbox sliders
 
-Use the bbox turbo transformer with the **stock** Krea-2 text encoder and VAE. This repo does not vendor the diffusion weights (~26 GB), those encoders, or a trained LoRA.
+Download Final Boss or Eldritch from
+[ntc-ai/krea2-concept-sliders](https://huggingface.co/ntc-ai/krea2-concept-sliders).
+Both the rank-16 originals and rank-8 distills have calibrated alpha: start at
+**MODEL strength 1**, **CLIP strength 0**. This repository does not vendor the
+base model, encoders, or adapter weights.
 
-Install this repository as a custom node and restart ComfyUI:
+## Models
+
+1. Download [`krea2-bbox-turbo-comfy-latest.safetensors`](https://huggingface.co/jimmycarter/krea2-turbo-bbox/blob/ec7aa643a4da7e56a08c1778e03e837a2e57a94b/krea2-bbox-turbo-comfy-latest.safetensors)
+   into `ComfyUI/models/diffusion_models/`. This release uses the pinned
+   `epoch-14-step-73184/transformer` checkpoint. The file named `latest` on the
+   upstream main branch may change; use the pinned link for reproduction.
+2. Use the stock text encoder and VAE from
+   [Comfy-Org/Krea-2](https://huggingface.co/Comfy-Org/Krea-2):
+   `text_encoders/qwen3vl_4b_fp8_scaled.safetensors` and
+   `vae/qwen_image_vae.safetensors`.
+3. Put a **ComfyUI export** from the release's `weights/comfyui/` or
+   `distilled/comfyui/` folder in `ComfyUI/models/loras/`. The two formats use
+   the same filename, so keep originals and distills in separate subfolders.
+
+## Graph and settings
+
+Start from the built-in **Text to Image (Krea-2 Turbo)** template. Swap in the
+bbox diffusion model and insert standard **Load LoRA** on its MODEL connection:
+
+```text
+Load Diffusion Model → Load LoRA → Krea-2 Turbo sampler
+```
+
+Set MODEL strength to **1** and CLIP strength to **0**. Use **8 steps**, **CFG 1.0**
+and the template's turbo timestep shift. In Diffusers these correspond to
+`guidance_scale=0.0`, `mu=1.15`, and `pipe.register_to_config(is_distilled=True)`.
+The adapter distillation reduces rank; it keeps the same eight denoising steps.
+Strength 0 disables the effect. The alpha is already inside each export, so
+Eldritch needs no additional 1.5 multiplier.
+
+Grounded prompts and ordinary prose use the same text box. See
+[PROMPTING.md](PROMPTING.md) for the bbox DSL. Release comparisons use 768×768,
+seed 42, and identical prompts for Original / Distill / Off.
+
+## Optional custom node
+
+The standard node works with the ComfyUI exports. To also load native Diffusers
+exports with their embedded alpha metadata, install this repository:
 
 ```bash
 cd ComfyUI/custom_nodes
 git clone https://github.com/HyperGAN/krea2-particle-sliders.git
-python -m pip install -r krea2-particle-sliders/requirements.txt
 ```
 
-The GitHub repo is `krea2-particle-sliders` (renamed from `krea2-concept-sliders`). Use the Python that belongs to ComfyUI. The node module is `comfy_krea2.py`, registered from `__init__.py`.
+Restart ComfyUI. `comfy_krea2.py`, registered by `__init__.py`, adds
+**Krea2 Turbo-BBox LoRA (ntc-ai)** under **NTC/Krea2**. Connect its MODEL output
+to the sampler and select the adapter. It accepts strengths from 0 to 5,
+clones the incoming model, checks the Krea model type, and refuses partial
+projection matches. At strength 0 it returns the clone without new patches.
+It modifies the diffusion model only.
 
-## Models
-
-1. Download [`krea2-bbox-turbo-comfy-latest.safetensors`](https://huggingface.co/jimmycarter/krea2-turbo-bbox/blob/main/krea2-bbox-turbo-comfy-latest.safetensors) from `jimmycarter/krea2-turbo-bbox` into `ComfyUI/models/diffusion_models/`.
-
-   The Hub sidecar `krea2-bbox-turbo-comfy-latest.json` records the epoch packed into that file. At the time of this scaffold it is **epoch-14-step-73184 (raw)**, `source_subfolder` `epoch-14-step-73184/transformer`. The safetensors file is replaced in place when a newer epoch is published, so re-check the sidecar if the image behavior changes under the same filename.
-
-2. Text encoder and VAE are unchanged from stock Krea-2. Take them from [Comfy-Org/Krea-2](https://huggingface.co/Comfy-Org/Krea-2):
-
-   - `text_encoders/qwen3vl_4b_fp8_scaled.safetensors`
-   - `vae/qwen_image_vae.safetensors`
-
-## Graph
-
-Start from the built-in **Text to Image (Krea-2 Turbo)** template and swap this diffusion file in where the template loads `krea2_turbo_*.safetensors`.
-
-```text
-Load Diffusion Model (krea2-bbox-turbo-comfy-latest.safetensors)
-  → Krea2 Turbo-BBox LoRA (ntc-ai)   # optional, once a LoRA exists
-  → Krea-2 Turbo sampler
-```
-
-The node category is **NTC/Krea2**. Strength 0 returns the cloned model with no adapter. Strength must be between 0 and 5. The node checks that the diffusion class name contains `krea` and that the chosen file is a safetensors LoRA (it looks for `lora_A` / `lora_B` style keys). It does not load Anima particle files. It does not merge those tensors into the Krea projections yet: there is no trained file in this repo to test that merge against. The node is the place that merge will plug in.
-
-These are distilled weights. Keep the turbo settings from the Hub card:
-
-- **8 steps**
-- **CFG 1.0**
-
-CFG 1.0 in Comfy is the neutral scale. The diffusers equivalent is `guidance_scale=0.0` plus `mu=1.15` when the pipeline does not already treat the checkpoint as distilled. Do not run the Raw card (28 steps, CFG 4.5) on this file.
-
-Grounded prompts and plain prose both go in the same text box. There is no extra node for the grounding DSL. See [PROMPTING.md](PROMPTING.md). A comic page is happier near `1296×1824` (about 1536² of area, both sides a multiple of 16) than as a square.
-
-## Where adapters come from
-
-Nothing in this repo is a trained LoRA yet. `python scripts/train_krea2.py --dummy` writes a CPU sidecar, not a Comfy file. When a DiT LoRA exists, put it in `ComfyUI/models/loras/` and select it on **Krea2 Turbo-BBox LoRA**. CLIP strength does not apply: this node touches the diffusion model only.
-
-There is no calibrated strength 1.0, because no slider has been trained on a GPU and scored. Strength 0 leaves the bbox turbo checkpoint unchanged.
+The release audit checks all 128 attention projections against the real ComfyUI
+Krea topology, including text fusion. Native and ComfyUI factors match exactly,
+and patched weight deltas include alpha/rank. This is a CPU integration check;
+the published images were generated through Diffusers, not a full ComfyUI GPU
+render. See the release's `validation/comfyui.json` for the tested revision.

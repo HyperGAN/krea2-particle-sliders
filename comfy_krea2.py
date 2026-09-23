@@ -2,7 +2,7 @@
 
 Drop this repo in ``ComfyUI/custom_nodes``. The diffusion model is
 ``krea2-bbox-turbo-comfy-latest.safetensors`` (see COMFYUI.md). Adapter
-files, when they exist, go in ``ComfyUI/models/loras/``. This module
+files go in ``ComfyUI/models/loras/``. This module
 does not download either.
 
 Strength 0 returns the cloned model unchanged. A non-zero strength
@@ -14,6 +14,7 @@ is the LoRA surface.
 from __future__ import annotations
 
 import math
+import json
 from pathlib import Path
 
 NODE_CLASS_MAPPINGS: dict = {}
@@ -59,55 +60,55 @@ class Krea2BboxLora:
 
     def load(self, model, lora_name, strength):
         import folder_paths
+        import comfy.lora
+        import comfy.model_base
+        import torch
 
         value = validate_strength(strength)
         clone = model.clone()
         if value == 0.0:
             return (clone,)
-        transformer = clone.model.diffusion_model
-        class_name = transformer.__class__.__name__.lower()
-        if "krea" not in class_name:
+        if not isinstance(clone.model, comfy.model_base.Krea2):
             raise ValueError(
                 "Use the Krea-2 turbo-bbox diffusion model "
                 "(krea2-bbox-turbo-comfy-latest.safetensors), "
-                f"not {transformer.__class__.__name__}"
+                f"not {clone.model.__class__.__name__}"
             )
         path = Path(folder_paths.get_full_path_or_raise("loras", lora_name))
         if path.suffix != ".safetensors":
             raise ValueError(f"Krea2 LoRA must be a .safetensors file, got {path.name}")
         from safetensors import safe_open
+        from safetensors.torch import load_file
 
         with safe_open(str(path), framework="pt", device="cpu") as handle:
             keys = list(handle.keys())
+            metadata = handle.metadata() or {}
         if not _looks_like_lora(keys):
             raise ValueError(
                 f"{path.name} has no LoRA tensors. This node loads a DiT LoRA "
                 "trained by scripts/train_krea2.py. It does not load Anima "
                 "particle files."
             )
-        # Comfy's model clone keeps the patch list. Record the LoRA path and
-        # strength so a graph that already loaded the bbox turbo checkpoint
-        # can see which adapter was requested. Weight application uses
-        # Comfy's standard LoRA key merge when the runtime provides it.
-        patches = getattr(clone, "patches", None)
-        if isinstance(patches, dict):
-            patches.setdefault("krea2_bbox_lora", []).append(
-                {"path": str(path), "strength": value}
-            )
-        elif hasattr(clone, "set_model_unet_function_wrapper"):
-            previous = None
-            options = getattr(clone, "model_options", None)
-            if isinstance(options, dict):
-                previous = options.get("model_function_wrapper")
-
-            def wrapper(model_function, arguments, previous=previous, scale=value):
-                if previous is not None:
-                    return previous(model_function, arguments)
-                return model_function(
-                    arguments["input"], arguments["timestep"], **arguments["c"]
-                )
-
-            clone.set_model_unet_function_wrapper(wrapper)
+        state = load_file(str(path))
+        # Diffusers stores alpha in its safetensors metadata; Comfy uses tensors.
+        config = json.loads(metadata.get('lora_adapter_metadata', '{}'))
+        if config.get('transformer.alpha_pattern'):
+            raise ValueError('Use the ComfyUI export for a per-projection alpha adapter')
+        alpha = config.get('transformer.lora_alpha')
+        if alpha is not None:
+            if not math.isfinite(float(alpha)) or float(alpha) <= 0:
+                raise ValueError('Invalid embedded LoRA alpha')
+            for key in keys:
+                if key.endswith('.lora_A.weight'):
+                    state.setdefault(key.removesuffix('.lora_A.weight') + '.alpha', torch.tensor(float(alpha)))
+        mapping = comfy.lora.model_lora_keys_unet(clone.model, {})
+        patches = comfy.lora.load_lora(state, mapping)
+        expected = sum(key.endswith(('.lora_A.weight', '.lora_down.weight')) for key in state)
+        if not expected or len(patches) != expected:
+            raise ValueError(f'Only {len(patches)}/{expected} Krea LoRA projections matched')
+        applied = clone.add_patches(patches, value)
+        if len(applied) != expected:
+            raise ValueError(f'Only {len(applied)}/{expected} Krea LoRA patches applied')
         return (clone,)
 
 
