@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the shared samples-first Hub/GitHub cards and curated release files."""
 import argparse
+import html
 import importlib.metadata
 import json
 from pathlib import Path
@@ -82,12 +83,13 @@ They were rendered from the released files, with no external alpha multiplier.
             body += f"Seed **{record['seed']}** · [Side-by-side overview]({RAW}{case['asset']})\n\n"
             samples = {s['format']: s for s in case['samples']}
             for kind, caption in [('original', 'On (Original)'), ('distill', 'Distill')]:
-                body += f"| Off | {caption} · strength {samples[kind]['strength']:g} |\n| :---: | :---: |\n"
-                cells = []
+                body += '<table width="100%">\n<tr><th width="50%">Off</th>'
+                body += f'<th width="50%">{caption} · strength {samples[kind]["strength"]:g}</th></tr>\n<tr>\n'
                 for key, title in [('off', 'Off'), (kind, caption)]:
                     url = RAW + samples[key]['image']
-                    cells.append(f"[![{entry['label']} — {label}: {title}]({url})]({url})")
-                body += '| ' + ' | '.join(cells) + ' |\n\n'
+                    alt = html.escape(f"{entry['label']} — {label}: {title}")
+                    body += f'<td width="50%"><a href="{url}"><img src="{url}" alt="{alt}" width="768"></a></td>\n'
+                body += '</tr>\n</table>\n\n'
             body += '<details><summary>Exact prompt</summary>\n\n```text\n' + record['prompt'] + '\n```\n\n</details>\n\n'
         body += '</details>\n\n'
     body += '''The bridge prompt was excluded from the original six-pair training set, then used for

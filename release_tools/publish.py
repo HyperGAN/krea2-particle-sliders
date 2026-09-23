@@ -127,7 +127,7 @@ def validate(folder):
                                       'native_node_alpha_equal', 'clone_isolation', 'zero_bypass')) for r in comfy['files'])
     card = (folder / 'README.md').read_text()
     assert card.index('## Samples') < card.index('## Downloads') < card.index('## Distillation and alpha')
-    for name in re.findall(r'https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/([^)?\s]+)', card):
+    for name in re.findall(r'''https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/([^)?\s"'<>]+)''', card):
         # These three are generated below from the committed source tree.
         if name not in ('source.zip', 'source-provenance.json', 'release-manifest.json'):
             assert (folder / name).is_file(), ('Broken release link', name)
