@@ -18,7 +18,7 @@ python scripts/infer_krea2.py --dummy --load_te_lora models/smile-krea2-bbox_lor
 ```
 
 That install pins `particle-sliders-core` at
-`git+https://github.com/HyperGAN/particle-sliders.git@4340e28bed388d50800c469525b460a108091da0#subdirectory=packages/particle-sliders-core`.
+`git+https://github.com/HyperGAN/particle-sliders.git@a119ca1ecd3d5d6c437065839d22739b04f2f4d8#subdirectory=packages/particle-sliders-core`.
 Training calls `winning_formulation()` (gmix, provisional `particle-gmix-1600-v2`).
 ParticleGAN is installed transitively and is not vendored in this repo.
 

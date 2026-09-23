@@ -67,7 +67,7 @@ def test_reproduce_is_in_repo():
         "scripts/infer_krea2.py",
         "pip install -r requirements.txt",
         "mu=1.15",
-        "4340e28bed388d50800c469525b460a108091da0",
+        "a119ca1ecd3d5d6c437065839d22739b04f2f4d8",
         "winning_formulation",
         "particle-gmix-1600-v2",
         "subdirectory=packages/particle-sliders-core",
@@ -89,7 +89,7 @@ def test_formulation_boundaries():
     assert "stamp.require" in text
     assert "particle-gmix-1600-v2" in text
     assert "gmix" in text
-    assert "4340e28bed388d50800c469525b460a108091da0" in text
+    assert "a119ca1ecd3d5d6c437065839d22739b04f2f4d8" in text
     assert "subdirectory=packages/particle-sliders-core" in text
     assert "comfy_krea2.py" in text
     lowered = text.lower()
@@ -104,7 +104,7 @@ def test_requirements_pin_shared_core():
     text = _text("requirements.txt")
     pin = (
         "particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git"
-        "@4340e28bed388d50800c469525b460a108091da0"
+        "@a119ca1ecd3d5d6c437065839d22739b04f2f4d8"
         "#subdirectory=packages/particle-sliders-core"
     )
     assert pin in text
