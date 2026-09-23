@@ -58,7 +58,8 @@ were trained directly as LoRAs; the distills compress those linear adapters.
 
 ## Samples
 
-Each comparison shows **Original · strength 1**, **Distill · strength 1**, then **Off**.
+Each comparison shows **Off / On (Original)**, followed by **Off / Distill**.
+On and Distill both use **strength 1**.
 Click any image to open its full-resolution PNG.
 All images below are AI-generated, 768 × 768, 8 steps, guidance 0, mu=1.15.
 Each comparison states its seed and keeps it fixed across Original, Distill and Off.
@@ -79,12 +80,14 @@ They were rendered from the released files, with no external alpha multiplier.
             if case['case'] == featured and entry.get('preview_note'):
                 body += entry['preview_note'] + '\n\n'
             body += f"Seed **{record['seed']}** · [Side-by-side overview]({RAW}{case['asset']})\n\n"
-            for sample in case['samples']:
-                caption = sample['format'].title()
-                if sample['format'] != 'off':
-                    caption += f" · strength {sample['strength']:g}"
-                url = RAW + sample['image']
-                body += f"**{caption}**\n\n[![{entry['label']} — {label}: {caption}]({url})]({url})\n\n"
+            samples = {s['format']: s for s in case['samples']}
+            for kind, caption in [('original', 'On (Original)'), ('distill', 'Distill')]:
+                body += f"| Off | {caption} · strength {samples[kind]['strength']:g} |\n| :---: | :---: |\n"
+                cells = []
+                for key, title in [('off', 'Off'), (kind, caption)]:
+                    url = RAW + samples[key]['image']
+                    cells.append(f"[![{entry['label']} — {label}: {title}]({url})]({url})")
+                body += '| ' + ' | '.join(cells) + ' |\n\n'
             body += '<details><summary>Exact prompt</summary>\n\n```text\n' + record['prompt'] + '\n```\n\n</details>\n\n'
         body += '</details>\n\n'
     body += '''The bridge prompt was excluded from the original six-pair training set, then used for

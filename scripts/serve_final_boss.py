@@ -16,7 +16,7 @@ PAGE = '''<!doctype html>
 <title>Final Boss · Krea2 Turbo BBox</title>
 <style>
 :root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;background:#101115;color:#eeeef2}
-*{box-sizing:border-box}body{margin:0}main{max-width:1040px;margin:auto;padding:40px 24px 64px}
+*{box-sizing:border-box}body{margin:0}main{max-width:1604px;margin:auto;padding:40px 24px 64px}
 a{color:#e9b16b;text-decoration:none}a:hover{text-decoration:underline}
 .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c89f70}
 h1{font-size:clamp(36px,5vw,64px);letter-spacing:-.05em;margin:10px 0}p{color:#b7b9c2;line-height:1.6}
@@ -25,7 +25,8 @@ h1{font-size:clamp(36px,5vw,64px);letter-spacing:-.05em;margin:10px 0}p{color:#b
 .button:hover{background:#f3c282;text-decoration:none}.chips{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 30px}
 .chips span{font-size:13px;border:1px solid #383940;border-radius:20px;padding:7px 12px;color:#c7c8d0}
 h2{font-size:23px;font-weight:600;letter-spacing:-.025em;margin:36px 0 10px}
-.pair,.triptych{display:grid;grid-template-columns:1fr;gap:24px;max-width:770px}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.triptych{display:grid;grid-template-columns:1fr;gap:24px;max-width:770px}
+.release-comparison{margin:20px 0}
 figure{margin:0;overflow:hidden;border:1px solid #34353b;border-radius:12px;background:#1b1c22}
 figcaption{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;font-size:14px}
 figcaption span{font-size:12px;color:#aeb0bc}img{width:100%;height:auto;display:block;aspect-ratio:1;object-fit:contain}figure a{cursor:zoom-in}
@@ -92,7 +93,7 @@ def build_gallery():
                     if c['case'] == entry.get('featured_case', 'heldout-bridge'))
         local = Path('release-previews') / case['case']
         (gallery / local).mkdir(parents=True, exist_ok=True)
-        cards = []
+        cards = {}
         for sample in case['samples']:
             kind = sample['format']
             for key in ('image', 'metadata'):
@@ -102,17 +103,19 @@ def build_gallery():
                     os.link(source, target)
             link = (local / Path(sample['image']).name).as_posix()
             strength = sample['strength']
-            cards.append(f'<figure><figcaption>{kind.title()} <span>Strength {strength:g}</span></figcaption>'
-                         f'<a href="{link}" target="_blank" rel="noopener">'
-                         f'<img src="{link}" alt="Final Boss comparison: {kind}" '
-                         'width="768" height="768"></a></figure>')
+            caption = 'On' if kind == 'original' else kind.title()
+            cards[kind] = (f'<figure><figcaption>{caption} <span>Strength {strength:g}</span></figcaption>'
+                           f'<a href="{link}" target="_blank" rel="noopener">'
+                           f'<img src="{link}" alt="Final Boss comparison: {kind}" '
+                           'width="768" height="768"></a></figure>')
         record = json.loads((release / case['samples'][0]['metadata']).read_text())
         label = html.escape(case.get('label', 'Photo comparison'))
         featured = f'<h2>{label}</h2><p class="note">AI-generated · 768px · seed {record["seed"]}. '
-        featured += 'Original and rank-8 Distill use calibrated strength 1. '
+        featured += 'Off / On (Original), followed by Off / Distill. Both adapters use calibrated strength 1. '
         featured += html.escape(entry.get('preview_note', 'Same prompt and seed across all three images.'))
         featured += ' Click any image to open its full-resolution file.</p>'
-        featured += '<div class="triptych">' + ''.join(cards) + '</div>'
+        for kind in ('original', 'distill'):
+            featured += '<div class="pair release-comparison">' + cards['off'] + cards[kind] + '</div>'
         featured += '<details><summary>Exact prompt</summary><pre>' + html.escape(record['prompt']) + '</pre></details>'
         start, end = page.index('<h2>A new scene'), page.index('<h2>Explore the strength')
         page = page[:start] + featured + page[end:]

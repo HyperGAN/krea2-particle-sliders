@@ -9,7 +9,8 @@ were trained directly as LoRAs; the distills compress those linear adapters.
 
 ## Samples
 
-Each comparison shows **Original · strength 1**, **Distill · strength 1**, then **Off**.
+Each comparison shows **Off / On (Original)**, followed by **Off / Distill**.
+On and Distill both use **strength 1**.
 Click any image to open its full-resolution PNG.
 All images below are AI-generated, 768 × 768, 8 steps, guidance 0, mu=1.15.
 Each comparison states its seed and keeps it fixed across Original, Distill and Off.
@@ -23,17 +24,13 @@ A plain blue service robot gains angular shoulder and chest armor, heavier mecha
 
 Seed **31415** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-photo-rainy-yard-robot-seed-31415.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Robot in a rainy yard: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/off.png) | [![Final Boss — Robot in a rainy yard: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/original.png) |
 
-[![Final Boss — Robot in a rainy yard: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/original.png)
-
-**Distill · strength 1**
-
-[![Final Boss — Robot in a rainy yard: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/distill.png)
-
-**Off**
-
-[![Final Boss — Robot in a rainy yard: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Robot in a rainy yard: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/off.png) | [![Final Boss — Robot in a rainy yard: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-rainy-yard-robot-seed-31415/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
@@ -52,17 +49,13 @@ o[230,80,770,950] A life-size humanoid service robot with a compact flat head, a
 
 Seed **42** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-heldout-bridge.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Heldout Bridge: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/off.png) | [![Final Boss — Heldout Bridge: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/original.png) |
 
-[![Final Boss — Heldout Bridge: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/original.png)
-
-**Distill · strength 1**
-
-[![Final Boss — Heldout Bridge: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/distill.png)
-
-**Off**
-
-[![Final Boss — Heldout Bridge: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Heldout Bridge: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/off.png) | [![Final Boss — Heldout Bridge: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
@@ -79,17 +72,13 @@ pe:1[220,80,780,950] An adult warrior in steel armor, holding a sword, standing 
 
 Seed **42** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-knight.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Knight: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/off.png) | [![Final Boss — Knight: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/original.png) |
 
-[![Final Boss — Knight: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/original.png)
-
-**Distill · strength 1**
-
-[![Final Boss — Knight: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/distill.png)
-
-**Off**
-
-[![Final Boss — Knight: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Knight: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/off.png) | [![Final Boss — Knight: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
@@ -106,17 +95,13 @@ pe:1[230,100,770,940] An adult knight in practical steel armor, plain helmet, ho
 
 Seed **4242** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-street-photo.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Street Photo: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png) | [![Final Boss — Street Photo: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/original.png) |
 
-[![Final Boss — Street Photo: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/original.png)
-
-**Distill · strength 1**
-
-[![Final Boss — Street Photo: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/distill.png)
-
-**Off**
-
-[![Final Boss — Street Photo: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Street Photo: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png) | [![Final Boss — Street Photo: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
@@ -133,17 +118,13 @@ pe:1[240,100,760,950] An adult man with short dark hair in a simple dark wool ov
 
 Seed **42** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-fruit-control.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Fruit Control: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/off.png) | [![Final Boss — Fruit Control: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/original.png) |
 
-[![Final Boss — Fruit Control: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/original.png)
-
-**Distill · strength 1**
-
-[![Final Boss — Fruit Control: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/distill.png)
-
-**Off**
-
-[![Final Boss — Fruit Control: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Fruit Control: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/off.png) | [![Final Boss — Fruit Control: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
@@ -157,17 +138,13 @@ a bowl of fruit on a table
 
 Seed **2026** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-photo-robot-seed-2026.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Workshop robot: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/off.png) | [![Final Boss — Workshop robot: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/original.png) |
 
-[![Final Boss — Workshop robot: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/original.png)
-
-**Distill · strength 1**
-
-[![Final Boss — Workshop robot: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/distill.png)
-
-**Off**
-
-[![Final Boss — Workshop robot: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Final Boss — Workshop robot: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/off.png) | [![Final Boss — Workshop robot: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
@@ -188,17 +165,13 @@ o[200,80,800,960] A life-size humanoid research robot with a simple rounded head
 
 Seed **42** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/eldritch-heldout-bridge.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Eldritch — Heldout Bridge: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/off.png) | [![Eldritch — Heldout Bridge: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/original.png) |
 
-[![Eldritch — Heldout Bridge: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/original.png)
-
-**Distill · strength 1**
-
-[![Eldritch — Heldout Bridge: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/distill.png)
-
-**Off**
-
-[![Eldritch — Heldout Bridge: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Eldritch — Heldout Bridge: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/off.png) | [![Eldritch — Heldout Bridge: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
@@ -217,17 +190,13 @@ pe:1[220,80,780,950] An adult warrior in steel armor, holding a sword, standing 
 
 Seed **42** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/eldritch-knight.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Eldritch — Knight: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/off.png) | [![Eldritch — Knight: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/original.png) |
 
-[![Eldritch — Knight: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/original.png)
-
-**Distill · strength 1**
-
-[![Eldritch — Knight: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/distill.png)
-
-**Off**
-
-[![Eldritch — Knight: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Eldritch — Knight: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/off.png) | [![Eldritch — Knight: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
@@ -244,17 +213,13 @@ pe:1[230,100,770,940] An adult knight in practical steel armor, plain helmet, ho
 
 Seed **42** · [Side-by-side overview](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/eldritch-fruit-control.jpg)
 
-**Original · strength 1**
+| Off | On (Original) · strength 1 |
+| :---: | :---: |
+| [![Eldritch — Fruit Control: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/off.png) | [![Eldritch — Fruit Control: On (Original)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/original.png) |
 
-[![Eldritch — Fruit Control: Original · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/original.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/original.png)
-
-**Distill · strength 1**
-
-[![Eldritch — Fruit Control: Distill · strength 1](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/distill.png)
-
-**Off**
-
-[![Eldritch — Fruit Control: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/off.png)
+| Off | Distill · strength 1 |
+| :---: | :---: |
+| [![Eldritch — Fruit Control: Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/off.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/off.png) | [![Eldritch — Fruit Control: Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/distill.png)](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/distill.png) |
 
 <details><summary>Exact prompt</summary>
 
