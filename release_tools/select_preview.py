@@ -3,6 +3,7 @@
 import argparse
 import json
 from pathlib import Path
+import re
 import shutil
 import sys
 import time
@@ -83,8 +84,26 @@ def main():
     parser.add_argument('--folder', type=Path, default=ROOT / 'artifacts/release')
     parser.add_argument('--work', type=Path, default=ROOT / 'outputs/preview-selection-v2')
     parser.add_argument('--seed', type=int, default=2026)
+    parser.add_argument('--candidates', type=Path, help='JSON list of {id, label, prompt} candidates')
+    parser.add_argument('--evidence-name', default='preview-selection-v2')
+    parser.add_argument('--resume', action='store_true', help='Reuse saved renders after verifying their settings')
     options = parser.parse_args()
+    if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', options.evidence_name):
+        parser.error('--evidence-name must be a lowercase hyphenated name')
+    candidates = CANDIDATES
+    if options.candidates:
+        candidates = [(c['id'], c['label'], c['prompt'])
+                      for c in json.loads(options.candidates.read_text())]
+    if not candidates or len({c[0] for c in candidates}) != len(candidates):
+        parser.error('Candidate IDs must be nonempty and unique')
+    if any(not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', c[0]) for c in candidates):
+        parser.error('Candidate IDs must be lowercase hyphenated names')
     folder, work = options.folder.resolve(), options.work.resolve()
+    evidence = folder / 'evidence' / options.evidence_name
+    if evidence.exists():
+        raise FileExistsError(f'Choose a new evidence name: {evidence}')
+    if (work / 'selection.json').exists() and not options.resume:
+        raise FileExistsError(f'Choose a fresh work directory for visual review: {work}')
     work.mkdir(parents=True, exist_ok=True)
     catalog = json.loads((folder / 'catalog.json').read_text())
     entry = next(e for e in catalog['sliders'] if e['id'] == 'final-boss')
@@ -97,7 +116,7 @@ def main():
     torch.manual_seed(args.seed)
     torch.cuda.set_device(args.device)
     write_json(work / 'status.json', dict(phase='loading'))
-    runtime = Runtime(args, [c[2] for c in CANDIDATES], work)
+    runtime = Runtime(args, [c[2] for c in candidates], work)
     for kind in ('original', 'distill'):
         runtime.load(kind, folder / entry[kind]['files']['native'])
 
@@ -106,25 +125,35 @@ def main():
         runtime.active = adapter
         strength = 0. if kind == 'off' else 1.
         export = entry[adapter]
-        image = runtime.generate(prompt, strength, options.seed, 768)
         destination = work / case / (kind + '.png')
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        image.save(destination)
         record = dict(prompt=prompt, seed=options.seed, width=768, height=768, steps=8,
                       guidance=0., mu=1.15, format=kind, strength=strength, alpha=export['alpha'],
                       rank=export['rank'], adapter=export['files']['native'],
                       adapter_sha256=digest(folder / export['files']['native']),
                       model_id=args.model_id, model_revision=args.revision,
                       split='visually selected preview; not a benchmark')
+        if destination.exists():
+            if not options.resume:
+                raise FileExistsError(f'Use --resume to reuse saved renders: {destination}')
+            if json.loads(destination.with_suffix('.json').read_text()) != record:
+                raise ValueError(f'Saved render settings differ: {destination}')
+            with Image.open(destination) as image:
+                image.load()
+                assert image.size == (768, 768), destination
+            print('Reused', case, kind, flush=True)
+            return
+        image = runtime.generate(prompt, strength, options.seed, 768)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        image.save(destination)
         write_json(destination.with_suffix('.json'), record)
         print('Rendered', case, kind, flush=True)
 
-    for index, (case, label, prompt) in enumerate(CANDIDATES):
+    for index, (case, label, prompt) in enumerate(candidates):
         for kind in ('original', 'off'):
             render(case, prompt, kind)
         sheet(work, case, label)
         write_json(work / 'status.json', dict(phase='candidates', completed=index + 1,
-                                            total=len(CANDIDATES), last=case))
+                                            total=len(candidates), last=case))
     write_json(work / 'status.json', dict(phase='awaiting-visual-selection'))
     deadline = time.monotonic() + 1200
     selection = work / 'selection.json'
@@ -133,7 +162,7 @@ def main():
             raise TimeoutError('No visual selection; candidates are saved and GPU is released')
         time.sleep(2)
     review = json.loads(selection.read_text())
-    case, label, prompt = next(c for c in CANDIDATES if c[0] == review['selected'])
+    case, label, prompt = next(c for c in candidates if c[0] == review['selected'])
     render(case, prompt, 'distill')
     case_id = f'photo-{case}-seed-{options.seed}'
     target = folder / 'samples/final-boss' / case_id
@@ -151,12 +180,11 @@ def main():
     entry['featured_case'] = case_id
     entry['preview_note'] = review['caption']
     write_json(folder / 'catalog.json', catalog)
-    evidence = folder / 'evidence/preview-selection-v2'
     evidence.mkdir(parents=True, exist_ok=True)
-    for candidate, _, _ in CANDIDATES:
+    for candidate, _, _ in candidates:
         shutil.copyfile(work / candidate / 'comparison.jpg', evidence / (candidate + '.jpg'))
     write_json(evidence / 'review.json', dict(review, seed=options.seed,
-        candidates=[dict(id=c[0], label=c[1], prompt=c[2]) for c in CANDIDATES],
+        candidates=[dict(id=c[0], label=c[1], prompt=c[2]) for c in candidates],
         method='Visual curation for the featured example; same prompt and seed at strengths 1 and 0'))
     write_json(work / 'status.json', dict(phase='complete', featured_case=case_id))
 

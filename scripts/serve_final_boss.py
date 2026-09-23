@@ -16,7 +16,7 @@ PAGE = '''<!doctype html>
 <title>Final Boss · Krea2 Turbo BBox</title>
 <style>
 :root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;background:#101115;color:#eeeef2}
-*{box-sizing:border-box}body{margin:0}main{max-width:1440px;margin:auto;padding:40px 24px 64px}
+*{box-sizing:border-box}body{margin:0}main{max-width:1040px;margin:auto;padding:40px 24px 64px}
 a{color:#e9b16b;text-decoration:none}a:hover{text-decoration:underline}
 .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c89f70}
 h1{font-size:clamp(36px,5vw,64px);letter-spacing:-.05em;margin:10px 0}p{color:#b7b9c2;line-height:1.6}
@@ -25,10 +25,10 @@ h1{font-size:clamp(36px,5vw,64px);letter-spacing:-.05em;margin:10px 0}p{color:#b
 .button:hover{background:#f3c282;text-decoration:none}.chips{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 30px}
 .chips span{font-size:13px;border:1px solid #383940;border-radius:20px;padding:7px 12px;color:#c7c8d0}
 h2{font-size:23px;font-weight:600;letter-spacing:-.025em;margin:36px 0 10px}
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}.triptych{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pair,.triptych{display:grid;grid-template-columns:1fr;gap:24px;max-width:770px}
 figure{margin:0;overflow:hidden;border:1px solid #34353b;border-radius:12px;background:#1b1c22}
 figcaption{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;font-size:14px}
-figcaption span{font-size:12px;color:#aeb0bc}img{width:100%;display:block;aspect-ratio:1;object-fit:contain}
+figcaption span{font-size:12px;color:#aeb0bc}img{width:100%;height:auto;display:block;aspect-ratio:1;object-fit:contain}figure a{cursor:zoom-in}
 label{color:#c7c8d0;font-size:14px}select{background:#25262d;color:#f0f0f5;border:1px solid #494b56;border-radius:8px;padding:10px 14px;font:inherit;margin:12px 0 20px 8px}
 details{margin:18px 0;border:1px solid #34353b;border-radius:10px;padding:15px}summary{cursor:pointer;color:#c7c8d0}
 pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;color:#c0c4cf;font-size:13px}
@@ -110,7 +110,8 @@ def build_gallery():
         label = html.escape(case.get('label', 'Photo comparison'))
         featured = f'<h2>{label}</h2><p class="note">AI-generated · 768px · seed {record["seed"]}. '
         featured += 'Original and rank-8 Distill use calibrated strength 1. '
-        featured += html.escape(entry.get('preview_note', 'Same prompt and seed across all three images.')) + '</p>'
+        featured += html.escape(entry.get('preview_note', 'Same prompt and seed across all three images.'))
+        featured += ' Click any image to open its full-resolution file.</p>'
         featured += '<div class="triptych">' + ''.join(cards) + '</div>'
         featured += '<details><summary>Exact prompt</summary><pre>' + html.escape(record['prompt']) + '</pre></details>'
         start, end = page.index('<h2>A new scene'), page.index('<h2>Explore the strength')

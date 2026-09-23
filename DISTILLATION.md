@@ -68,13 +68,29 @@ are verified exactly; cross-loader pixel equality is not claimed. The release
 comparisons consistently use the same native Diffusers loading path.
 
 `release_tools/refresh_preview.py` reproduces the earlier Tokyo street photograph
-at seed 4242. The current visual curation uses
+at seed 4242. The first visual curation used
 `CUDA_VISIBLE_DEVICES=0 python release_tools/select_preview.py`: eight photographic
 subjects at seed 2026, with the released Original at strength 1 and Off at 0.
 Inspect the saved comparison sheets, then write `selection.json` in the work
 directory with `selected` (candidate ID), `caption`, and review notes. The process
 keeps the model loaded while waiting and renders the selected rank-8 Distill at
 strength 1. It saves all eight comparison sheets and the review in release evidence.
+
+The robot follow-up uses eight more photographic setups at seed 31415:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python release_tools/select_preview.py \
+  --candidates configs/krea2/preview-robots.json \
+  --work outputs/preview-selection-robots-v3 \
+  --evidence-name preview-selection-robots-v3 --seed 31415
+```
+
+Use a fresh work directory and evidence name for another selection. Candidate IDs,
+labels and grounded prompts are saved in the JSON configuration. Review every
+Original/Off comparison, write the selection file, then inspect the selected Distill.
+If the process stops before export, repeat its command with `--resume`; saved renders
+are reused only when their recorded prompts, seeds, sampler and adapter settings match.
+The larger card previews link each individual image to its full-resolution PNG.
 
 Run `release_tools/build.py` afterward to update the cards. The featured example
 is a visually chosen illustration, not an unbiased performance benchmark. Earlier

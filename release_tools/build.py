@@ -58,7 +58,8 @@ were trained directly as LoRAs; the distills compress those linear adapters.
 
 ## Samples
 
-Left to right: **Original · strength 1 → Distill · strength 1 → Off**.
+Each comparison shows **Original · strength 1**, **Distill · strength 1**, then **Off**.
+Click any image to open its full-resolution PNG.
 All images below are AI-generated, 768 × 768, 8 steps, guidance 0, mu=1.15.
 Each comparison states its seed and keeps it fixed across Original, Distill and Off.
 They were rendered from the released files, with no external alpha multiplier.
@@ -73,18 +74,26 @@ They were rendered from the released files, with no external alpha multiplier.
             if index == 1:
                 body += '<details><summary>Additional comparisons and unrelated fruit control</summary>\n\n'
             record = comparison(folder, entry, case)
-            body += f"![{entry['label']}: Original, Distill, Off]({RAW}{case['asset']})\n\n"
+            label = case.get('label', case['case'].replace('-', ' ').title())
+            body += f"#### {label}\n\n"
             if case['case'] == featured and entry.get('preview_note'):
                 body += entry['preview_note'] + '\n\n'
-            body += f"Seed **{record['seed']}**. "
-            body += 'Full resolution: ' + ' · '.join(f"[{s['format'].title()}]({RAW}{s['image']})" for s in case['samples']) + '\n\n'
+            body += f"Seed **{record['seed']}** · [Side-by-side overview]({RAW}{case['asset']})\n\n"
+            for sample in case['samples']:
+                caption = sample['format'].title()
+                if sample['format'] != 'off':
+                    caption += f" · strength {sample['strength']:g}"
+                url = RAW + sample['image']
+                body += f"**{caption}**\n\n[![{entry['label']} — {label}: {caption}]({url})]({url})\n\n"
             body += '<details><summary>Exact prompt</summary>\n\n```text\n' + record['prompt'] + '\n```\n\n</details>\n\n'
         body += '</details>\n\n'
     body += '''The bridge prompt was excluded from the original six-pair training set, then used for
 development comparisons. These examples are not a final-test benchmark. The featured
-Final Boss photograph was visually selected from eight photo prompts at strength 1;
-the original Tokyo street-photo comparison remains available in the additional examples.
-The [selection notes and all eight comparisons](https://huggingface.co/ntc-ai/krea2-particle-sliders/tree/main/evidence/preview-selection-v2)
+Final Boss photograph was visually selected from eight robot photo prompts at strength 1,
+following an earlier eight-subject photo search. The Tokyo street photo and first workshop
+robot remain available in the additional examples.
+The [robot selection notes and all eight comparisons](https://huggingface.co/ntc-ai/krea2-particle-sliders/tree/main/evidence/preview-selection-robots-v3)
+and [earlier photo search](https://huggingface.co/ntc-ai/krea2-particle-sliders/tree/main/evidence/preview-selection-v2)
 record the curation.
 The original
 Eldritch effect emphasizes organic armor and curling appendages; extra eyes and facial

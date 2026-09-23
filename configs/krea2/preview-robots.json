@@ -1,0 +1,42 @@
+[
+  {
+    "id": "loading-bay-robot",
+    "label": "Loading bay robot",
+    "prompt": "A full-body editorial photograph of a humanoid maintenance robot in a loading bay.\n@industrial photography, realistic construction, natural proportions, 50mm lens, soft overcast daylight; Photograph\n~An ordinary concrete loading bay with a closed roller door, yellow floor markings and a few wooden pallets.\no[230,70,770,960] A tall humanoid utility robot with a small rectangular head, a dark glass visor, plain gray metal body panels, articulated black joints, two arms resting at its sides and two straight legs, standing in a relaxed three-quarter pose."
+  },
+  {
+    "id": "studio-robot",
+    "label": "Studio robot portrait",
+    "prompt": "A studio photograph of a humanoid robot, framed from the hips upward.\n@editorial product photography, realistic brushed metal and glass, large softbox lighting, 85mm lens; Photograph\n~A seamless charcoal gray studio backdrop with a soft shadow.\no[160,60,840,1000] An ordinary silver humanoid research robot with a narrow rectangular head, one horizontal dark optical visor, simple chest plates, smooth shoulder covers and exposed black elbow joints, arms hanging naturally, facing slightly left."
+  },
+  {
+    "id": "rainy-yard-robot",
+    "label": "Robot in a rainy yard",
+    "prompt": "A full-body documentary photograph of an industrial robot standing outside after rain.\n@35mm documentary photography, realistic wet metal, natural overcast daylight; Photograph\n~A quiet factory yard with puddles, a brick wall and distant steel pipes.\no[230,80,770,950] A life-size humanoid service robot with a compact flat head, a single dark camera visor, plain faded blue metal panels and black mechanical joints, two arms and two legs, standing still with both hands lowered, feet firmly on the wet concrete."
+  },
+  {
+    "id": "hangar-robot",
+    "label": "Hangar service robot",
+    "prompt": "A full-body photograph of a humanoid service robot inside an aircraft maintenance hangar.\n@industrial editorial photography, realistic metal surfaces, soft skylight, 50mm lens; Photograph\n~A spacious working hangar with concrete floors, a tool trolley and a blurred small aircraft in the distance.\no[220,70,780,960] A tall humanoid maintenance robot with simple off-white panels, a compact angular head with a dark visor, gray joints and orange identification markings, two ordinary arms at its sides and two straight legs, standing squarely facing the camera."
+  },
+  {
+    "id": "yellow-robot",
+    "label": "Yellow factory robot",
+    "prompt": "A full-body editorial photograph of a yellow humanoid utility robot on a factory floor.\n@industrial photography, realistic painted steel and rubber, soft side lighting; Photograph\n~A real factory with concrete floors, structural columns and orderly metal shelves in the background.\no[220,70,780,960] A humanoid inspection robot with simple mustard-yellow body panels, a small box-shaped head with two round camera lenses, black mechanical joints, two articulated arms and two legs, standing upright in a relaxed three-quarter pose."
+  },
+  {
+    "id": "robot-dog",
+    "label": "Quadruped inspection robot",
+    "prompt": "A documentary photograph of a four-legged inspection robot on a concrete walkway.\n@realistic industrial photography, low camera angle, soft daylight, 50mm lens; Photograph\n~A real power station with railings, gray electrical cabinets and an ordinary concrete walkway.\no[100,220,900,890] One compact quadruped inspection robot with a plain yellow rectangular body, a small front camera module and four slender black articulated legs, standing still in a three-quarter view, entire robot visible."
+  },
+  {
+    "id": "museum-robot",
+    "label": "Museum robot",
+    "prompt": "A full-body photograph of a humanoid robot displayed in a science museum.\n@documentary photography, realistic metal and plastic, natural window light, 50mm lens; Photograph\n~A quiet modern science museum with white walls and a pale polished concrete floor.\no[250,70,750,950] A life-size humanoid robot with smooth white plastic panels, a small oval head with a dark faceplate, black joint covers, two ordinary arms and two straight legs, standing on the floor with its hands at its sides."
+  },
+  {
+    "id": "robot-technician",
+    "label": "Robot at a workbench",
+    "prompt": "An editorial photograph of a humanoid robot seated at a workshop bench.\n@35mm documentary photography, realistic brushed steel, warm window light; Photograph\n~An ordinary electronics repair workshop with a wooden workbench, a desk lamp and neatly stored tools.\no[160,90,840,970] A plain silver humanoid maintenance robot with a compact rectangular head and a dark camera visor, simple metal torso panels, articulated black joints, sitting upright on a stool with its two mechanical hands resting on its knees, whole body visible."
+  }
+]
