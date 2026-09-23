@@ -16,17 +16,19 @@ They were rendered from the released files, with no external alpha multiplier.
 
 ### Final Boss
 
-![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-street-photo.jpg)
+![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-photo-robot-seed-2026.jpg)
 
-Seed **4242**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png)
+A plain research robot becomes a heavier, battle-worn machine with a more armored head and denser mechanical limbs. Same workshop, prompt and seed.
+
+Seed **2026**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/photo-robot-seed-2026/off.png)
 
 <details><summary>Exact prompt</summary>
 
 ```text
-A candid full-body street photograph of a commuter on a rainy night in Tokyo.
-@35mm street photography, realistic skin texture, natural proportions, cinematic neon reflections; Photograph
-~A narrow city street with small restaurants, wet asphalt, red and blue neon reflections, soft background bokeh and gentle rain.
-pe:1[240,100,760,950] An adult man with short dark hair in a simple dark wool overcoat, gray sweater, jeans and ordinary leather shoes, holding a closed black umbrella at his side, standing casually and looking toward the camera.
+A full-body photograph of a humanoid robot in an engineering workshop.
+@industrial editorial photography, realistic metal and plastic, soft window light; Photograph
+~A real workshop with concrete floors, workbenches and neatly arranged tools.
+o[200,80,800,960] A life-size humanoid research robot with a simple rounded head, plain silver panels, exposed black joints and two ordinary arms, standing upright facing the camera.
 ```
 
 </details>
@@ -59,6 +61,21 @@ A full-body armored knight in a ruined cathedral.
 @cinematic lighting, detailed game concept art; Digital illustration
 ~Ruined gothic arches and a cold stone floor.
 pe:1[230,100,770,940] An adult knight in practical steel armor, plain helmet, holding a longsword, calm stance.
+```
+
+</details>
+
+![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-street-photo.jpg)
+
+Seed **4242**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png)
+
+<details><summary>Exact prompt</summary>
+
+```text
+A candid full-body street photograph of a commuter on a rainy night in Tokyo.
+@35mm street photography, realistic skin texture, natural proportions, cinematic neon reflections; Photograph
+~A narrow city street with small restaurants, wet asphalt, red and blue neon reflections, soft background bokeh and gentle rain.
+pe:1[240,100,760,950] An adult man with short dark hair in a simple dark wool overcoat, gray sweater, jeans and ordinary leather shoes, holding a closed black umbrella at his side, standing casually and looking toward the camera.
 ```
 
 </details>
@@ -126,9 +143,12 @@ a bowl of fruit on a table
 </details>
 
 The bridge prompt was excluded from the original six-pair training set, then used for
-development comparisons. These examples are not a final-test benchmark. The original
-Final Boss street-photo preview uses a new photographic prompt; its effect is subtler
-than on the armored examples. The original
+development comparisons. These examples are not a final-test benchmark. The featured
+Final Boss photograph was visually selected from eight photo prompts at strength 1;
+the original Tokyo street-photo comparison remains available in the additional examples.
+The [selection notes and all eight comparisons](https://huggingface.co/ntc-ai/krea2-particle-sliders/tree/main/evidence/preview-selection-v2)
+record the curation.
+The original
 Eldritch effect emphasizes organic armor and curling appendages; extra eyes and facial
 tentacles remain weak. The fruit control shows some rendering-style drift.
 

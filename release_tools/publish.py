@@ -73,11 +73,15 @@ def validate(folder):
                 if kind == 'original':
                     assert all(torch.equal(a, b) for a, b in zip((down, up), source_factors[module]))
         cases = {case['case'] for case in entry['comparisons']}
-        assert {'knight', 'heldout-bridge', 'fruit-control'} <= cases <= {'knight', 'heldout-bridge', 'fruit-control', 'street-photo'}
+        assert {'knight', 'heldout-bridge', 'fruit-control'} <= cases
+        assert len(cases) == len(entry['comparisons'])
+        assert all(re.fullmatch(r'[a-z0-9-]+', case) for case in cases)
+        assert entry.get('featured_case', 'heldout-bridge') in cases
         for case in entry['comparisons']:
             assert [s['format'] for s in case['samples']] == ['original', 'distill', 'off']
             records = []
             for sample in case['samples']:
+                assert sample['image'] == f"samples/{name}/{case['case']}/{sample['format']}.png"
                 expected_images.add(sample['image'])
                 with Image.open(folder / sample['image']) as image:
                     image.load()

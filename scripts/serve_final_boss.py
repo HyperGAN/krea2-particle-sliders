@@ -85,30 +85,38 @@ def build_gallery():
     data = json.dumps(metadata['samples']).replace('<', '\\u003c')
     page = PAGE.replace('__SAMPLES__', data)
     release = ROOT / 'artifacts/release'
-    photo = release / 'samples/final-boss/street-photo'
-    if all((photo / f'{kind}.png').exists() for kind in ('original', 'distill', 'off')):
+    if (release / 'catalog.json').exists():
+        catalog = json.loads((release / 'catalog.json').read_text())
+        entry = next(e for e in catalog['sliders'] if e['id'] == 'final-boss')
+        case = next(c for c in entry['comparisons']
+                    if c['case'] == entry.get('featured_case', 'heldout-bridge'))
+        local = Path('release-previews') / case['case']
+        (gallery / local).mkdir(parents=True, exist_ok=True)
         cards = []
-        (gallery / 'street-photo').mkdir(exist_ok=True)
-        for kind in ('original', 'distill', 'off'):
-            for suffix in ('.png', '.json'):
-                target = gallery / 'street-photo' / (kind + suffix)
+        for sample in case['samples']:
+            kind = sample['format']
+            for key in ('image', 'metadata'):
+                source = release / sample[key]
+                target = gallery / local / source.name
                 if not target.exists():
-                    os.link(photo / (kind + suffix), target)
-            strength = 0 if kind == 'off' else 1
-            cards.append(f'<figure><figcaption>{kind.title()} <span>Strength {strength}</span></figcaption>'
-                         f'<a href="street-photo/{kind}.png" target="_blank" rel="noopener">'
-                         f'<img src="street-photo/{kind}.png" alt="Rainy Tokyo street photograph: {kind}" '
+                    os.link(source, target)
+            link = (local / Path(sample['image']).name).as_posix()
+            strength = sample['strength']
+            cards.append(f'<figure><figcaption>{kind.title()} <span>Strength {strength:g}</span></figcaption>'
+                         f'<a href="{link}" target="_blank" rel="noopener">'
+                         f'<img src="{link}" alt="Final Boss comparison: {kind}" '
                          'width="768" height="768"></a></figure>')
-        record = json.loads((photo / 'original.json').read_text())
-        featured = '<h2>A photograph, the same seed</h2><p class="note">AI-generated rainy Tokyo street photo · '
-        featured += '768px · seed 4242. Original and rank-8 Distill use calibrated strength 1. '
-        featured += 'The effect is subtler here than in the armored examples.</p>'
+        record = json.loads((release / case['samples'][0]['metadata']).read_text())
+        label = html.escape(case.get('label', 'Photo comparison'))
+        featured = f'<h2>{label}</h2><p class="note">AI-generated · 768px · seed {record["seed"]}. '
+        featured += 'Original and rank-8 Distill use calibrated strength 1. '
+        featured += html.escape(entry.get('preview_note', 'Same prompt and seed across all three images.')) + '</p>'
         featured += '<div class="triptych">' + ''.join(cards) + '</div>'
-        featured += '<details><summary>Exact photographic prompt</summary><pre>' + html.escape(record['prompt']) + '</pre></details>'
+        featured += '<details><summary>Exact prompt</summary><pre>' + html.escape(record['prompt']) + '</pre></details>'
         start, end = page.index('<h2>A new scene'), page.index('<h2>Explore the strength')
         page = page[:start] + featured + page[end:]
         page = page.replace('Ordinary armor becomes something worth a final encounter.',
-                            'The Final Boss slider on a regular street photograph.')
+                            'The Final Boss slider on a photographic test scene.')
         page = page.replace('<a class="button" href="final-boss-krea2-bbox.safetensors" download>Download LoRA · 77 MB</a>',
                             '<a class="button" href="https://huggingface.co/ntc-ai/krea2-particle-sliders">Original + Distill downloads</a>')
     (gallery / 'index.html').write_text(page)

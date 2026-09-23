@@ -67,8 +67,15 @@ path retained float32 adapters. Stored original matrices and alpha/rank gains
 are verified exactly; cross-loader pixel equality is not claimed. The release
 comparisons consistently use the same native Diffusers loading path.
 
-`CUDA_VISIBLE_DEVICES=0 python release_tools/refresh_preview.py` renders the
-additional street-photograph comparison at seed 4242 and makes it Final Boss's
-featured case. It uses the published Original and Distill files at strength 1
-and the adapter-disabled base at strength 0. Run `release_tools/build.py` afterward
-to update the cards and comparison image. The earlier comparisons remain available.
+`release_tools/refresh_preview.py` reproduces the earlier Tokyo street photograph
+at seed 4242. The current visual curation uses
+`CUDA_VISIBLE_DEVICES=0 python release_tools/select_preview.py`: eight photographic
+subjects at seed 2026, with the released Original at strength 1 and Off at 0.
+Inspect the saved comparison sheets, then write `selection.json` in the work
+directory with `selected` (candidate ID), `caption`, and review notes. The process
+keeps the model loaded while waiting and renders the selected rank-8 Distill at
+strength 1. It saves all eight comparison sheets and the review in release evidence.
+
+Run `release_tools/build.py` afterward to update the cards. The featured example
+is a visually chosen illustration, not an unbiased performance benchmark. Earlier
+published comparisons remain available at their original paths.

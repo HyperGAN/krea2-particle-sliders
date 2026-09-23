@@ -68,20 +68,25 @@ They were rendered from the released files, with no external alpha multiplier.
         body += f"### {entry['label']}\n\n"
         featured = entry.get('featured_case', 'heldout-bridge')
         ordered = sorted(entry['comparisons'], key=lambda c: (c['case'] != featured,
-                         {'street-photo': 0, 'heldout-bridge': 1, 'knight': 2, 'fruit-control': 3}[c['case']]))
+                         {'heldout-bridge': 0, 'knight': 1, 'street-photo': 2, 'fruit-control': 3}.get(c['case'], 4)))
         for index, case in enumerate(ordered):
             if index == 1:
                 body += '<details><summary>Additional comparisons and unrelated fruit control</summary>\n\n'
             record = comparison(folder, entry, case)
             body += f"![{entry['label']}: Original, Distill, Off]({RAW}{case['asset']})\n\n"
+            if case['case'] == featured and entry.get('preview_note'):
+                body += entry['preview_note'] + '\n\n'
             body += f"Seed **{record['seed']}**. "
             body += 'Full resolution: ' + ' · '.join(f"[{s['format'].title()}]({RAW}{s['image']})" for s in case['samples']) + '\n\n'
             body += '<details><summary>Exact prompt</summary>\n\n```text\n' + record['prompt'] + '\n```\n\n</details>\n\n'
         body += '</details>\n\n'
     body += '''The bridge prompt was excluded from the original six-pair training set, then used for
-development comparisons. These examples are not a final-test benchmark. The original
-Final Boss street-photo preview uses a new photographic prompt; its effect is subtler
-than on the armored examples. The original
+development comparisons. These examples are not a final-test benchmark. The featured
+Final Boss photograph was visually selected from eight photo prompts at strength 1;
+the original Tokyo street-photo comparison remains available in the additional examples.
+The [selection notes and all eight comparisons](https://huggingface.co/ntc-ai/krea2-particle-sliders/tree/main/evidence/preview-selection-v2)
+record the curation.
+The original
 Eldritch effect emphasizes organic armor and curling appendages; extra eyes and facial
 tentacles remain weak. The fruit control shows some rendering-style drift.
 
