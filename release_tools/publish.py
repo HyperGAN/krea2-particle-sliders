@@ -19,7 +19,7 @@ from safetensors.torch import load_file
 import torch
 from release_tools.lora import comfy_name, digest, read_factors, write_json
 
-REPO = 'ntc-ai/krea2-concept-sliders'
+REPO = 'ntc-ai/krea2-particle-sliders'
 
 
 def release_files(folder):
@@ -72,7 +72,8 @@ def validate(folder):
                     assert torch.equal(a, b) and torch.equal(a, c), module
                 if kind == 'original':
                     assert all(torch.equal(a, b) for a, b in zip((down, up), source_factors[module]))
-        assert {case['case'] for case in entry['comparisons']} == {'knight', 'heldout-bridge', 'fruit-control'}
+        cases = {case['case'] for case in entry['comparisons']}
+        assert {'knight', 'heldout-bridge', 'fruit-control'} <= cases <= {'knight', 'heldout-bridge', 'fruit-control', 'street-photo'}
         for case in entry['comparisons']:
             assert [s['format'] for s in case['samples']] == ['original', 'distill', 'off']
             records = []
@@ -108,7 +109,8 @@ def validate(folder):
         off = [r for r in replays if r['format'] == 'off']
         assert len(off) == 3 and all(r['pixel_identical'] and r['pixel_mae'] == 0 for r in off)
     assert expected_weights == {str(p.relative_to(folder)) for p in folder.rglob('*.safetensors')}
-    assert len(expected_weights) == 12 and len(expected_images) == 18
+    assert len(expected_weights) == 12
+    assert len(expected_images) == 3 * sum(len(e['comparisons']) for e in catalog['sliders'])
     assert expected_images == {str(p.relative_to(folder)) for p in (folder / 'samples').rglob('*.png')}
     comfy = json.loads((folder / 'validation/comfyui.json').read_text())
     assert comfy['passed'] and {r['file'] for r in comfy['files']} == expected_comfy
@@ -121,7 +123,7 @@ def validate(folder):
                                       'native_node_alpha_equal', 'clone_isolation', 'zero_bypass')) for r in comfy['files'])
     card = (folder / 'README.md').read_text()
     assert card.index('## Samples') < card.index('## Downloads') < card.index('## Distillation and alpha')
-    for name in re.findall(r'https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/([^)?\s]+)', card):
+    for name in re.findall(r'https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/([^)?\s]+)', card):
         # These three are generated below from the committed source tree.
         if name not in ('source.zip', 'source-provenance.json', 'release-manifest.json'):
             assert (folder / name).is_file(), ('Broken release link', name)

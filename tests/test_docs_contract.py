@@ -29,7 +29,6 @@ def test_readme_is_the_product():
         "Comfy-Org/Krea-2",
         "CFG 1.0",
         "PROMPTING.md",
-        "rename",
     ):
         assert needle in readme, needle
     assert "PARTICLE_SLIDERS_ROOT" not in readme

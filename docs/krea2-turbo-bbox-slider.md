@@ -1,6 +1,6 @@
 # Krea2 turbo-bbox slider
 
-In-repo trainer for [`jimmycarter/krea2-turbo-bbox`](https://huggingface.co/jimmycarter/krea2-turbo-bbox). The GitHub repo is **krea2-particle-sliders** (renamed from `krea2-concept-sliders`).
+In-repo trainer for [`jimmycarter/krea2-turbo-bbox`](https://huggingface.co/jimmycarter/krea2-turbo-bbox). The GitHub repo is **krea2-particle-sliders**.
 
 This does not change Music or Anima defaults. Stock Krea Raw (CFG 4.5 / 28 steps) is a different card and is not implemented here.
 

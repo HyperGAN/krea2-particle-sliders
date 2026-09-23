@@ -1,4 +1,4 @@
-# Krea2 Turbo-BBox Sliders
+# Krea2 Turbo-BBox Particle Sliders
 
 **Final Boss and Eldritch**, with original rank-16 LoRAs and compressed rank-8 distills.
 Use **strength 1** for the calibrated effect. Same prompt, seed and sampler across each comparison.
@@ -10,14 +10,32 @@ were trained directly as LoRAs; the distills compress those linear adapters.
 ## Samples
 
 Left to right: **Original · strength 1 → Distill · strength 1 → Off**.
-All images below are AI-generated, 768 × 768, seed 42, 8 steps, guidance 0, mu=1.15.
+All images below are AI-generated, 768 × 768, 8 steps, guidance 0, mu=1.15.
+Each comparison states its seed and keeps it fixed across Original, Distill and Off.
 They were rendered from the released files, with no external alpha multiplier.
 
 ### Final Boss
 
-![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/assets/final-boss-heldout-bridge.jpg)
+![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-street-photo.jpg)
 
-Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/heldout-bridge/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/heldout-bridge/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/heldout-bridge/off.png)
+Seed **4242**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/street-photo/off.png)
+
+<details><summary>Exact prompt</summary>
+
+```text
+A candid full-body street photograph of a commuter on a rainy night in Tokyo.
+@35mm street photography, realistic skin texture, natural proportions, cinematic neon reflections; Photograph
+~A narrow city street with small restaurants, wet asphalt, red and blue neon reflections, soft background bokeh and gentle rain.
+pe:1[240,100,760,950] An adult man with short dark hair in a simple dark wool overcoat, gray sweater, jeans and ordinary leather shoes, holding a closed black umbrella at his side, standing casually and looking toward the camera.
+```
+
+</details>
+
+<details><summary>Additional comparisons and unrelated fruit control</summary>
+
+![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-heldout-bridge.jpg)
+
+Seed **42**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/heldout-bridge/off.png)
 
 <details><summary>Exact prompt</summary>
 
@@ -30,11 +48,9 @@ pe:1[220,80,780,950] An adult warrior in steel armor, holding a sword, standing 
 
 </details>
 
-<details><summary>Cathedral knight and unrelated fruit control</summary>
+![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-knight.jpg)
 
-![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/assets/final-boss-knight.jpg)
-
-Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/knight/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/knight/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/knight/off.png)
+Seed **42**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/knight/off.png)
 
 <details><summary>Exact prompt</summary>
 
@@ -47,9 +63,9 @@ pe:1[230,100,770,940] An adult knight in practical steel armor, plain helmet, ho
 
 </details>
 
-![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/assets/final-boss-fruit-control.jpg)
+![Final Boss: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/final-boss-fruit-control.jpg)
 
-Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/fruit-control/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/fruit-control/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/final-boss/fruit-control/off.png)
+Seed **42**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/final-boss/fruit-control/off.png)
 
 <details><summary>Exact prompt</summary>
 
@@ -63,9 +79,9 @@ a bowl of fruit on a table
 
 ### Eldritch
 
-![Eldritch: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/assets/eldritch-heldout-bridge.jpg)
+![Eldritch: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/eldritch-heldout-bridge.jpg)
 
-Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/heldout-bridge/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/heldout-bridge/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/heldout-bridge/off.png)
+Seed **42**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/heldout-bridge/off.png)
 
 <details><summary>Exact prompt</summary>
 
@@ -78,11 +94,11 @@ pe:1[220,80,780,950] An adult warrior in steel armor, holding a sword, standing 
 
 </details>
 
-<details><summary>Cathedral knight and unrelated fruit control</summary>
+<details><summary>Additional comparisons and unrelated fruit control</summary>
 
-![Eldritch: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/assets/eldritch-knight.jpg)
+![Eldritch: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/eldritch-knight.jpg)
 
-Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/knight/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/knight/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/knight/off.png)
+Seed **42**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/knight/off.png)
 
 <details><summary>Exact prompt</summary>
 
@@ -95,9 +111,9 @@ pe:1[230,100,770,940] An adult knight in practical steel armor, plain helmet, ho
 
 </details>
 
-![Eldritch: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/assets/eldritch-fruit-control.jpg)
+![Eldritch: Original, Distill, Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/assets/eldritch-fruit-control.jpg)
 
-Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/fruit-control/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/fruit-control/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/samples/eldritch/fruit-control/off.png)
+Seed **42**. Full resolution: [Original](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/original.png) · [Distill](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/distill.png) · [Off](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/samples/eldritch/fruit-control/off.png)
 
 <details><summary>Exact prompt</summary>
 
@@ -111,6 +127,8 @@ a bowl of fruit on a table
 
 The bridge prompt was excluded from the original six-pair training set, then used for
 development comparisons. These examples are not a final-test benchmark. The original
+Final Boss street-photo preview uses a new photographic prompt; its effect is subtler
+than on the armored examples. The original
 Eldritch effect emphasizes organic armor and curling appendages; extra eyes and facial
 tentacles remain weak. The fruit control shows some rendering-style drift.
 
@@ -118,19 +136,19 @@ tentacles remain weak. The fruit control shows some rendering-style drift.
 
 | Slider | Original · ComfyUI | Distill · ComfyUI | Original · Diffusers | Distill · Diffusers |
 |---|---|---|---|---|
-| Final Boss | [Download](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/weights/comfyui/krea2-final-boss-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/distilled/comfyui/krea2-final-boss-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/weights/native/krea2-final-boss-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/distilled/native/krea2-final-boss-unit-alpha.safetensors?download=true) |
-| Eldritch | [Download](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/weights/comfyui/krea2-eldritch-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/distilled/comfyui/krea2-eldritch-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/weights/native/krea2-eldritch-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/distilled/native/krea2-eldritch-unit-alpha.safetensors?download=true) |
+| Final Boss | [Download](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/weights/comfyui/krea2-final-boss-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/distilled/comfyui/krea2-final-boss-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/weights/native/krea2-final-boss-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/distilled/native/krea2-final-boss-unit-alpha.safetensors?download=true) |
+| Eldritch | [Download](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/weights/comfyui/krea2-eldritch-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/distilled/comfyui/krea2-eldritch-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/weights/native/krea2-eldritch-unit-alpha.safetensors?download=true) | [Download](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/distilled/native/krea2-eldritch-unit-alpha.safetensors?download=true) |
 
 Original files are about 77 MB; distills are about 38 MB. Both contain 128 projection adapters.
-[PEFT originals](https://huggingface.co/ntc-ai/krea2-concept-sliders/tree/main/weights/peft) · [PEFT distills](https://huggingface.co/ntc-ai/krea2-concept-sliders/tree/main/distilled/peft) ·
-[Catalog](https://huggingface.co/ntc-ai/krea2-concept-sliders/blob/main/catalog.json) · [File hashes](https://huggingface.co/ntc-ai/krea2-concept-sliders/blob/main/release-manifest.json).
+[PEFT originals](https://huggingface.co/ntc-ai/krea2-particle-sliders/tree/main/weights/peft) · [PEFT distills](https://huggingface.co/ntc-ai/krea2-particle-sliders/tree/main/distilled/peft) ·
+[Catalog](https://huggingface.co/ntc-ai/krea2-particle-sliders/blob/main/catalog.json) · [File hashes](https://huggingface.co/ntc-ai/krea2-particle-sliders/blob/main/release-manifest.json).
 
 ## ComfyUI
 
 Use standard **Load LoRA** with a **ComfyUI export**, MODEL strength **1**, CLIP strength **0**.
 No custom node is required. The optional `comfy_krea2.py` node, **Krea2 Turbo-BBox LoRA**
 under **NTC/Krea2**, also handles these files and the native exports' alpha metadata.
-[Plugin ZIP](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/comfyui/krea2-particle-sliders.zip?download=true) · [Setup](https://github.com/HyperGAN/krea2-particle-sliders/blob/main/COMFYUI.md).
+[Plugin ZIP](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/comfyui/krea2-particle-sliders.zip?download=true) · [Setup](https://github.com/HyperGAN/krea2-particle-sliders/blob/main/COMFYUI.md).
 
 Use `krea2-bbox-turbo-comfy-latest.safetensors` with the stock text encoder and VAE from
 [Comfy-Org/Krea-2](https://huggingface.co/Comfy-Org/Krea-2). Start from the Krea-2 Turbo
@@ -146,7 +164,7 @@ validation records the tested versions. After loading the bbox transformer with 
 ```python
 pipe.register_to_config(is_distilled=True)  # selects mu=1.15
 pipe.load_lora_weights(
-    "ntc-ai/krea2-concept-sliders",
+    "ntc-ai/krea2-particle-sliders",
     weight_name="weights/native/krea2-eldritch-unit-alpha.safetensors",
     adapter_name="eldritch",
 )
@@ -185,13 +203,13 @@ the base's 8-step schedule; this distillation reduces adapter rank, not denoisin
 Both originals used physical GPU 0, rank 16, 400 updates, learning rate 5e-5, 512px,
 six paired captions, two cached trajectory seeds per pair, and preservation weight 0.1
 every fifth update. The base and text encoder stayed frozen. Source, configurations,
-validation and reproduction belong to [krea2-particle-sliders](https://github.com/HyperGAN/krea2-particle-sliders), renamed from
-`krea2-concept-sliders`, following the release layout of [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
+validation and reproduction belong to [krea2-particle-sliders](https://github.com/HyperGAN/krea2-particle-sliders), following
+the release layout of [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
 The Krea originals are linear LoRAs; this is not the Anima nonlinear particle training recipe.
 
 The GitHub repository does not ship slider weights or logs. Download weights from this Hub release.
 [Reproduction](https://github.com/HyperGAN/krea2-particle-sliders/blob/main/REPRODUCE.md) · [Training formulation](https://github.com/HyperGAN/krea2-particle-sliders/blob/main/docs/final-boss.md) ·
-[Release source archive](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/source.zip) · [Source provenance](https://huggingface.co/ntc-ai/krea2-concept-sliders/blob/main/source-provenance.json).
+[Release source archive](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/source.zip) · [Source provenance](https://huggingface.co/ntc-ai/krea2-particle-sliders/blob/main/source-provenance.json).
 
 ```bash
 python -m pip install -r requirements.txt
@@ -208,7 +226,7 @@ generation is not part of this audit.
 ## License
 
 These adapters modify Krea 2 and are distributed under the [Krea 2 Community License
-Agreement](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/KREA2-LICENSE.pdf). By accessing or using these weights, recipients
-must agree to and be bound by that agreement. See [NOTICE](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/NOTICE).
+Agreement](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/KREA2-LICENSE.pdf). By accessing or using these weights, recipients
+must agree to and be bound by that agreement. See [NOTICE](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/NOTICE).
 This is an independent ntc-ai release, not an official or endorsed Krea product.
-Independently authored source code is [MIT](https://huggingface.co/ntc-ai/krea2-concept-sliders/resolve/main/LICENSE); that does not relicense the weights.
+Independently authored source code is [MIT](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/LICENSE); that does not relicense the weights.

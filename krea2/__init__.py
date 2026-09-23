@@ -1,7 +1,7 @@
 """Krea2 turbo-bbox particle sliders.
 
-This package is the product runtime for krea2-particle-sliders
-(renamed from krea2-concept-sliders).
+This package is the product runtime for krea2-particle-sliders.
+
 Importing it does not download Hub weights.
 """
 

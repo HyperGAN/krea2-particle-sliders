@@ -1,7 +1,7 @@
 # ComfyUI: Krea2 turbo-bbox sliders
 
 Download Final Boss or Eldritch from
-[ntc-ai/krea2-concept-sliders](https://huggingface.co/ntc-ai/krea2-concept-sliders).
+[ntc-ai/krea2-particle-sliders](https://huggingface.co/ntc-ai/krea2-particle-sliders).
 Both the rank-16 originals and rank-8 distills have calibrated alpha: start at
 **MODEL strength 1**, **CLIP strength 0**. This repository does not vendor the
 base model, encoders, or adapter weights.

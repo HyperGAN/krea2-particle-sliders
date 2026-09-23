@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT))
 from PIL import Image, ImageDraw, ImageFont
 from release_tools.lora import write_json
 
-REPO = 'ntc-ai/krea2-concept-sliders'
+REPO = 'ntc-ai/krea2-particle-sliders'
 WEB = 'https://huggingface.co/' + REPO
 RAW = WEB + '/resolve/main/'
 GITHUB = 'https://github.com/HyperGAN/krea2-particle-sliders'
@@ -47,7 +47,7 @@ def main():
     args = parser.parse_args()
     folder = args.folder.resolve()
     catalog = json.loads((folder / 'catalog.json').read_text())
-    body = '''# Krea2 Turbo-BBox Sliders
+    body = '''# Krea2 Turbo-BBox Particle Sliders
 
 **Final Boss and Eldritch**, with original rank-16 LoRAs and compressed rank-8 distills.
 Use **strength 1** for the calibrated effect. Same prompt, seed and sampler across each comparison.
@@ -59,23 +59,29 @@ were trained directly as LoRAs; the distills compress those linear adapters.
 ## Samples
 
 Left to right: **Original · strength 1 → Distill · strength 1 → Off**.
-All images below are AI-generated, 768 × 768, seed 42, 8 steps, guidance 0, mu=1.15.
+All images below are AI-generated, 768 × 768, 8 steps, guidance 0, mu=1.15.
+Each comparison states its seed and keeps it fixed across Original, Distill and Off.
 They were rendered from the released files, with no external alpha multiplier.
 
 '''
     for entry in catalog['sliders']:
         body += f"### {entry['label']}\n\n"
-        ordered = sorted(entry['comparisons'], key=lambda c: {'heldout-bridge': 0, 'knight': 1, 'fruit-control': 2}[c['case']])
+        featured = entry.get('featured_case', 'heldout-bridge')
+        ordered = sorted(entry['comparisons'], key=lambda c: (c['case'] != featured,
+                         {'street-photo': 0, 'heldout-bridge': 1, 'knight': 2, 'fruit-control': 3}[c['case']]))
         for index, case in enumerate(ordered):
             if index == 1:
-                body += '<details><summary>Cathedral knight and unrelated fruit control</summary>\n\n'
+                body += '<details><summary>Additional comparisons and unrelated fruit control</summary>\n\n'
             record = comparison(folder, entry, case)
             body += f"![{entry['label']}: Original, Distill, Off]({RAW}{case['asset']})\n\n"
+            body += f"Seed **{record['seed']}**. "
             body += 'Full resolution: ' + ' · '.join(f"[{s['format'].title()}]({RAW}{s['image']})" for s in case['samples']) + '\n\n'
             body += '<details><summary>Exact prompt</summary>\n\n```text\n' + record['prompt'] + '\n```\n\n</details>\n\n'
         body += '</details>\n\n'
     body += '''The bridge prompt was excluded from the original six-pair training set, then used for
 development comparisons. These examples are not a final-test benchmark. The original
+Final Boss street-photo preview uses a new photographic prompt; its effect is subtler
+than on the armored examples. The original
 Eldritch effect emphasizes organic armor and curling appendages; extra eyes and facial
 tentacles remain weak. The fruit control shows some rendering-style drift.
 
@@ -156,8 +162,8 @@ the base's 8-step schedule; this distillation reduces adapter rank, not denoisin
 Both originals used physical GPU 0, rank 16, 400 updates, learning rate 5e-5, 512px,
 six paired captions, two cached trajectory seeds per pair, and preservation weight 0.1
 every fifth update. The base and text encoder stayed frozen. Source, configurations,
-validation and reproduction belong to [krea2-particle-sliders]({GITHUB}), renamed from
-`krea2-concept-sliders`, following the release layout of [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
+validation and reproduction belong to [krea2-particle-sliders]({GITHUB}), following
+the release layout of [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
 The Krea originals are linear LoRAs; this is not the Anima nonlinear particle training recipe.
 
 The GitHub repository does not ship slider weights or logs. Download weights from this Hub release.
@@ -196,7 +202,7 @@ language:
 - en
 tags:
 - krea2
-- concept-sliders
+- particle-sliders
 - lora
 - comfyui
 ---
@@ -231,7 +237,7 @@ tags:
     with zipfile.ZipFile(folder / 'comfyui/krea2-particle-sliders.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
         for name in plugin:
             archive.write(ROOT / name, 'krea2-particle-sliders/' + name)
-    print('Built cards, six comparison assets, curated evidence, and plugin archive.')
+    print('Built cards, comparison assets, curated evidence, and plugin archive.')
 
 
 if __name__ == '__main__':

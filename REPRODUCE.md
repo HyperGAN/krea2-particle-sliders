@@ -3,9 +3,8 @@
 Final Boss and Eldritch are trained rank-16 LoRAs with calibrated rank-8
 distills. A finished Krea-2 slider includes its checkpoint, matched samples,
 training evidence and release validation. Those files are published at
-[ntc-ai/krea2-concept-sliders](https://huggingface.co/ntc-ai/krea2-concept-sliders).
-The source repository is `krea2-particle-sliders`, renamed from
-`krea2-concept-sliders`; model artifacts and logs stay out of Git.
+[ntc-ai/krea2-particle-sliders](https://huggingface.co/ntc-ai/krea2-particle-sliders).
+The source repository is `krea2-particle-sliders`; model artifacts and logs stay out of Git.
 
 ## CPU smoke checks
 
@@ -55,7 +54,7 @@ pipe = Krea2Pipeline.from_pretrained(
 pipe.register_to_config(is_distilled=True)  # selects mu=1.15
 pipe.enable_model_cpu_offload()
 pipe.load_lora_weights(
-    "ntc-ai/krea2-concept-sliders",
+    "ntc-ai/krea2-particle-sliders",
     weight_name="distilled/native/krea2-eldritch-unit-alpha.safetensors",
     adapter_name="eldritch",
 )
