@@ -1,8 +1,11 @@
-# Minimal CPU smoke checks; no Hub weights are downloaded.
+# CPU smoke installs the shared game and does not download Hub weights.
+# particle-sliders-core pulls torch and ParticleGAN. Do not vendor ParticleGAN.
+particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@4340e28bed388d50800c469525b460a108091da0#subdirectory=packages/particle-sliders-core
+
 PyYAML>=6
 pytest>=8
 
-# A --live CUDA run needs a current diffusers with
-# Krea2Pipeline / Krea2Transformer2DModel, plus torch, peft, and
-# safetensors. Those are not required for --help or --dummy.
-# Optional numerical release tests run when these packages are installed.
+# A --live CUDA run also needs a current diffusers with
+# Krea2Pipeline / Krea2Transformer2DModel, plus peft and safetensors.
+# Install the CUDA torch build you train with before this file if you
+# do not want the default PyPI torch wheel.

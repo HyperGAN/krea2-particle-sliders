@@ -4,7 +4,9 @@
     python scripts/train_krea2.py --help
     python scripts/train_krea2.py --dummy
 
-Does not look for a particle-sliders checkout.
+The shared game is particle-sliders-core ``winning_formulation()`` (gmix,
+provisional ``particle-gmix-1600-v2``). Hub id, Comfy, turbo samples, and
+prompt cards stay here.
 """
 
 from __future__ import annotations

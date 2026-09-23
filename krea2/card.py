@@ -259,7 +259,8 @@ def live_train_card(
             "vendored weights",
             "Music 3 default changes",
             "GPU train in CI",
-            "particle-sliders checkout",
+            "vendored ParticleGAN",
+            "local copy of RoutedMLP",
         ),
     }
 

@@ -17,6 +17,11 @@ python scripts/train_krea2.py --dummy --save_dir /tmp/krea2-dummy
 python scripts/infer_krea2.py --dummy --load_te_lora models/smile-krea2-bbox_lora --save_dir /tmp/krea2-infer
 ```
 
+That install pins `particle-sliders-core` at
+`git+https://github.com/HyperGAN/particle-sliders.git@4340e28bed388d50800c469525b460a108091da0#subdirectory=packages/particle-sliders-core`.
+Training calls `winning_formulation()` (gmix, provisional `particle-gmix-1600-v2`).
+ParticleGAN is installed transitively and is not vendored in this repo.
+
 The minimal smoke tests and `--dummy` do not download models. Numerical release
 tests additionally use torch, safetensors and Diffusers if installed, with a
 tiny randomly initialized model. A command without `--dummy` or `--live`

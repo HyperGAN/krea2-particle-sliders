@@ -1,4 +1,4 @@
-"""Docs name this repo as the Krea2 product, not a particle-sliders wrapper."""
+"""Docs name this repo as the Krea2 product and pin particle-sliders-core."""
 
 from __future__ import annotations
 
@@ -29,10 +29,13 @@ def test_readme_is_the_product():
         "Comfy-Org/Krea-2",
         "CFG 1.0",
         "PROMPTING.md",
+        "winning_formulation",
+        "particle-gmix-1600-v2",
     ):
         assert needle in readme, needle
-    assert "PARTICLE_SLIDERS_ROOT" not in readme
     assert "does not ship slider weights" in readme
+    assert "checkout is not required" not in readme.lower()
+    assert "do not depend on particle-sliders" not in readme.lower()
 
 
 def test_comfy_doc():
@@ -64,18 +67,47 @@ def test_reproduce_is_in_repo():
         "scripts/infer_krea2.py",
         "pip install -r requirements.txt",
         "mu=1.15",
+        "4340e28bed388d50800c469525b460a108091da0",
+        "winning_formulation",
+        "particle-gmix-1600-v2",
+        "subdirectory=packages/particle-sliders-core",
     ):
         assert needle in text, needle
-    assert "PARTICLE_SLIDERS_ROOT" not in text
     assert "finished Krea-2 slider" in text
+    assert "checkout is not required" not in text.lower()
+    assert "do not depend on particle-sliders" not in text.lower()
 
 
 def test_formulation_boundaries():
     text = _text("FORMULATION.md")
     assert "HyperGAN/conceptmod" in text
     assert "ParticleGAN" in text
+    assert "does not vendor ParticleGAN" in text
     assert "jimmycarter/krea2-turbo-bbox" in text
     assert "krea2-particle-sliders" in text
+    assert "winning_formulation()" in text
+    assert "stamp.require" in text
+    assert "particle-gmix-1600-v2" in text
+    assert "gmix" in text
+    assert "4340e28bed388d50800c469525b460a108091da0" in text
+    assert "subdirectory=packages/particle-sliders-core" in text
+    assert "comfy_krea2.py" in text
+    lowered = text.lower()
+    assert "comes back" not in lowered
+    assert "local config" not in lowered
+    assert "checkout is not required" not in lowered
+    assert "do not depend on particle-sliders" not in lowered
+    assert "not a wrapper around particle-sliders" not in lowered
+
+
+def test_requirements_pin_shared_core():
+    text = _text("requirements.txt")
+    pin = (
+        "particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git"
+        "@4340e28bed388d50800c469525b460a108091da0"
+        "#subdirectory=packages/particle-sliders-core"
+    )
+    assert pin in text
 
 
 def test_prompting_pointer_is_short():
