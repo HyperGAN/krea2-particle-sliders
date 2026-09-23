@@ -183,7 +183,7 @@ six paired captions, two cached trajectory seeds per pair, and preservation weig
 every fifth update. The base and text encoder stayed frozen. Source, configurations,
 validation and reproduction belong to [krea2-particle-sliders]({GITHUB}), following
 the release layout of [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
-The Krea originals are linear LoRAs; this is not the Anima nonlinear particle training recipe.
+The published Final Boss and Eldritch originals are linear LoRAs. Training locks `winning_formulation()` from particle-sliders-core (gmix architecture, provisional `particle-gmix-1600-v2`). This repository keeps the Hub id `jimmycarter/krea2-turbo-bbox`, the Comfy node, the turbo sample numbers, and the prompt cards.
 
 The GitHub repository does not ship slider weights or logs. Download weights from this Hub release.
 [Reproduction]({GITHUB}/blob/main/REPRODUCE.md) · [Training formulation]({GITHUB}/blob/main/docs/final-boss.md) ·

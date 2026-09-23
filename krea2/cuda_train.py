@@ -205,7 +205,7 @@ def make_grid(images, scales, dest, title):
     grid.save(dest)
 
 
-def train_cuda(args, prompts, meta):
+def train_cuda(args, prompts, meta, formulation):
     if not torch.cuda.is_available():
         raise RuntimeError('CUDA is required for --live')
     if args.sample_guidance != 0 or args.sample_steps != 8 or args.mu != 1.15:
@@ -238,7 +238,8 @@ def train_cuda(args, prompts, meta):
         objective='adapter(neutral, scale=1) -> frozen positive velocity on shared states',
         teacher_trajectories='alternating neutral and positive, frozen, 8 steps, mu=1.15',
         preservation=list(PRESERVE), fruit_is_verify_only=True,
-        scale_zero='adapter disabled exactly', minus_teacher=False)
+        scale_zero='adapter disabled exactly', minus_teacher=False,
+        formulation=formulation)
     root = Path(__file__).resolve().parents[1]
     snapshot = out / 'source'
     source_paths = list((root / 'krea2').glob('*.py')) + [

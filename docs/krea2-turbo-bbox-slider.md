@@ -60,6 +60,12 @@ pytest -q
 
 `--print_card` prints the distilled card and exits. It does not download weights.
 
-## Moved from particle-sliders
+## Shared formulation
 
-The first cut of this trainer was particle-sliders draft PR #131 (`train_lora_krea2.py`, `krea2_bbox_live.py`). That code now lives in `krea2/`. #131 is not required to train or test this product and can be closed.
+Training calls `winning_formulation()` from the pinned `particle-sliders-core`
+package: gmix architecture and the provisional `particle-gmix-1600-v2`
+parameters. See [FORMULATION.md](../FORMULATION.md). Hub id, Comfy node, turbo
+sample numbers, and prompt cards stay in this repo.
+
+The product entrypoints were first drafted in particle-sliders PR #131
+(`train_lora_krea2.py`, `krea2_bbox_live.py`) and now live in `krea2/`.

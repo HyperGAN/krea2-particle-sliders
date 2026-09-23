@@ -37,6 +37,7 @@ from krea2.defaults import (
     TURBO_STEPS,
 )
 from krea2.dummy import DummyBackend, step_loss
+from krea2.formulation import cpu_gmix_step, formulation_record, lock_winning_formulation
 from krea2.prompts import load_prompts
 from krea2.samples import emit_grid
 
@@ -87,6 +88,8 @@ def build_parser() -> argparse.ArgumentParser:
             f"({TRANSFORMER_SUBFOLDER}). Distilled card: {TURBO_STEPS} steps, "
             f"guidance {TURBO_GUIDANCE:g}, mu={TURBO_MU:g}. "
             "VAE and text encoder come from krea/Krea-2-Raw. "
+            "The shared game is particle-sliders-core winning_formulation() "
+            "(gmix, provisional particle-gmix-1600-v2). "
             "--dummy never downloads Hub weights."
         )
     )
@@ -182,6 +185,8 @@ def _prompts_path(path: Path) -> Path:
 def train(args: argparse.Namespace) -> dict | Path:
     assert_krea2_only(args.model_id, getattr(args, "transformer", None))
     assert_krea2_skeleton(str(args.skeleton_model))
+    stamp = lock_winning_formulation()
+    formulation = formulation_record(stamp)
     if args.print_card:
         card = live_train_card(
             name=args.name,
@@ -197,6 +202,7 @@ def train(args: argparse.Namespace) -> dict | Path:
             hold_weight=float(args.hold_weight),
             lora_targets=str(args.lora_targets),
         )
+        card["formulation"] = formulation
         print(json.dumps(card, indent=2))
         print()
         print(
@@ -235,7 +241,7 @@ def train(args: argparse.Namespace) -> dict | Path:
         if lm_target != "v" or lora_targets != "dit":
             raise ValueError("Live training currently supports --lm_target v --lora_targets dit")
         from krea2.cuda_train import train_cuda
-        return train_cuda(args, prompts, meta)
+        return train_cuda(args, prompts, meta, formulation)
     if not args.dummy:
         raise RuntimeError(
             "This entry runs the in-repo CPU UNI loop with --dummy. "
@@ -246,6 +252,7 @@ def train(args: argparse.Namespace) -> dict | Path:
             "A non-dummy run is refused so this process does not download Hub weights."
         )
     steps = min(steps, 2)
+    gmix_smoke = cpu_gmix_step(stamp)
     backend = DummyBackend(seed=int(args.seed), lora_targets=lora_targets)
 
     skip_train = bool(getattr(args, "load_te_lora", None))
@@ -339,6 +346,8 @@ def train(args: argparse.Namespace) -> dict | Path:
         "sample_steps": int(card["sample_steps"]),
         "sample_guidance": float(card["sample_guidance"]),
         "is_distilled": True,
+        "formulation": formulation,
+        "gmix_smoke": gmix_smoke,
     }
     sidecar_path = save_dir / f"{args.name}_last.json"
     sidecar_path.write_text(json.dumps(sidecar, indent=2), encoding="utf-8")

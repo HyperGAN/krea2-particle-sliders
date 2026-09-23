@@ -1,4 +1,7 @@
-"""In-repo train/infer wiring. No Hub download and no particle-sliders checkout."""
+"""In-repo train/infer wiring. No Hub download.
+
+The shared game is particle-sliders-core ``winning_formulation()``.
+"""
 
 from __future__ import annotations
 
@@ -35,21 +38,30 @@ def _run(script: str, args: list[str]) -> subprocess.CompletedProcess[str]:
     )
 
 
-def test_help_does_not_need_particle_sliders():
-    for script in ("train_krea2.py", "infer_krea2.py"):
-        proc = _run(script, ["--help"])
-        assert proc.returncode == 0, proc.stderr
-        text = proc.stdout
-        assert MODEL_ID in text
-        assert TRANSFORMER_SUBFOLDER in text
-        assert "krea/Krea-2-Raw" in text
-        assert "--dummy" in text
-        assert "PARTICLE_SLIDERS_ROOT" not in text
-        assert "particle-sliders" not in text.lower() or "does not" in text.lower()
-    train_src = (ROOT / "scripts" / "train_krea2.py").read_text(encoding="utf-8")
+def test_help_names_product_and_shared_game():
+    train_proc = _run("train_krea2.py", ["--help"])
+    assert train_proc.returncode == 0, train_proc.stderr
+    text = train_proc.stdout
+    assert MODEL_ID in text
+    assert TRANSFORMER_SUBFOLDER in text
+    assert "krea/Krea-2-Raw" in text
+    assert "--dummy" in text
+    assert "winning_formulation()" in text
+    assert "gmix-1600-v2" in text
+    assert "gmix" in text
+    infer_proc = _run("infer_krea2.py", ["--help"])
+    assert infer_proc.returncode == 0, infer_proc.stderr
+    infer_text = infer_proc.stdout
+    assert MODEL_ID in infer_text
+    assert TRANSFORMER_SUBFOLDER in infer_text
+    assert "krea/Krea-2-Raw" in infer_text
+    assert "--dummy" in infer_text
+    train_src = (ROOT / "krea2" / "train.py").read_text(encoding="utf-8")
+    script_src = (ROOT / "scripts" / "train_krea2.py").read_text(encoding="utf-8")
     infer_src = (ROOT / "scripts" / "infer_krea2.py").read_text(encoding="utf-8")
-    assert "PARTICLE_SLIDERS_ROOT" not in train_src
-    assert "PARTICLE_SLIDERS_ROOT" not in infer_src
+    assert "winning_formulation" in train_src
+    assert "lock_winning_formulation" in train_src
+    assert "winning_formulation" in script_src
     assert "conceptmod.textsliders" not in train_src
     assert "conceptmod.textsliders" not in infer_src
 
@@ -63,7 +75,16 @@ def test_print_card_is_the_inrepo_cli():
     assert card["sample_guidance"] == 0.0
     assert card["mu"] == 1.15
     assert card["not_raw_card"]["raw_cfg"] == 4.5
-    assert "particle-sliders checkout" in card["non_goals"]
+    formulation = card["formulation"]
+    assert formulation["architecture_id"] == "gmix"
+    assert formulation["formulation_id"] == "particle-gmix-1600-v2"
+    assert formulation["formulation_provisional"] is True
+    assert formulation["critic"] == "gmix"
+    assert formulation["parts"] == 128
+    assert formulation["particle_dim"] == 4
+    assert formulation["noise_decay_steps"] == 1600
+    assert "particle-sliders checkout" not in card["non_goals"]
+    assert "vendored ParticleGAN" in card["non_goals"]
     command = live_train_command()
     assert "python scripts/train_krea2.py" in command
     assert "conceptmod/textsliders" not in command
@@ -179,6 +200,16 @@ rows:
     assert payload["weights"]["source"] == "hub_subfolder"
     assert payload["dummy"] is True
     assert payload["allow_hub"] is False
+    formulation = payload["formulation"]
+    assert formulation["architecture_id"] == "gmix"
+    assert formulation["formulation_id"] == "particle-gmix-1600-v2"
+    assert formulation["formulation_provisional"] is True
+    smoke = payload["gmix_smoke"]
+    assert smoke["gmix_regularizer_arm"] == "b_cap"
+    assert smoke["gmix_regularizer_lazy_k"] == 4
+    assert smoke["gmix_penalty_applied"] is True
+    assert smoke["gmix_noise_std"] > 0
+    assert smoke["gmix_particle_grad_norm"] > 0
     lines = [
         json.loads(line)
         for line in (tmp_path / "out" / "smile-krea2-dummy_train.jsonl")
@@ -312,6 +343,29 @@ def test_live_module_pins_distilled_load():
     assert "conceptmod.textsliders" not in src
 
 
+def test_train_locks_winning_formulation_and_does_not_copy_the_game():
+    from krea2.formulation import lock_winning_formulation
+
+    stamp = lock_winning_formulation()
+    assert stamp.architecture_id == "gmix"
+    assert stamp.family == "particle-gmix"
+    assert stamp.formulation_id == "particle-gmix-1600-v2"
+    assert stamp.formulation_provisional is True
+    forked = stamp.as_dict()
+    forked["critic"] = "mlp"
+    with pytest.raises(ValueError, match="drift"):
+        stamp.require(forked)
+    product = "\n".join(path.read_text(encoding="utf-8") for path in (ROOT / "krea2").glob("*.py"))
+    product += "\n" + (ROOT / "comfy_krea2.py").read_text(encoding="utf-8")
+    for needle in (
+        "class RoutedMLP",
+        "class GradRegularizer",
+        "class GlobalMixErrorCritic",
+        "def locked_shared",
+    ):
+        assert needle not in product, needle
+
+
 def test_comfy_node_is_registered():
     import comfy_krea2
 
@@ -322,4 +376,4 @@ def test_comfy_node_is_registered():
         comfy_krea2.validate_strength(9)
     source = Path(comfy_krea2.__file__).read_text(encoding="utf-8")
     assert "krea2-bbox-turbo-comfy-latest.safetensors" in source
-    assert "PARTICLE_SLIDERS_ROOT" not in source
+    assert "NTC/Krea2" in source
