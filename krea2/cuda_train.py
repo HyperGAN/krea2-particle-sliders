@@ -46,6 +46,9 @@ def write_json(path, data):
 
 class CudaUNI:
     def __init__(self, args, texts, out):
+        from krea2.shared import validate_shared_runtime
+        validate_shared_runtime()
+        validate_native_card(args)
         self.args, self.out = args, out
         self.device = torch.device(f'cuda:{args.device}')
         self.dtype = torch.bfloat16
@@ -110,7 +113,8 @@ class CudaUNI:
             for name, value in list(module.named_parameters()) + list(module.named_buffers()):
                 if '.lora_' in name:
                     continue
-                result.update(f'{label}.{name}:{tuple(value.shape)}:{value.dtype}'.encode())
+                canonical_name = name.removeprefix('base_model.model.').replace('.base_layer.', '.')
+                result.update(f'{label}.{canonical_name}:{tuple(value.shape)}:{value.dtype}'.encode())
                 # Stream one tensor at a time; no full-model clone is retained.
                 data = value.detach().cpu().contiguous().reshape(-1).view(torch.uint8)
                 result.update(data.numpy().tobytes())
@@ -218,6 +222,7 @@ class CudaUNI:
         from krea2.pg09 import file_digest
         write_json(dest / 'adapter_identity.json', dict(
             schema='krea2-gan-adapter-v1', completed_steps=step,
+            native_weights=f'{self.args.name}.safetensors',
             model_identity=game_state.get('config', {}).get('backend', {}).get('model_identity'),
             files={p.name: file_digest(p) for p in dest.iterdir() if p.is_file()}))
         write_json(self.out / 'latest_checkpoint.json', dict(step=step, path=str(dest.resolve())))
@@ -244,22 +249,31 @@ def source_commit():
     return result.stdout.strip() if result.returncode == 0 else None
 
 
-def validate_args(args):
-    if args.resume and args.load_te_lora:
-        raise ValueError('--resume and --load_te_lora are mutually exclusive')
+def validate_native_card(args):
     if args.sample_guidance != 0 or args.sample_steps != 8 or args.mu != 1.15:
-        raise ValueError('Live turbo-bbox uses exactly 8 steps, CFG 0, mu=1.15')
-    if (args.resolution <= 0 or args.resolution % 16 or args.steps < 1 or
-            args.cache_seeds < 1 or args.save_every < 1 or args.rank < 1 or
+        raise ValueError('Live turbo-bbox uses exactly8steps, CFG0, mu1.15')
+    if (args.resolution <= 0 or args.resolution % 16 or
             args.sample_resolution <= 0 or args.sample_resolution % 16 or
-            args.final_resolution < 0 or args.final_resolution % 16 or
-            not 2 <= args.gan_batch_size <= 512 or not np.isfinite(args.lr) or args.lr <= 0):
-        raise ValueError('Invalid resolution, steps, cache, rank, batch size or learning rate')
-    if args.hold_weight != .1:
-        raise ValueError('--hold_weight is a historical MSE option; GAN preservation uses balanced4:1 sampling')
+            args.final_resolution < 0 or args.final_resolution % 16):
+        raise ValueError('native Krea2 resolutions must be positive multiples of16 (final0 disables showcase)')
+    if (getattr(args, 'lora_targets', 'dit') != 'dit' or
+            getattr(args, 'lm_target', 'v') not in ('v', 'velocity') or
+            getattr(args, 'recipe', 'uni') != 'uni'):
+        raise ValueError('native Krea2 supports DiT velocity adapters only')
     if not all(re.fullmatch(r'[0-9a-fA-F]{40}', value or '') for value in
                (args.revision, args.skeleton_revision)):
         raise ValueError('exact frozen transformer and skeleton revisions required')
+
+
+def validate_args(args):
+    validate_native_card(args)
+    if args.resume and args.load_te_lora:
+        raise ValueError('--resume and --load_te_lora are mutually exclusive')
+    if (args.steps < 1 or args.cache_seeds < 1 or args.save_every < 1 or args.rank < 1 or
+            not 2 <= args.gan_batch_size <= 512 or not np.isfinite(args.lr) or args.lr <= 0):
+        raise ValueError('Invalid steps, cache seeds, rank, batch size or learning rate')
+    if args.hold_weight != .1:
+        raise ValueError('--hold_weight is a historical MSE option; GAN preservation uses balanced4:1 sampling')
 
 
 def validate_adapter_identity(path, current_contract):
@@ -276,8 +290,18 @@ def validate_adapter_identity(path, current_contract):
                 'local_transformer', 'local_skeleton', 'rank', 'frozen_model_sha256'):
         if identity.get(key) != current_contract.get(key):
             raise ValueError('loaded adapter frozen model differs: ' + key)
-    for name, checksum in data['files'].items():
-        if Path(name).name != name or file_digest(path / name) != checksum:
+    checksums = data.get('files')
+    native = data.get('native_weights')
+    if (not isinstance(native, str) or Path(native).name != native or
+            not native.endswith('.safetensors') or native == 'adapter_model.safetensors'):
+        raise ValueError('invalid native adapter artifact name')
+    required = {'adapter_model.safetensors', 'adapter_config.json', 'training_state.pt', 'gan_adapter.pt', native}
+    actual = {p.name for p in path.iterdir() if p.is_file() and p.name != sidecar.name}
+    if not isinstance(checksums, dict) or not required <= set(checksums) or set(checksums) != actual:
+        raise ValueError('adapter receipt must cover exactly every checkpoint artifact')
+    for name, checksum in checksums.items():
+        if (Path(name).name != name or not isinstance(checksum, str) or
+                re.fullmatch(r'[0-9a-f]{64}', checksum) is None or file_digest(path / name) != checksum):
             raise ValueError('loaded adapter checksum differs')
     step = data.get('completed_steps')
     if type(step) is not int or step < 1:

@@ -53,7 +53,11 @@ def main():
     assert max(counts.values()) <= 507
     recent = [] if gan else [r for r in records[-50:] if r['kind'] == 'edit']
     report = dict(
-        completed_updates=len(records), finite_losses_and_gradients=True,
+        completed_updates=len(records), finite_logged_losses=True,
+        finite_logged_gradient_norms=(not gan),
+        gradients_independently_inspected=False,
+        gradient_check_contract=('shared ConditionalPG09 finite-gradient gate' if gan
+                                 else 'historical clipped-gradient norm log'),
         adapter_tensors=len(exported), adapter_parameters=sum(v.numel() for v in exported.values()),
         adapter_finite=True, diffusers_export_matches_peft=True,
         adapter_sha256=hashlib.sha256(weights.read_bytes()).hexdigest(),

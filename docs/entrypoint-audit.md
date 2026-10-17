@@ -6,8 +6,8 @@ are copies, not additional product entrypoints. This describes the proposed sour
 change; it is not an approved merge, GPU admission or image-quality qualification.
 
 The current dependency files propose `particle-sliders-core` **0.6.0** at
-`42a2e371c537180bd189fd4a288b640f9f1c98fc`, with released ParticleGAN **0.9.1**.
-That shared pin/lock is provisional while its replacement and exact-head review are
+`4be0b5b29d2e2c741431f468d71ba8a7c884b724`, with released ParticleGAN **0.9.1**.
+This repaired shared candidate supersedes42a2e371; exact-head review and merge remain
 pending. `krea2/shared.py` checks installed distribution versions and module bytes
 against `krea2/shared.lock.json`; an old checkout or decorative import is insufficient.
 

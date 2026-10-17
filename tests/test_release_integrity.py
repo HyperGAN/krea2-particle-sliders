@@ -129,3 +129,48 @@ def test_recovery_records_roundtrip_mismatch_then_stops_before_showcase(tmp_path
     assert json.loads((out / 'status.json').read_text())['phase'] == 'failed'
     assert (samples / 'metadata.json').read_bytes() == original_metadata
     assert not list(samples.glob('showcase-*.png'))
+
+
+def test_real_tiny_adapter_swap_keeps_frozen_bytes_and_nonunit_alpha(tmp_path):
+    import torch
+    from diffusers import Krea2Pipeline, Krea2Transformer2DModel
+    from peft import LoraConfig, get_peft_model
+    from release_tools.lora import export_lora, digest
+
+    torch.manual_seed(11)
+    base = Krea2Transformer2DModel(in_channels=4, num_layers=1, num_attention_heads=2,
+        attention_head_dim=16, num_key_value_heads=1, intermediate_size=64,
+        text_hidden_dim=16, text_intermediate_size=32, text_num_attention_heads=1,
+        text_num_key_value_heads=1, num_text_layers=2, num_layerwise_text_blocks=1,
+        num_refiner_text_blocks=1, axes_dims_rope=(4, 6, 6)).requires_grad_(False)
+    wrapped = get_peft_model(base, LoraConfig(r=2, lora_alpha=3, target_modules=['to_q']))
+    runtime = distill.Runtime.__new__(distill.Runtime)
+    runtime.model = wrapped
+    runtime.pipe = SimpleNamespace(vae=torch.nn.Linear(2, 2).requires_grad_(False))
+    initial = runtime.frozen_identity()
+    runtime.model = wrapped.unload()
+    assert runtime.frozen_identity() == initial
+    runtime._release_frozen_identity = initial
+    runtime.active = None
+    def load(path, adapter_name):
+        state, metadata = Krea2Pipeline.lora_state_dict(path, return_lora_metadata=True)
+        Krea2Pipeline.load_lora_into_transformer(state, transformer=runtime.model,
+            adapter_name=adapter_name, metadata=metadata)
+    runtime.pipe.load_lora_weights = load
+    runtime.pipe.set_adapters = lambda name, adapter_weights: runtime.model.set_adapters(name, weights=adapter_weights)
+    name = 'transformer_blocks.0.attn.to_q'
+    down, up = torch.randn(2, 32), torch.randn(32, 2)
+    exported = export_lora(tmp_path, 'weights', 'swap-fixture', {name: (down, up)}, 3., 'parent', 'CPU fixture')
+    path = tmp_path / exported['files']['native']
+    runtime.load('fixture', path, expected_sha256=exported['sha256']['native'])
+    assert runtime.frozen_identity() == initial
+    layer = runtime.model.transformer_blocks[0].attn.to_q
+    assert torch.allclose(layer.get_delta_weight('fixture'), 1.5 * (up @ down))
+    with runtime.scale(-.5):
+        assert layer.scaling['fixture'] == pytest.approx(-.75)
+        with runtime.scale(0):
+            assert torch.count_nonzero(layer.get_delta_weight('fixture')) == 0
+        assert layer.scaling['fixture'] == pytest.approx(-.75)
+    assert layer.scaling['fixture'] == pytest.approx(1.5)
+    assert runtime.frozen_identity() == initial
+    assert not torch.cuda.is_initialized()

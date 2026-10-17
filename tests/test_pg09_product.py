@@ -254,13 +254,55 @@ def test_new_adapter_identity_rejects_wrong_base_and_modified_files(tmp_path):
     weights = adapter / 'adapter_model.safetensors'
     weights.write_bytes(b'fixture only; not a native adapter')
     current = {'model_id': 'pinned-model', 'revision': 'a' * 40, 'frozen_model_sha256': 'verified-frozen-bytes'}
+    for name in ('adapter_config.json', 'training_state.pt', 'gan_adapter.pt', 'native.safetensors'):
+        (adapter / name).write_bytes(b'fixture')
     packet = dict(schema='krea2-gan-adapter-v1', model_identity=current, completed_steps=3,
-                  files={weights.name: file_digest(weights)})
+                  native_weights='native.safetensors',
+                  files={p.name: file_digest(p) for p in adapter.iterdir() if p.is_file()})
     (adapter / 'adapter_identity.json').write_text(json.dumps(packet))
     assert validate_adapter_identity(adapter, current) == 3
+    valid = deepcopy(packet)
+    for files in ({}, {weights.name: file_digest(weights)}):
+        packet['files'] = files
+        (adapter / 'adapter_identity.json').write_text(json.dumps(packet))
+        with pytest.raises(ValueError, match='every checkpoint artifact'):
+            validate_adapter_identity(adapter, current)
+    packet = valid
+    (adapter / 'adapter_identity.json').write_text(json.dumps(packet))
     with pytest.raises(ValueError, match='frozen model differs'):
         validate_adapter_identity(adapter, dict(current, revision='b' * 40))
     weights.write_bytes(b'changed')
     with pytest.raises(ValueError, match='checksum differs'):
         validate_adapter_identity(adapter, current)
     assert validate_adapter_identity(tmp_path / 'legacy-folder', current) is None
+
+
+def test_shared_adam_history_rejection_is_transactional():
+    _, _, game = fixture('bispf')
+    game.step()
+    before = game.state_dict()
+    malformed = deepcopy(before)
+    histories = [s for s in malformed['opt_g']['state'].values() if 'exp_avg_sq' in s]
+    assert histories, 'explicit BISPF Adam history is required for this regression'
+    histories[0]['exp_avg_sq'].fill_(-1.)
+    with pytest.raises(ValueError):
+        game.load_state_dict(malformed)
+    equal(before, game.state_dict())
+
+
+def test_direct_native_consumer_checks_shared_runtime_and_card_before_loading(tmp_path, monkeypatch):
+    import krea2.cuda_train as live
+    import krea2.shared as shared
+    def forbidden_loader(**kwargs):
+        pytest.fail('native loader must not run before dependency and card preflight')
+    monkeypatch.setattr(live, 'load_krea2_bbox_pipeline', forbidden_loader)
+    args = parse_args(['--live', '--mu', '1.2'])
+    with pytest.raises(ValueError, match='mu1.15'):
+        CudaUNI(args, [], tmp_path)
+    args.mu = 1.15
+    def invalid_runtime():
+        raise RuntimeError('fixture shared runtime mismatch')
+    monkeypatch.setattr(shared, 'validate_shared_runtime', invalid_runtime)
+    with pytest.raises(RuntimeError, match='runtime mismatch'):
+        CudaUNI(args, [], tmp_path)
+    assert not torch.cuda.is_initialized()
