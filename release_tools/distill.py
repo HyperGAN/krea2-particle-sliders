@@ -14,7 +14,7 @@ from PIL import Image
 import torch
 from peft.tuners.tuners_utils import BaseTunerLayer
 
-from krea2.cuda_train import CudaUNI, HELDOUT
+from krea2.cuda_train import CudaUNI, HELDOUT, run_contract, validate_adapter_identity
 from release_tools.lora import read_factors, compress_factors, projection_error, export_lora, digest, write_json
 
 GAINS = {'final-boss': 1., 'eldritch': 1.5}
@@ -37,9 +37,20 @@ class Runtime(CudaUNI):
         self.pipe.transformer = self.model
         self.pipe.unload_lora_weights()
         self.active = None
+        self._release_frozen_identity = self.frozen_identity()
 
-    def load(self, name, path):
+    def load(self, name, path, *, expected_sha256):
+        path = Path(path)
+        if not isinstance(expected_sha256, str) or digest(path) != expected_sha256:
+            raise ValueError(f'Adapter checksum differs from expected artifact: {path}')
+        if self.frozen_identity() != self._release_frozen_identity:
+            raise ValueError('Frozen base changed before adapter load')
+        if (path.parent / 'adapter_identity.json').is_file():
+            validate_adapter_identity(path.parent, dict(
+                run_contract(self.args, []), frozen_model_sha256=self._release_frozen_identity))
         self.pipe.load_lora_weights(str(path), adapter_name=name)
+        if self.frozen_identity() != self._release_frozen_identity:
+            raise ValueError('Frozen base changed during adapter load')
         self.active = name
         self.pipe.set_adapters(name, adapter_weights=1.)
         self.model.eval()
@@ -134,7 +145,8 @@ def main():
     torch.set_float32_matmul_precision('high')
     write_json(status, dict(phase='loading'))
     runtime = Runtime(args, texts, work)
-    runtime.load('final-boss', out / originals['final-boss']['files']['native'])
+    runtime.load('final-boss', out / originals['final-boss']['files']['native'],
+                 expected_sha256=originals['final-boss']['sha256']['native'])
     dev = []
     for index, text in enumerate(DEV):
         dev.extend(runtime.trajectory(text, text, 77001 + index))
@@ -145,7 +157,8 @@ def main():
                    skeleton_revision=args.skeleton_revision, steps=8, guidance=0., mu=1.15, sliders=[])
     for name, run in runs.items():
         if name != 'final-boss':
-            runtime.load(name, out / originals[name]['files']['native'])
+            runtime.load(name, out / originals[name]['files']['native'],
+                         expected_sha256=originals[name]['sha256']['native'])
         runtime.active = name
         runtime.pipe.set_adapters(name, adapter_weights=1.)
         cache = torch.load(run / 'teacher_cache.pt', map_location='cpu', weights_only=False)
@@ -162,7 +175,8 @@ def main():
                 dev_relative_mse=error / max(norm, 1e-30)))
         initial = export_lora(work, 'initial-distills', name, student, 8 * GAINS[name],
             originals[name]['sha256']['native'], 'Rank-8 output PCA weighted by training activations')
-        runtime.load(name + '-candidate', work / initial['files']['native'])
+        runtime.load(name + '-candidate', work / initial['files']['native'],
+                     expected_sha256=initial['sha256']['native'])
         candidates = []
         for multiplier in (.75, 1., 1.25, 1.5, 2.):
             result = audit(runtime, dev, teacher_predictions, multiplier)
@@ -173,7 +187,8 @@ def main():
         alpha = 8 * GAINS[name] * selected['multiplier']
         distill = export_lora(out, 'distilled', name, student, alpha,
             originals[name]['sha256']['native'], 'Rank-8 activation-weighted compression; alpha selected on development states')
-        runtime.load(name + '-distill', out / distill['files']['native'])
+        runtime.load(name + '-distill', out / distill['files']['native'],
+                     expected_sha256=distill['sha256']['native'])
         evaluation = dict(method='activation-weighted output PCA of a linear rank-16 teacher',
             training_records=len(records), development_records=len(dev), student_rank=8,
             projection_relative_mse=sum(r['dev_squared_error'] for r in projection_reports) /

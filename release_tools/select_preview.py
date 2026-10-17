@@ -118,7 +118,8 @@ def main():
     write_json(work / 'status.json', dict(phase='loading'))
     runtime = Runtime(args, [c[2] for c in candidates], work)
     for kind in ('original', 'distill'):
-        runtime.load(kind, folder / entry[kind]['files']['native'])
+        runtime.load(kind, folder / entry[kind]['files']['native'],
+                     expected_sha256=entry[kind]['sha256']['native'])
 
     def render(case, prompt, kind):
         adapter = 'distill' if kind == 'distill' else 'original'

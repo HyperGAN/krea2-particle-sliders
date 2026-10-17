@@ -43,7 +43,8 @@ def main():
     write_json(work / 'status.json', dict(phase='loading'))
     runtime = Runtime(args, [PROMPT], work)
     for kind in ('original', 'distill'):
-        runtime.load(kind, folder / entry[kind]['files']['native'])
+        runtime.load(kind, folder / entry[kind]['files']['native'],
+                     expected_sha256=entry[kind]['sha256']['native'])
     samples = []
     for kind, strength in [('original', 1.), ('distill', 1.), ('off', 0.)]:
         adapter = 'distill' if kind == 'distill' else 'original'
