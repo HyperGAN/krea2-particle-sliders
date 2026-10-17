@@ -1,0 +1,39 @@
+{
+  "runtime": {
+    "distribution": "particle-sliders-core",
+    "version": "0.6.0",
+    "commit": "cdfb80a76b882b4b73861b12f555263bd64ffeb7",
+    "particlegan": "0.9.1",
+    "source_sha256": "5e20168a0ecebd3ab8c12c255516e2569fba17f5d15765ab075e9e6d9bb2d5c7"
+  },
+  "modules": {
+    "product": "/ml2/codex-storage/future-workspaces/2026-10-17/task-19/qa-cdf-venv/lib/python3.11/site-packages/krea2/__init__.py",
+    "shared": "/ml2/codex-storage/future-workspaces/2026-10-17/task-19/qa-cdf-venv/lib/python3.11/site-packages/particle_sliders/__init__.py",
+    "game": "/ml2/codex-storage/future-workspaces/2026-10-17/task-19/qa-cdf-venv/lib/python3.11/site-packages/particle_sliders/pg09.py"
+  },
+  "source_free": true,
+  "isolated_python": 1,
+  "cuda_initialized": false,
+  "versions": {
+    "krea2-particle-sliders": "0.2.0",
+    "particle-sliders-core": "0.6.0",
+    "particlegan": "0.9.1",
+    "diffusers": "0.40.0.dev0",
+    "peft": "0.20.0",
+    "torch": "2.11.0+cu128"
+  },
+  "wheel_changed_entries": [
+    "particle_sliders/pg09.py",
+    "particle_sliders/pg09_images.py",
+    "particle_sliders_core-0.6.0.dist-info/RECORD"
+  ],
+  "held_image_payload_included": false,
+  "legacy": {
+    "path": "/ml2/codex-storage/future-workspaces/2026-10-17/task-19/final-evidence/bispf-full.pt",
+    "sha256": "32947a0d94bb73ec429fce02b589c1487535239189323ec3a4dd6b44ac59d164",
+    "pg09_source_sha256": "0a4a3a298784f7d250286cb27b1c7c230fbedcbd53773e2352d520b516ba5c07",
+    "rejected": "checkpoint objective, recipe, domain, source or conditioning mismatch",
+    "unchanged_after_rejection": true,
+    "valid_new_cohort_update": 1
+  }
+}

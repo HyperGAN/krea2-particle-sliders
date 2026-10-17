@@ -85,6 +85,8 @@ def test_native_shared_gan_updates_and_exact_resume(preset, tmp_path):
     assert generated.shape == (1, 4, 1, 4, 4)
     assert torch.equal(generated, row.neutral)
     assert full.rows.edit_slots == 4 * full.rows.preserve_slots
+    from importlib.metadata import version
+    assert full.backend.metadata()['diffusers_version'] == version('diffusers')
     assert full._signature['generator_arm'] == 'adapter_gan'
     assert full._signature['pg_version'] == '0.9.1'
     assert full._signature['objective'] == 'g_adv+public_prior;d_adv+public_penalty'
@@ -305,4 +307,24 @@ def test_direct_native_consumer_checks_shared_runtime_and_card_before_loading(tm
     monkeypatch.setattr(shared, 'validate_shared_runtime', invalid_runtime)
     with pytest.raises(RuntimeError, match='runtime mismatch'):
         CudaUNI(args, [], tmp_path)
+    assert not torch.cuda.is_initialized()
+
+
+@pytest.mark.parametrize('phase,clock', [('g', 0), ('g', 2), ('d', 0), ('d', 2)])
+def test_cdf_adam_clock_rejection_and_valid_next_update(phase, clock):
+    """Consume CDF's restored Adam clock gate through actual Krea2 GAN state."""
+    _, _, game = fixture('bispf')
+    game.step()
+    before = game.state_dict()
+    malformed = deepcopy(before)
+    history = next(s for s in malformed['opt_' + phase]['state'].values() if 'exp_avg_sq' in s)
+    history['step'].fill_(clock)
+    with pytest.raises(ValueError, match='Adam step count'):
+        game.load_state_dict(malformed)
+    equal(before, game.state_dict())
+    _, _, resumed = fixture('bispf')
+    resumed.load_state_dict(before)
+    game.step()
+    resumed.step()
+    equal(game.state_dict(), resumed.state_dict())
     assert not torch.cuda.is_initialized()

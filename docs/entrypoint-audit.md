@@ -6,9 +6,11 @@ are copies, not additional product entrypoints. This describes the proposed sour
 change; it is not an approved merge, GPU admission or image-quality qualification.
 
 The current dependency files propose `particle-sliders-core` **0.6.0** at
-`4be0b5b29d2e2c741431f468d71ba8a7c884b724`, with released ParticleGAN **0.9.1**.
-This repaired shared candidate supersedes42a2e371; exact-head review and merge remain
-pending. `krea2/shared.py` checks installed distribution versions and module bytes
+`cdfb80a76b882b4b73861b12f555263bd64ffeb7`, with released ParticleGAN **0.9.1**.
+The final frozen core supersedes the earlier 4be0b5b2 and 42a2e371 candidates.
+Exact-head review and merge remain pending. Earlier receipts remain scoped to
+their tested sources. `evidence/cdf/` records the narrow installed CDF gate.
+`krea2/shared.py` checks installed distribution versions and module bytes
 against `krea2/shared.lock.json`; an old checkout or decorative import is insufficient.
 
 ## Training and inference surfaces
