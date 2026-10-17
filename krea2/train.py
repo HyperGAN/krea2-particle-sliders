@@ -36,8 +36,8 @@ from krea2.defaults import (
     TURBO_MU,
     TURBO_STEPS,
 )
-from krea2.dummy import DummyBackend, step_loss
-from krea2.formulation import cpu_gmix_step, formulation_record, lock_winning_formulation
+from krea2.dummy import DummyBackend
+from krea2.formulation import cpu_gan_step, formulation_record
 from krea2.prompts import load_prompts
 from krea2.samples import emit_grid
 
@@ -88,8 +88,8 @@ def build_parser() -> argparse.ArgumentParser:
             f"({TRANSFORMER_SUBFOLDER}). Distilled card: {TURBO_STEPS} steps, "
             f"guidance {TURBO_GUIDANCE:g}, mu={TURBO_MU:g}. "
             "VAE and text encoder come from krea/Krea-2-Raw. "
-            "The shared game is particle-sliders-core winning_formulation() "
-            "(gmix, provisional particle-gmix-1600-v2). "
+            "The live game is particle_sliders.pg09.ConditionalPG09 "
+            "using released ParticleGAN 0.9.1 (adapter GAN, no particle bank). "
             "--dummy never downloads Hub weights."
         )
     )
@@ -145,12 +145,15 @@ def build_parser() -> argparse.ArgumentParser:
         default=TURBO_MU,
         help="distilled timestep shift, not a CFG scale",
     )
-    parser.add_argument("--hold_weight", type=float, default=HOLD_WEIGHT)
+    parser.add_argument("--hold_weight", type=float, default=HOLD_WEIGHT,
+                        help="historical MSE option; GAN uses balanced4:1 edit/preserve sampling")
+    parser.add_argument("--gan_batch_size", type=int, default=2)
+    parser.add_argument("--gan_preset", choices=("bispf", "bispf_optimized"), default="bispf_optimized")
     parser.add_argument("--lora_targets", type=str, default=LORA_TARGETS_DEFAULT, choices=LORA_CHOICES)
     parser.add_argument("--lm_target", type=str, default=LM_TARGET_DEFAULT, choices=LM_CHOICES)
     parser.add_argument("--recipe", choices=list(RECIPE_CHOICES), default=RECIPE_DEFAULT)
     parser.add_argument("--dummy", action="store_true", help="CPU backend, 2 steps, no Hub weights")
-    parser.add_argument("--live", action="store_true", help="run real CUDA DiT UNI training")
+    parser.add_argument("--live", action="store_true", help="run real CUDA DiT conditional GAN training")
     parser.add_argument("--revision", default="ec7aa643a4da7e56a08c1778e03e837a2e57a94b")
     parser.add_argument("--skeleton_revision", default="6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603")
     parser.add_argument("--save_every", type=int, default=50)
@@ -185,8 +188,7 @@ def _prompts_path(path: Path) -> Path:
 def train(args: argparse.Namespace) -> dict | Path:
     assert_krea2_only(args.model_id, getattr(args, "transformer", None))
     assert_krea2_skeleton(str(args.skeleton_model))
-    stamp = lock_winning_formulation()
-    formulation = formulation_record(stamp)
+    formulation = formulation_record(args.gan_preset)
     if args.print_card:
         card = live_train_card(
             name=args.name,
@@ -235,6 +237,8 @@ def train(args: argparse.Namespace) -> dict | Path:
         skeleton=args.skeleton_model,
     )
     steps = int(args.steps)
+    if args.resume and args.load_te_lora:
+        raise ValueError("--resume and --load_te_lora are mutually exclusive")
     if args.live and args.dummy:
         raise ValueError("Choose either --live or --dummy")
     if args.live:
@@ -252,7 +256,7 @@ def train(args: argparse.Namespace) -> dict | Path:
             "A non-dummy run is refused so this process does not download Hub weights."
         )
     steps = min(steps, 2)
-    gmix_smoke = cpu_gmix_step(stamp)
+    gan_smoke = cpu_gan_step()
     backend = DummyBackend(seed=int(args.seed), lora_targets=lora_targets)
 
     skip_train = bool(getattr(args, "load_te_lora", None))
@@ -266,28 +270,11 @@ def train(args: argparse.Namespace) -> dict | Path:
     log_path = save_dir / f"{args.name}_train.jsonl"
     guidance = float(card["sample_guidance"])
     control_prompt = str(args.control_prompt or meta.control_prompt or CONTROL_PROMPT)
-    last_stats: dict[str, float] = {}
-    params = backend.trainable_parameters()
-    for step in range(steps):
-        prompt = prompts[step % len(prompts)]
-        backend.begin_step()
-        z = backend.sample_latents()
-        loss, stats = step_loss(
-            backend,
-            prompt,
-            z,
-            guidance=guidance,
-            hold_weight=float(args.hold_weight),
-            lm_target=lm_target,
-        )
-        loss.backward()
-        lr = float(args.lr)
-        for param in params:
-            param.data -= lr * float(param.grad)
-            param.grad = 0.0
-        last_stats = stats
-        with log_path.open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps({"step": step, **stats}) + "\n")
+    # Dummy images are stand-ins only. No UNI/MSE slider optimization occurs.
+    # The separate CPU GAN diagnostic executes the real installed common API.
+    last_stats = gan_smoke
+    with log_path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps({"step": 0, "diagnostic_only": True, **gan_smoke}) + "\n")
 
     samples = emit_grid(
         backend,
@@ -302,7 +289,10 @@ def train(args: argparse.Namespace) -> dict | Path:
         "kind": "krea2_turbo_bbox",
         "recipe": "embed_uni" if lm_target == "embed" else "uni",
         "lm_target": lm_target,
-        "dit_velocity_supervised": lm_target != "embed",
+        "dit_velocity_supervised": False,
+        "diagnostic_only": True,
+        "optimized_mse": False,
+        "trained_product_weights": False,
         "name": args.name,
         "model_id": args.model_id,
         "transformer_subfolder": args.transformer_subfolder,
@@ -347,7 +337,7 @@ def train(args: argparse.Namespace) -> dict | Path:
         "sample_guidance": float(card["sample_guidance"]),
         "is_distilled": True,
         "formulation": formulation,
-        "gmix_smoke": gmix_smoke,
+        "gan_smoke": gan_smoke,
     }
     sidecar_path = save_dir / f"{args.name}_last.json"
     sidecar_path.write_text(json.dumps(sidecar, indent=2), encoding="utf-8")

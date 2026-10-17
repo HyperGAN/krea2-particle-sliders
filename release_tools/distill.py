@@ -43,21 +43,17 @@ class Runtime(CudaUNI):
         self.active = name
         self.pipe.set_adapters(name, adapter_weights=1.)
         self.model.eval()
+        self._scale_active = None
 
     @contextmanager
     def scale(self, value):
-        if value == 0:
-            self.pipe.disable_lora()
-            try:
-                yield
-            finally:
-                self.pipe.enable_lora()
-        else:
-            self.pipe.set_adapters(self.active, adapter_weights=value)
-            try:
-                yield
-            finally:
-                self.pipe.set_adapters(self.active, adapter_weights=1.)
+        from particle_sliders.pg09_backends import lora_scale_context
+        if getattr(self, '_scale_active', None) != self.active:
+            self.pipe.set_adapters(self.active, adapter_weights=1.)
+            self._release_scale_context = lora_scale_context([('transformer', self.model)])
+            self._scale_active = self.active
+        with self._release_scale_context(value):
+            yield
 
 
 @torch.no_grad()

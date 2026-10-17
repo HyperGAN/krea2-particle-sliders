@@ -232,13 +232,15 @@ def live_train_card(
         "sample_guidance": float(sample_guidance),
         "mu": float(mu),
         "is_distilled": True,
-        "hold_weight": float(hold_weight),
+        "legacy_mse_hold_weight": float(hold_weight),
+        "preservation_sampling": "balanced4:1 edit:preserve",
+        "optimized_mse": False,
         "control_prompt": CONTROL_PROMPT,
         "uni": {
             "plus": "v(pos) at CFG 0 (not Raw CFG 4.5)",
             "zero": "v(neu)",
             "minus": "canary only",
-            "hold": "unused tokens to encode(neu); concept words are not held",
+            "hold": "frozen same-caption preservation responses; balanced4:1 sampling",
             "captions": "bare (attributes are not prefixed)",
             "control_prompt": "verify only, never a teacher",
         },
@@ -284,7 +286,7 @@ def live_train_command(
     dest = save_dir or f"models/{name}"
     guidance = f"{float(sample_guidance):g}"
     return (
-        "CUDA_VISIBLE_DEVICES=0 python scripts/train_krea2.py \\\n"
+        "CUDA_VISIBLE_DEVICES=0 python scripts/train_krea2.py --live \\\n"
         f"  --name {name} \\\n"
         f"  --prompts_file {prompts_file} \\\n"
         f"  --model_id {model_id} --allow_hub \\\n"

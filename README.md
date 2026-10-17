@@ -388,7 +388,7 @@ six paired captions, two cached trajectory seeds per pair, and preservation weig
 every fifth update. The base and text encoder stayed frozen. Source, configurations,
 validation and reproduction belong to [krea2-particle-sliders](https://github.com/HyperGAN/krea2-particle-sliders), following
 the release layout of [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
-The published Final Boss and Eldritch originals are linear LoRAs. Training locks `winning_formulation()` from particle-sliders-core (gmix architecture, provisional `particle-gmix-1600-v2`). This repository keeps the Hub id `jimmycarter/krea2-turbo-bbox`, the Comfy node, the turbo sample numbers, and the prompt cards.
+The published Final Boss and Eldritch originals are linear LoRAs trained with the historical velocity MSE loop. Its `winning_formulation()` / `particle-gmix-1600-v2` metadata did not execute a GAN update. New live runs now call the installed `particle_sliders.pg09.ConditionalPG09` with released ParticleGAN **0.9.1**, genuine native spatial responses, actual PEFT trainables, calibrated training contrast, balanced edit/preservation sampling, and strict full-state resume. This is an adapter GAN with no routed particle bank. Existing weights retain their historical provenance; CPU qualification of the new path does not establish full model GPU or visual quality. See [the formulation](FORMULATION.md) and [new cohort instructions](REPRODUCE.md).
 
 The GitHub repository does not ship slider weights or logs. Download weights from this Hub release.
 [Reproduction](https://github.com/HyperGAN/krea2-particle-sliders/blob/main/REPRODUCE.md) · [Training formulation](https://github.com/HyperGAN/krea2-particle-sliders/blob/main/docs/final-boss.md) ·

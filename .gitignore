@@ -16,3 +16,6 @@ __pycache__/
 models/
 outputs/
 samples/
+build/
+dist/
+*.egg-info/

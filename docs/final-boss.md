@@ -1,5 +1,8 @@
 # Final boss on turbo-bbox
 
+This document describes the historical released MSE-trained adapter. Current
+GAN training creates a separate cohort; see [FORMULATION.md](../FORMULATION.md).
+
 Run `bash scripts/train_final_boss_gpu0.sh` from this checkout. The launcher uses
 the existing `/ml2/ntc-image-studio/.venv-anima/bin/python` environment without
 modifying it, and exposes only physical GPU 0. Outputs are in
