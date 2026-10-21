@@ -1,9 +1,11 @@
 # Krea2 common lifecycle
 
-Proposed local shared pin: `32f6830f6402e85aa77b6631db64fcbbb2131f6b`,
+Exact tested shared pin: `32f6830f6402e85aa77b6631db64fcbbb2131f6b`,
 clean core **0.8.1**, ParticleGAN **0.9.1**. The canonical source map and wheel hash
 are consumed directly from the core owner's `core081-build/receipt.json`.
-This is an unpublished source proposal. No PG 0.9.3 profile is downgraded.
+The tested pin is publicly reachable through merged common-core PR144 ancestry.
+This source remains a draft for exact-head review, not a package release; see
+[qualification status](PUBLICATION-STATUS.md). No PG 0.9.3 profile is downgraded.
 
 The registered image backend owns native loading/conditioning, geometry and
 sampler differences. Core owns session updates, EMA, resume, export and cleanup;

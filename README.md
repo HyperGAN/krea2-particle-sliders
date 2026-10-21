@@ -1,3 +1,5 @@
+Common lifecycle draft: **43 selected CPU checks passed** on the tested runtime below. See [publication and qualification status](PUBLICATION-STATUS.md); native/pretrained limits remain explicit.
+
 For the new common session/CLI interface, see [LIFECYCLE.md](LIFECYCLE.md).
 
 # Krea2 Turbo-BBox Particle Sliders
