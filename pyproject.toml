@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = {file = "LICENSE"}
 dependencies = [
-    "particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@cdfb80a76b882b4b73861b12f555263bd64ffeb7#subdirectory=packages/particle-sliders-core",
+    "particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@cb0e6c39a51d451fa6ed5e72169b66e12ac247d1#subdirectory=packages/particle-sliders-core",
     "PyYAML>=6",
 ]
 
@@ -30,3 +30,6 @@ namespaces = true
 [tool.setuptools.package-data]
 "krea2" = ["shared.lock.json"]
 "configs.krea2" = ["*.yaml", "*.json"]
+
+[project.entry-points."particle_sliders.image_backends"]
+krea2 = "krea2.lifecycle:BACKEND"

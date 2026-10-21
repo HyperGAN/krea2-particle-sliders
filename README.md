@@ -1,3 +1,5 @@
+For the new common session/CLI interface, see [LIFECYCLE.md](LIFECYCLE.md).
+
 # Krea2 Turbo-BBox Particle Sliders
 
 **Final Boss and Eldritch**, with original rank-16 LoRAs and compressed rank-8 distills.

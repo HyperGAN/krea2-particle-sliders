@@ -20,6 +20,7 @@ import time
 
 import numpy as np
 import torch
+from particle_sliders.lifecycle import advance, atomic_save
 from peft import LoraConfig, get_peft_model, get_peft_model_state_dict, PeftModel
 from PIL import Image, ImageDraw
 
@@ -217,8 +218,8 @@ class CudaUNI:
         self.pipe.save_lora_weights(dest, transformer_lora_layers=state,
                                     weight_name=f'{self.args.name}.safetensors',
                                     transformer_lora_adapter_metadata=json.loads((dest / 'adapter_config.json').read_text()))
-        torch.save(game_state, dest / 'training_state.pt')
-        torch.save(exported, dest / 'gan_adapter.pt')
+        atomic_save(dest / 'training_state.pt', game_state)
+        atomic_save(dest / 'gan_adapter.pt', exported)
         from krea2.pg09 import file_digest
         write_json(dest / 'adapter_identity.json', dict(
             schema='krea2-gan-adapter-v1', completed_steps=step,
@@ -488,7 +489,7 @@ def train_cuda(args, prompts, meta, formulation):
             with (out / 'train.jsonl').open('a', buffering=1) as log:
                 while game.completed_steps < args.steps:
                     tick = time.time()
-                    stats = game.step()
+                    stats = advance(game)
                     step = game.completed_steps
                     stats.update(seconds=time.time() - tick,
                         gpu_peak_gib=torch.cuda.max_memory_allocated() / 1024 ** 3)

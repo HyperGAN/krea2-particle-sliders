@@ -16,7 +16,7 @@ from particle_sliders.pg09_backends import PreparedResponse, ResponseRow
 from particle_sliders.pg09_images import (
     ImageResponseAdapter, image_condition_features, image_lora_parameters,
 )
-from particle_sliders.pg09_moss_campaign import CampaignFieldCritic
+from particle_sliders.field_critic import FieldCritic
 
 
 def digest(value):
@@ -160,7 +160,7 @@ def build_game(native, cache, *, cache_sha256, model_identity, total_steps, seed
     native.params = list(adapter.network.parameters())
     with torch.random.fork_rng(devices=[native.device.index or 0] if native.device.type == 'cuda' else []):
         torch.manual_seed(seed)
-        critic = CampaignFieldCritic(rows.response_shape[1], rows.condition_width).to(native.device)
+        critic = FieldCritic(rows.response_shape[1], rows.condition_width).to(native.device)
     game = ConditionalPG09(adapter, rows, critic, particles=None,
         response_domain='continuous_field', response_scale=rows.response_scale,
         preset=preset, batch_size=batch_size, seed=seed, total_steps=total_steps,
