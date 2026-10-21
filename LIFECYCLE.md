@@ -43,3 +43,27 @@ packet and error contracts. Backend dependencies stay isolated: Qwen and Fibo
 use different Diffusers Git revisions and are not a joint environment promise.
 Use CPU thread limits and offline mode for these fixtures. They do not qualify
 pretrained behavior, GPU memory, convergence or image quality.
+
+Fresh derivative audit: see [the bounded migration plan](docs/core070-integration-plan.md).
+This source-only follow-up has not run the new conformance cases. The reference
+milestone's receipts remain scoped to its exact original heads.
+
+Native rendering currently returns a PIL image and accepts only prompts encoded
+from the teacher cache. An unseen prompt raises `UnsupportedOperation` because
+the native loader releases its text encoder after preparation. Latent output and
+references are rejected; the tiny fixture continues to reject rendering entirely.
+Sampling uses a temporary native scheduler and restores the prepared scheduler
+on success or failure. Common-session preparation does not write into the legacy
+CLI's `--save_dir`; common checkpoint/export calls own their output paths.
+
+The factory checks the cache's model selectors, rank, geometry and turbo sampler
+policy before loading the native model, then checks the actual frozen weight
+identity. Current product Python/JSON bytes and native library versions are bound
+into the new packet identity alongside the immutable teacher-cache identity.
+This is a new source cohort, with no automatic old-packet rebinding.
+
+Core `fd89e1c` still needs its inference-only training gate and a preparation RNG
+device declaration for Krea's nested native CUDA argument. These are parent/core
+fixes; this adapter does not conceal them with product-specific session classes.
+Until those fixes and scheduled CPU conformance are reviewed, this is a bounded
+integration draft, not a completed qualification or approval for native execution.

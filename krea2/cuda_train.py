@@ -46,7 +46,7 @@ def write_json(path, data):
 
 
 class CudaUNI:
-    def __init__(self, args, texts, out):
+    def __init__(self, args, texts, out, *, write_prompt_counts=True):
         from krea2.shared import validate_shared_runtime
         validate_shared_runtime()
         validate_native_card(args)
@@ -77,7 +77,8 @@ class CudaUNI:
             self.embeddings[text] = (embeds.cpu(), mask.cpu())
             del embeds, mask
             print(f'Encoded prompt {index + 1}: {token_counts[text]}/507 tokens', flush=True)
-        write_json(out / 'prompt_token_counts.json', token_counts)
+        if write_prompt_counts:
+            write_json(out / 'prompt_token_counts.json', token_counts)
         # All prompts are cached; release the 4B encoder before backpropagation.
         self.pipe.text_encoder.to('cpu')
         self.pipe.text_encoder = None
