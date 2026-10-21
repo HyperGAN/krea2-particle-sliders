@@ -1,0 +1,12 @@
+{
+  "artifact_sha256": "df892e66a723d2f6db5453eb9ebd3c0d7b3b63850b2a6e06b8307a8face894b8",
+  "kind": "native response",
+  "origin": {
+    "cohort": "installed-core081-cli",
+    "completed_steps": 4,
+    "generator_arm": "adapter_gan",
+    "pg_version": "0.9.1",
+    "training_manifest_sha256": "d19ea33e17224c5e5dc3219dc4d8c7ffa86c3fd65b5f363114d153f481388a0a"
+  },
+  "selection": "raw"
+}

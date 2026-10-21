@@ -35,9 +35,13 @@ with open_inference('new-krea-run/native-ema.pt', operation='response') as infer
                                   timestep=500., strength=-.5)
 ```
 
-These new 0.8.1 paths are source-wired and **not yet executed**. The prior 26-test
-CPU pass belongs to runtime source `095edd4` with core `fd89e1c`/0.7.0, preserved
-under `evidence/core070/`. It does not qualify this new pin or the native-only path.
+Installed qualification passed on exact runtime source `c5bf060`: **43 pytest
+cases passed**, zero failures/skips, plus fresh-process raw/EMA and CLI probes.
+All 35 packaged Python/JSON/YAML files match source and installed bytes, with the
+canonical 30-file core map verified. See `evidence/core081-installed/summary.json`.
+This qualifies bounded CPU fixtures, not pretrained/native GPU behavior. The
+prior 26-test pass remains scoped to its original 0.7.0 cohort in
+`evidence/core070/`.
 
 For staged native training, supply a local `cache_file`, existing native CLI
 `native_args`, and explicit `device='cuda:N'` matching `--device N`. Core can then

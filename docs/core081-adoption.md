@@ -90,3 +90,43 @@ compatible Krea native stack; no global-package changes are requested.
 
 No denied or uncertain operation occurred in this phase. No parent messaging was
 attempted; parent consumes the task output as instructed.
+
+
+## Completed installed CPU qualification
+
+The parent subsequently admitted one serial CPU slot. Exact runtime source
+`c5bf060bd15925ff2e9ea31415ceabf232717699` was archived, built as an sdist, built
+from that sdist as a wheel, and installed with the canonical core 0.8.1 wheel and
+local released PG 0.9.1 into a separate workspace venv. Existing native libraries
+were reused; no global environment, active pin or historic source lock changed.
+Tests ran from /tmp with Python isolated mode and source injection disabled.
+
+Results: **37 product integration cases + 6 exact-core dependency-direction
+cases = 43 passed**, zero failures/errors/skips. Separate producer and fresh
+consumer probes passed nine named checks each, covering installed CLI
+capabilities/train/resume/evaluate/refusals, raw/EMA v2 exports, fresh native-only
+loading after training inputs were deleted, exact response parity, no game/
+teacher/critic/optimizer construction, signed/zero/fractional strengths, RNG
+isolation, early preflight rejection and failure cleanup before weight mutation.
+Both installed legacy console help entrypoints passed. No production source
+correction was needed. All 35 packaged Python/JSON/YAML files and the canonical
+30 core source files match the exact archives/wheels/installed package.
+
+Product wheel SHA256:
+`890f579113e1812a2189eb743fb3273706e78adec4746e83de97ebb1363db387`.
+Product sdist SHA256:
+`7c0b8b6e6f65d1b2e004fb8a8e33d2b278fd18b00ed97053ce1642f56805f7d8`.
+
+Resource policy: one CPU/thread, offline mode, 2 GiB RAM cap with a conservative
+1.75 GiB process-group RSS stop guard and hard 1.5 GiB data-allocation limits,
+16 GiB host reserve, 50 ms monitoring. Observed peak process/group RSS was
+795,787,264 bytes (0.741 GiB); minimum host available memory was 49,486,483,456
+bytes (46.09 GiB). No guard triggered. CUDA remained uninitialized throughout;
+no pretrained model or MOSS preparation was executed. The CPU slot is released.
+
+`evidence/core081-installed/summary.json`, resource/command receipts, logs, JUnit
+XML, byte checks, reproducible probes and the exact wheel/sdist retain the proof.
+Extracted build source and pytest temporaries were removed after verification.
+Earlier source-only receipts remain historical. The core documentation mismatch
+and separate native/pretrained, HNDL and HyperGAN gates remain; no new core code
+blocker, denial or uncertain action was observed.

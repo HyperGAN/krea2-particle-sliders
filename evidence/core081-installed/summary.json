@@ -1,0 +1,56 @@
+{
+  "source_head": "c5bf060bd15925ff2e9ea31415ceabf232717699",
+  "core_commit": "32f6830f6402e85aa77b6631db64fcbbb2131f6b",
+  "core_version": "0.8.1",
+  "particlegan": "0.9.1",
+  "pytest": {
+    "installed-tests": {
+      "tests": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "dependency-direction": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "pytest_total_passed": 43,
+  "producer_named_checks": 9,
+  "fresh_consumer_named_checks": 9,
+  "product_matched_files": 35,
+  "canonical_core_matched_files": 30,
+  "core_wheel_sha256": "279aaab83da05b6ebeca030dfe115e1ae2232ca4924fe4278ea48103918fbd8d",
+  "artifacts": {
+    "krea2_particle_sliders-0.2.0.tar.gz": "7c0b8b6e6f65d1b2e004fb8a8e33d2b278fd18b00ed97053ce1642f56805f7d8",
+    "krea2_particle_sliders-0.2.0-py3-none-any.whl": "890f579113e1812a2189eb743fb3273706e78adec4746e83de97ebb1363db387"
+  },
+  "native_fixture_sha256": {
+    "raw-response.pt": "851341f3577498b52ac8fb967121a29461927f29abe653820077827dd3f390ea",
+    "ema.pt": "1b01b7e93feec4681623bf47fe5c52a4b2afbda3b2d9a6c5095edf9290c4f3f8",
+    "raw.pt": "3f42015e94ba52558fb6a9b830fd906f5fbb5ba8a8c51e042762d5d2ced5bda7",
+    "ema-response.pt": "a03c8d9a93a03d337cd7a57086549025ca556ca8bc76bbe4a1b6c8e4261cbacd",
+    "expected.pt": "66d3482c3abdd178c798dcd6e39b70f16197cef45b537f2d9320f3c90ad413f1"
+  },
+  "peak_observed_process_rss_bytes": 795787264,
+  "peak_observed_group_rss_bytes": 795787264,
+  "minimum_host_available_bytes": 49486483456,
+  "cpu_threads": 1,
+  "cuda_initialized": false,
+  "resource_guard_triggered": false,
+  "runtime_source_corrections": "none; all tests passed on exact c5bf060 runtime source",
+  "environment": "isolated workspace venv with existing compatible native libraries; no global packages changed",
+  "slot_released": true,
+  "slot_released_at_utc": "2026-10-21T10:24:09.862179+00:00",
+  "remaining": [
+    "pretrained/native CUDA sampling, decoder and memory qualification",
+    "HNDL parity and HyperGAN reporting bridge remain separate",
+    "core IMAGE-LIFECYCLE.md v1/v2 documentation mismatch previously reported"
+  ],
+  "publication": "not attempted",
+  "merges": "not attempted",
+  "active_pin_changes": "none",
+  "denied_or_uncertain_actions": []
+}

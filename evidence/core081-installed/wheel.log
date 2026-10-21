@@ -1,0 +1,10 @@
+Processing /ml2/codex-storage/future-workspaces/2026-10-21/task-6/krea2/evidence/core081-installed/artifacts/krea2_particle_sliders-0.2.0.tar.gz
+  File was already downloaded /ml2/codex-storage/future-workspaces/2026-10-21/task-6/krea2/evidence/core081-installed/artifacts/krea2_particle_sliders-0.2.0.tar.gz
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: krea2-particle-sliders
+  Building wheel for krea2-particle-sliders (pyproject.toml): started
+  Building wheel for krea2-particle-sliders (pyproject.toml): finished with status 'done'
+  Created wheel for krea2-particle-sliders: filename=krea2_particle_sliders-0.2.0-py3-none-any.whl size=68010 sha256=890f579113e1812a2189eb743fb3273706e78adec4746e83de97ebb1363db387
+  Stored in directory: /tmp/pip-ephem-wheel-cache-vnjbw7g5/wheels/d4/e0/11/60a462daa35bcbe2cb3cc27ec5e6cdbeba85689c243986a0bc
+Successfully built krea2-particle-sliders
