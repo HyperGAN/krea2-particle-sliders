@@ -157,3 +157,7 @@ The passing existing direct-game export test and inspection of PG09's
 updates were already prohibited. The remaining session-layer question is typed
 preflight/rejection behavior, not bypassed training. The nested CUDA preparation
 RNG device seam remains unresolved at this exact shared milestone.
+
+
+Later source proposal: [clean core 0.8.1 adoption](core081-adoption.md). The
+0.7.0 audit/test receipts above remain scoped to their original exact heads.

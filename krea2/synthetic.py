@@ -6,7 +6,8 @@ from peft import LoraConfig, get_peft_model
 from .cuda_train import CudaUNI
 
 
-def staged_fixture():
+def staged_native():
+    """Construct only the deterministic base/adapter, with no teacher capture."""
     torch.manual_seed(23)
     model = Krea2Transformer2DModel(in_channels=16, num_layers=1, attention_head_dim=16,
         num_attention_heads=2, num_key_value_heads=1, intermediate_size=64,
@@ -33,6 +34,12 @@ def staged_fixture():
                          'hold': (embeds - .2, mask)}
     native.position_ids = {}
     native.params = [p for p in model.parameters() if p.requires_grad]
+    native.conditioning_identity = {'fixture': 'deterministic random tiny encodings v1'}
+    return native
+
+
+def staged_fixture():
+    native = staged_native()
     cache = dict(edit=[], preserve=[], key={'fixture': 'real-tiny-Krea2-cpu'})
     for holding, pool in ((False, 'edit'), (True, 'preserve')):
         for i in range(2):

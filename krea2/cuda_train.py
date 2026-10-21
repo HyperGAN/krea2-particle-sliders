@@ -65,6 +65,18 @@ class CudaUNI:
         self.pipe.text_encoder.requires_grad_(False).eval()
         self.pipe.vae.requires_grad_(False).eval()
         self.pipe.vae.enable_tiling()
+        # Independent inference must verify the encoder/tokenizer used for new
+        # prompts even though training releases that encoder after preparation.
+        tokenizer = self.pipe.tokenizer
+        vocabulary = (tokenizer.backend_tokenizer.to_str() if hasattr(tokenizer, 'backend_tokenizer')
+                      else json.dumps(tokenizer.get_vocab(), sort_keys=True))
+        self.conditioning_identity = dict(
+            text_encoder_sha256=self.module_identity(self.pipe.text_encoder),
+            text_encoder_source_sha256=self.class_source(self.pipe.text_encoder),
+            tokenizer_source_sha256=self.class_source(tokenizer),
+            tokenizer_sha256=hashlib.sha256(vocabulary.encode()).hexdigest(),
+            special_tokens=str(tokenizer.special_tokens_map),
+            prompt_template=self.pipe.prompt_template_encode_prefix)
         self.pipe.text_encoder.to(self.device)
         self.embeddings = {}
         token_counts = {}
@@ -106,7 +118,8 @@ class CudaUNI:
         if args.load_te_lora and (Path(args.load_te_lora) / 'adapter_identity.json').exists():
             self._loaded_frozen_identity = self.frozen_identity()
             self.loaded_adapter_steps = validate_adapter_identity(args.load_te_lora,
-                dict(run_contract(args, []), frozen_model_sha256=self._loaded_frozen_identity))
+                dict(run_contract(args, []), frozen_model_sha256=self._loaded_frozen_identity,
+                     conditioning_identity=self.conditioning_identity))
 
     def frozen_identity(self):
         """Content identity of the actual staged frozen parameters and buffers."""
@@ -120,6 +133,23 @@ class CudaUNI:
                 # Stream one tensor at a time; no full-model clone is retained.
                 data = value.detach().cpu().contiguous().reshape(-1).view(torch.uint8)
                 result.update(data.numpy().tobytes())
+        return result.hexdigest()
+
+    @staticmethod
+    def class_source(owner):
+        import inspect
+        source = inspect.getsourcefile(type(owner))
+        if source is None:
+            raise ValueError('native components need inspectable local source')
+        return hashlib.sha256(Path(source).read_bytes()).hexdigest()
+
+    @staticmethod
+    def module_identity(module):
+        """Stream a frozen component's tensors without retaining a full clone."""
+        result = hashlib.sha256()
+        for name, value in list(module.named_parameters()) + list(module.named_buffers()):
+            result.update(f'{name}:{tuple(value.shape)}:{value.dtype}'.encode())
+            result.update(value.detach().cpu().contiguous().reshape(-1).view(torch.uint8).numpy().tobytes())
         return result.hexdigest()
 
     def trainable_parameters(self):
@@ -292,6 +322,9 @@ def validate_adapter_identity(path, current_contract):
                 'local_transformer', 'local_skeleton', 'rank', 'frozen_model_sha256'):
         if identity.get(key) != current_contract.get(key):
             raise ValueError('loaded adapter frozen model differs: ' + key)
+    if ('conditioning_identity' in identity and
+            identity['conditioning_identity'] != current_contract.get('conditioning_identity')):
+        raise ValueError('loaded adapter frozen conditioning differs')
     checksums = data.get('files')
     native = data.get('native_weights')
     if (not isinstance(native, str) or Path(native).name != native or
@@ -357,6 +390,7 @@ def train_cuda(args, prompts, meta, formulation):
         cached = torch.load(cache_path, map_location='cpu', weights_only=True)
         key = dict(cached.get('key', {}))
         key.pop('frozen_model_sha256', None)
+        key.pop('conditioning_identity', None)
         if key != contract:
             raise ValueError('teacher cache source/model/prompt contract differs')
     continuation = None
@@ -448,7 +482,8 @@ def train_cuda(args, prompts, meta, formulation):
     try:
         backend = CudaUNI(args, texts, out)
         frozen_identity = getattr(backend, '_loaded_frozen_identity', None) or backend.frozen_identity()
-        cache_contract = dict(contract, frozen_model_sha256=frozen_identity)
+        cache_contract = dict(contract, frozen_model_sha256=frozen_identity,
+                              conditioning_identity=backend.conditioning_identity)
         completed_steps = None
         if args.load_te_lora:
             completed_steps = validate_adapter_identity(args.load_te_lora, cache_contract)

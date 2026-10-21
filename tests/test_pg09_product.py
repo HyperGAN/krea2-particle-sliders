@@ -36,6 +36,7 @@ def fixture(preset='bispf_optimized'):
     native = CudaUNI.__new__(CudaUNI)
     native.pipe, native.model, native.device, native.dtype = pipe, model, torch.device('cpu'), torch.float32
     native.args = SimpleNamespace(resolution=32)
+    native.conditioning_identity = {'fixture': 'deterministic random tiny encodings v1'}
     embeds = torch.randn(1, 3, 2, 16)
     mask = torch.tensor([[True, True, False]])
     native.embeddings = {'neutral': (embeds, mask), 'positive': (embeds + .2, mask),

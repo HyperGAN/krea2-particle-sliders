@@ -11,9 +11,12 @@ def validate_shared_runtime():
     if (version('particle-sliders-core') != lock['version'] or
             version('particlegan') != lock['particlegan']):
         raise RuntimeError('install the exact shared core and ParticleGAN from requirements.txt')
-    root = Path(particle_sliders.__file__).resolve().parent
-    actual = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.iterdir())
-              if p.suffix in ('.py', '.json')}
+    root = Path(particle_sliders.__file__).resolve().parent.parent
+    # Consume the owner's complete canonical map, including the compatibility
+    # namespace. No locally regenerated subset stands in for the released map.
+    actual = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+              for package in ('particle_sliders', 'concept_slider_core')
+              for p in sorted((root / package).rglob('*')) if p.suffix in ('.py', '.json')}
     if actual != lock['sources']:
         raise RuntimeError('imported shared API source differs from krea2/shared.lock.json')
     return dict(distribution=lock['distribution'], version=lock['version'],

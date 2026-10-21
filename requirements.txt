@@ -1,5 +1,5 @@
 # Exact new GAN cohort API. Historical release pins remain in FORMULATION.md.
-particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@fd89e1c780ab5210cd1be98ec3b70977e6349379#subdirectory=packages/particle-sliders-core
+particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@32f6830f6402e85aa77b6631db64fcbbb2131f6b#subdirectory=packages/particle-sliders-core
 PyYAML>=6
 pytest>=8
 

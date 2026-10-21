@@ -1,72 +1,94 @@
 # Krea2 common lifecycle
 
-Proposed local shared pin: `fd89e1c780ab5210cd1be98ec3b70977e6349379` / core 0.7.0.
-Unpublished; exact-head review is required before draft publication.
+Proposed local shared pin: `32f6830f6402e85aa77b6631db64fcbbb2131f6b`,
+clean core **0.8.1**, ParticleGAN **0.9.1**. The canonical source map and wheel hash
+are consumed directly from the core owner's `core081-build/receipt.json`.
+This is an unpublished source proposal. No PG 0.9.3 profile is downgraded.
 
-This derivative registers backend `krea2` for `particle_sliders.lifecycle`.
-The core owns preparation dispatch, updates, EMA, checkpoints, export,
-evaluation and cleanup. The product factory owns native loading/conditioning,
-geometry and sampler differences. This is a new source cohort; keep original
-pinned runs and receipts with their original loaders.
+The registered image backend owns native loading/conditioning, geometry and
+sampler differences. Core owns session updates, EMA, resume, export and cleanup;
+ConditionalPG09 owns the unchanged GAN math. Krea remains an adapter GAN with
+`particles=None`, actual FP32 PEFT leaves, native `[1,C,1,H,W]` fields, full
+conditioning projections and balanced edit4:preserve1 cache rows. Native turbo
+policy stays eight steps, CFG=0, mu=1.15. All finite signed strengths remain
+supported as executable extrapolation, without a negative teacher.
 
 ```python
 from particle_sliders.lifecycle import SessionConfig, open_session
-config = SessionConfig('krea2', 'new-krea-cpu-v1', dummy=True, steps=4)
+config = SessionConfig('krea2', 'new-krea-core081', dummy=True, steps=4, ema_decay=.9)
 with open_session(config) as session:
     session.train()
-    response = session.evaluate(strength=-.5)
-    session.export('new-krea-run/adapter.pt')
+    session.checkpoint('new-krea-run/training.pt')
+    session.export_inference('new-krea-run/native-ema.pt', selection='ema')
 ```
 
-This builds the actual random tiny Krea2/PEFT response fixture. It declares
-render=false; native rendering remains available in the native configuration.
-Krea stays an adapter GAN with particles=None, balanced edit4:preserve1 cache
-rows and finite signed strength support.
+The dummy path constructs an actual random tiny Krea2/PEFT model and internal
+teacher fixture. It supports native velocity response, with rendering disabled.
+The new native-only registration builds its tiny base/adapter separately, without
+capturing teacher responses or constructing a game:
 
-For locally staged native use, set `cache_file` to the frozen teacher cache and
-`native_args` to the existing native CLI option list with local transformer and
-skeleton paths. The factory constructs the backend and checks frozen weight
-identity. It rejects `--allow_hub`, old resume and adapter-loading flags; use
-session resume/artifact arguments. Native loading requires separate resource
-admission. The factory never enables a Hub download.
+```python
+import torch
+from particle_sliders.inference import open_inference
+with open_inference('new-krea-run/native-ema.pt', operation='response') as inference:
+    response = inference.response(prompt='neutral', latent=torch.zeros(1, 4, 1, 4, 4),
+                                  timestep=500., strength=-.5)
+```
 
-Write `config.as_dict()` as JSON to use `particle-slider capabilities`,
-`particle-slider train`, `particle-slider evaluate` and `particle-slider render`.
-Run `particle-slider --help` for the common arguments. Use a fresh output
-directory for each CLI continuation to preserve old metrics and receipts.
-Training packets and inference artifacts have different versioned schemas;
-exports cannot resume training. New source pins require a new cohort or a
-reviewed explicit migration.
+These new 0.8.1 paths are source-wired and **not yet executed**. The prior 26-test
+CPU pass belongs to runtime source `095edd4` with core `fd89e1c`/0.7.0, preserved
+under `evidence/core070/`. It does not qualify this new pin or the native-only path.
 
-The core sdist includes IMAGE-LIFECYCLE.md with the public factory, capability,
-packet and error contracts. Backend dependencies stay isolated: Qwen and Fibo
-use different Diffusers Git revisions and are not a joint environment promise.
-Use CPU thread limits and offline mode for these fixtures. They do not qualify
-pretrained behavior, GPU memory, convergence or image quality.
+For staged native training, supply a local `cache_file`, existing native CLI
+`native_args`, and explicit `device='cuda:N'` matching `--device N`. Core can then
+include the device in preparation RNG isolation before model allocation. The
+factory rejects Hub permission, legacy resume/adapter flags, dummy/card modes,
+incorrect precision, and cache model/rank/geometry/turbo-policy mismatches.
+The new cache must contain its original `conditioning_identity`, recorded by the
+new native writer and compared with actual encoder/tokenizer identity. Old
+unreceipted caches are rejected; no identity is fabricated for them.
 
-Fresh derivative audit: see [the bounded migration plan](docs/core070-integration-plan.md).
-The bounded follow-up passed 26 source-backed CPU tests; see
-`evidence/core070/bounded-tests-receipt.json`. The reference milestone's
-installed-wheel receipts remain scoped to its exact original heads.
+Optional `render_prompts=[...]` are encoded during native training preparation in
+addition to cache prompts. `open_session(..., operation='render',
+native_request={'prompt': ..., 'resolution': 768})` validates declared prompts
+and geometry before native loading. Already opened sessions accept pre-encoded
+prompts, including cache prompts. New prompt text is never silently encoded after
+the encoder has been released.
 
-Native rendering currently returns a PIL image and accepts only prompts encoded
-from the teacher cache. An unseen prompt raises `UnsupportedOperation` because
-the native loader releases its text encoder after preparation. Latent output and
-references are rejected; the tiny fixture continues to reject rendering entirely.
-Sampling uses a temporary native scheduler and restores the prepared scheduler
-on success or failure. Common-session preparation does not write into the legacy
-CLI's `--save_dir`; common checkpoint/export calls own their output paths.
+Native-only inference uses `particle_sliders.inference.open_inference`, the v2
+artifact, and only local runtime options:
 
-The factory checks the cache's model selectors, rank, geometry and turbo sampler
-policy before loading the native model, then checks the actual frozen weight
-identity. Current product Python/JSON bytes and native library versions are bound
-into the new packet identity alongside the immutable teacher-cache identity.
-This is a new source cohort, with no automatic old-packet rebinding.
+```python
+runtime = dict(native_args=local_native_args, device='cuda:0',
+               prompts=[new_grounded_prompt])
+with open_inference('native-ema.pt', options=runtime,
+                    native_request={'prompt': new_grounded_prompt}) as inference:
+    image = inference.render(prompt=new_grounded_prompt, strength=-.5, seed=7,
+                             resolution=768)
+```
 
-Core `fd89e1c` needs a preparation RNG device declaration for Krea's nested
-native CUDA argument. Correction to the initial audit: ConditionalPG09 already
-blocks updates after an inference export is loaded; session-level preflight would
-improve diagnostics and avoid closing the session on that rejected request. This
-is not a training bypass. These are parent/core seams; this adapter does not add
-product-specific session classes. This remains a bounded integration draft, with
-installed-wheel and native qualification pending.
+Runtime `native_args` must match the exported rank/native card/revisions; local
+weight paths may relocate, with actual frozen DiT/VAE and encoder/tokenizer
+identity checked before applying exported tensors. `prompts` are new inference
+inputs and are not part of a training cache. The factory never calls teacher
+capture, `build_game`, a critic or an optimizer. It rejects cache/training options.
+Native output is PIL only; references and tiny rendering remain unsupported.
+Velocity response takes an explicit native field and raw timestep, never claims
+image output and performs no solver step. Native execution still needs separate
+resource admission and qualification; this source change runs no native models.
+
+A resource owner may inject `before_update=callback` into the image backend's
+`open` call. Core invokes that pure admission callback before each update and
+keeps a rejected session usable. Observation hooks preserve the external native
+model modes/flags/buffers, native scheduler, sampler attributes and position cache
+without cloning pretrained base parameters. Common-session preparation writes
+nothing to the legacy CLI `--save_dir`. HyperGAN run presentation stays external
+through `on_step`, manifests and artifact receipts; native image sampling stays
+a product callback. HNDL spatial critic/native attachment parity remains separate.
+
+V1 training and inference packets retain their original loaders. V2 native-only
+artifacts cannot resume training. The 0.7.0 and CDF source cohorts, published
+adapters, PR4 payload, historical receipts and active environments are preserved.
+No automatic checkpoint/cache rebinding, publication or merge is authorized here.
+See [the 0.8.1 adoption record](docs/core081-adoption.md) and the preserved
+[original audit](docs/core070-integration-plan.md).

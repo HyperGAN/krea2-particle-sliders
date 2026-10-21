@@ -51,25 +51,30 @@ def _staged_binding(monkeypatch, *, frozen='frozen', generate=None):
         skeleton='raw', skeleton_revision='s', rank=2, resolution=32, sample_steps=8,
         guidance=0., mu=1.15, particles=None, objective='g_adv;d_adv+public_penalty',
         frozen_model_sha256='frozen')
+    key['conditioning_identity'] = {'fixture': 'encoding'}
     record = dict(prompt='cached', positive='cached')
     cache = dict(key=key, edit=[record], preserve=[record])
     unloads = []
     model = SimpleNamespace(training=True, gradient_checkpointing=True)
     model.modules = lambda: [model]
+    model.parameters = lambda: []
     def unload():
         unloads.append(True)
         return 'unwrapped'
     model.unload = unload
     native = SimpleNamespace(model=model, pipe=SimpleNamespace(scheduler={'cursor': 0}),
-                             embeddings={'cached': object()}, frozen_identity=lambda: frozen)
+                             embeddings={'cached': object()}, frozen_identity=lambda: frozen,
+                             position_ids={}, conditioning_identity=key['conditioning_identity'])
     native.generate = generate or (lambda *args: 'pil-result')
     monkeypatch.setattr(product, '_native_arguments', lambda options: args)
     monkeypatch.setattr(product, '_product_identity', lambda value: value)
     monkeypatch.setattr(binding, 'file_digest', lambda path: 'cache-sha')
+    import krea2.native_inference as native_backend
+    monkeypatch.setattr(native_backend, 'specification', lambda *args, **kwargs: None)
     def build(*args, **kwargs):
         model.gradient_checkpointing = False
         model.training = False
-        return object()
+        return SimpleNamespace(backend=None)
     monkeypatch.setattr(binding, 'build_game', build)
     return product, native, cache, unloads
 

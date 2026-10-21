@@ -47,7 +47,8 @@ class Runtime(CudaUNI):
             raise ValueError('Frozen base changed before adapter load')
         if (path.parent / 'adapter_identity.json').is_file():
             validate_adapter_identity(path.parent, dict(
-                run_contract(self.args, []), frozen_model_sha256=self._release_frozen_identity))
+                run_contract(self.args, []), frozen_model_sha256=self._release_frozen_identity,
+                conditioning_identity=self.conditioning_identity))
         self.pipe.load_lora_weights(str(path), adapter_name=name)
         if self.frozen_identity() != self._release_frozen_identity:
             raise ValueError('Frozen base changed during adapter load')
