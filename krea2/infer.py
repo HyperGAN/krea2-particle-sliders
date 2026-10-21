@@ -14,15 +14,22 @@ def main(argv: list[str] | None = None) -> None:
         "you pass --allow_hub on a live (non-dummy) run."
     )
     args = parser.parse_args(argv)
+    if args.resume:
+        parser.error(
+            "Inference is sample-only; use --load_te_lora PATH to load an "
+            "adapter. Use the train command for --resume."
+        )
+    if args.live and args.dummy:
+        parser.error("Choose either --live or --dummy")
     if not args.load_te_lora and not args.print_card:
         parser.error(
             "--load_te_lora PATH is required. It skips training and writes "
             "the sample grid. Pass --dummy for the CPU stand-in."
         )
-    if not args.dummy and not args.print_card:
+    if not (args.dummy or args.live) and not args.print_card:
         parser.error(
-            "CPU infer needs --dummy. The live loader is krea2.live and is "
-            "not started from this command, so Hub weights are not downloaded."
+            "Choose --live for CUDA inference or --dummy for the CPU stand-in. "
+            "Live inference uses cached weights unless --allow_hub is passed."
         )
     train(args)
 

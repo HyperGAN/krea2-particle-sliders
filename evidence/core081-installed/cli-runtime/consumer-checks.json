@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "fresh-process raw/EMA native response parity",
+    "signed/zero/fractional native strengths",
+    "no training/teacher/critic/optimizer construction",
+    "native session refuses train/step/checkpoint/restore",
+    "installed native CLI raw/EMA labels and numeric parity",
+    "global RNG unchanged across direct and CLI inference",
+    "render/training-options/checksum rejection before native allocation",
+    "model/tensor rejection cleans owned adapter before any weight mutation",
+    "native CLI rejects training configuration"
+  ],
+  "checks_passed": 9,
+  "rejected_owned_allocations": 2,
+  "cleanups": 2,
+  "cuda_initialized": false
+}

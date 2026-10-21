@@ -1,0 +1,98 @@
+/ml2/codex-storage/future-workspaces/2026-10-21/task-6/.venv-krea-core081/lib/python3.11/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        This deprecation is overdue, please update your project and remove deprecated
+        calls to avoid build errors in the future.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+running sdist
+running egg_info
+creating krea2_particle_sliders.egg-info
+writing krea2_particle_sliders.egg-info/PKG-INFO
+writing dependency_links to krea2_particle_sliders.egg-info/dependency_links.txt
+writing entry points to krea2_particle_sliders.egg-info/entry_points.txt
+writing requirements to krea2_particle_sliders.egg-info/requires.txt
+writing top-level names to krea2_particle_sliders.egg-info/top_level.txt
+writing manifest file 'krea2_particle_sliders.egg-info/SOURCES.txt'
+reading manifest file 'krea2_particle_sliders.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+adding license file 'LICENSE'
+adding license file 'NOTICE'
+writing manifest file 'krea2_particle_sliders.egg-info/SOURCES.txt'
+running check
+creating krea2_particle_sliders-0.2.0
+creating krea2_particle_sliders-0.2.0/configs/krea2
+creating krea2_particle_sliders-0.2.0/krea2
+creating krea2_particle_sliders-0.2.0/krea2_particle_sliders.egg-info
+creating krea2_particle_sliders-0.2.0/tests
+copying files to krea2_particle_sliders-0.2.0...
+copying LICENSE -> krea2_particle_sliders-0.2.0
+copying LIFECYCLE.md -> krea2_particle_sliders-0.2.0
+copying MANIFEST.in -> krea2_particle_sliders-0.2.0
+copying NOTICE -> krea2_particle_sliders-0.2.0
+copying README.md -> krea2_particle_sliders-0.2.0
+copying pyproject.toml -> krea2_particle_sliders-0.2.0
+copying configs/krea2/config-eldritch.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/config-expression.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/config-final-boss.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/config-lighting.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/config-panel-clarity.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/config-smile.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/model.lock.json -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/preview-robots.json -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/prompts-eldritch.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/prompts-expression.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/prompts-final-boss.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/prompts-lighting.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/prompts-panel-clarity.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying configs/krea2/prompts-smile.yaml -> krea2_particle_sliders-0.2.0/configs/krea2
+copying krea2/__init__.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/attention.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/card.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/cuda_train.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/defaults.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/dummy.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/formulation.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/grounding.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/infer.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/lifecycle.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/live.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/native_inference.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/native_runtime.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/pg09.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/prompts.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/samples.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/shared.lock.json -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/shared.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/synthetic.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/train.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2/uni.py -> krea2_particle_sliders-0.2.0/krea2
+copying krea2_particle_sliders.egg-info/PKG-INFO -> krea2_particle_sliders-0.2.0/krea2_particle_sliders.egg-info
+copying krea2_particle_sliders.egg-info/SOURCES.txt -> krea2_particle_sliders-0.2.0/krea2_particle_sliders.egg-info
+copying krea2_particle_sliders.egg-info/dependency_links.txt -> krea2_particle_sliders-0.2.0/krea2_particle_sliders.egg-info
+copying krea2_particle_sliders.egg-info/entry_points.txt -> krea2_particle_sliders-0.2.0/krea2_particle_sliders.egg-info
+copying krea2_particle_sliders.egg-info/requires.txt -> krea2_particle_sliders-0.2.0/krea2_particle_sliders.egg-info
+copying krea2_particle_sliders.egg-info/top_level.txt -> krea2_particle_sliders-0.2.0/krea2_particle_sliders.egg-info
+copying tests/test_configs.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_docs_contract.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_grounding.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_infer_live.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_lifecycle.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_native_checkpoint.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_native_inference.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_pg09_product.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_release.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_release_integrity.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_train_infer.py -> krea2_particle_sliders-0.2.0/tests
+copying tests/test_verifier_report.py -> krea2_particle_sliders-0.2.0/tests
+copying krea2_particle_sliders.egg-info/SOURCES.txt -> krea2_particle_sliders-0.2.0/krea2_particle_sliders.egg-info
+Writing krea2_particle_sliders-0.2.0/setup.cfg
+Creating tar archive
+removing 'krea2_particle_sliders-0.2.0' (and everything under it)

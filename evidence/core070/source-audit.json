@@ -1,0 +1,51 @@
+{
+  "phase": "source-inspection-and-small-edits-only",
+  "shared_commit": "fd89e1c780ab5210cd1be98ec3b70977e6349379",
+  "core_version": "0.7.0",
+  "isolated_base": "f75ca0ac8b14bd0ec8f5b818ac1b89f62b5ed152",
+  "preserved_public_pr": {
+    "number": 4,
+    "head": "afb329014caffac825b9c29b9ae85ec23e0d7f72",
+    "branch": "audit/krea2-shared-gan-20261017",
+    "base": "main",
+    "state": "OPEN",
+    "url": "https://github.com/HyperGAN/krea2-particle-sliders/pull/4"
+  },
+  "source_sha256": {
+    "krea2/lifecycle.py": "aff9354ec43b5e0dbc857acaca6f4fee56d0dc43c0a04b6db79e5052623c4555",
+    "krea2/cuda_train.py": "885109d8e2eed45b84e1caf47789e2dd46b743844f2daae80919c5922ff50515",
+    "tests/test_lifecycle.py": "6c8d6180b42321af4fc2b6102e4abeca1dd040b1f050688bb5883db66fdaaac4",
+    "LIFECYCLE.md": "b4d58f7649cc5c4dcb726436bb5afa6f9bf93c804ab1403d1b863a0f2f9524c8",
+    "docs/core070-integration-plan.md": "df9297b81862bcbd9fe44ffcf7f5167d46d7a5632fe6d15097e3f0c4d53ab661",
+    "krea2/shared.lock.json": "43c74e7b499a85dfb71d617f5803390a77a4d33cebe2d965e60afee67b0a6715"
+  },
+  "checks": [
+    "AST parsing of edited Python files (no imports)",
+    "git diff --check",
+    "39 locked Python/JSON hashes match exact shared Git commit"
+  ],
+  "not_run": [
+    "test suites",
+    "dependency installs",
+    "wheel/sdist builds",
+    "native model loads",
+    "model downloads",
+    "GPU work",
+    "dependency-direction test"
+  ],
+  "pending": [
+    "parent/core fixes identified in migration plan",
+    "scheduled installed-wheel CPU conformance",
+    "new-prompt native encoding design",
+    "compact inference follow-up",
+    "separate spatial critic/native PEFT HNDL parity"
+  ],
+  "parent_message": {
+    "target": "01a157c0-24ba-7273-9be8-c36fa69e301f",
+    "outcome": "failed",
+    "reason": "thread not found"
+  },
+  "publication": "not attempted",
+  "merges": "not attempted",
+  "active_pin_changes": "not attempted"
+}

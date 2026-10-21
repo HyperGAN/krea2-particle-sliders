@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "installed CLI capabilities",
+    "split CLI train/resume preserves original receipts",
+    "CLI fixed four-update budget and manifests",
+    "v1 CLI evaluation",
+    "tiny render fails before output",
+    "raw/EMA v2 exports differ",
+    "v2 export leaves full state unchanged",
+    "native specification has no training payload",
+    "training config/checkpoints deleted before fresh process"
+  ],
+  "cuda_initialized": false
+}

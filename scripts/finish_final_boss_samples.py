@@ -46,12 +46,21 @@ def main():
         import numpy as np
         check = backend.generate(HELDOUT, 1., args.sample_seed, args.sample_resolution)
         check.save(recovery / 'reloaded-adapter-768.png')
-        reference = np.asarray(Image.open(out / 'samples/heldout-bridge-scale-1-seed-42.png')).astype(float)
-        delta = np.asarray(check).astype(float) - reference
-        write_json(recovery / 'roundtrip.json', dict(pixel_identical=bool((delta == 0).all()),
-                                                    pixel_mae=float(abs(delta).mean()),
-                                                    pixel_max_error=float(abs(delta).max())))
-        print('Adapter roundtrip mean pixel error:', abs(delta).mean(), flush=True)
+        reference_path = out / f'samples/heldout-bridge-scale-1-seed-{args.sample_seed}.png'
+        with Image.open(reference_path) as original:
+            reference = np.asarray(original).astype(float)
+        actual = np.asarray(check).astype(float)
+        same_shape = actual.shape == reference.shape
+        delta = actual - reference if same_shape else None
+        report = dict(pixel_identical=bool(np.array_equal(actual, reference)),
+                      reference_shape=list(reference.shape), reloaded_shape=list(actual.shape),
+                      pixel_mae=float(abs(delta).mean()) if same_shape else None,
+                      pixel_max_error=float(abs(delta).max()) if same_shape else None)
+        write_json(recovery / 'roundtrip.json', report)
+        print('Adapter roundtrip mean pixel error:', report['pixel_mae'], flush=True)
+        if not report['pixel_identical']:
+            raise ValueError('Reloaded adapter roundtrip differs from training-process render; '
+                             'see showcase_recovery/roundtrip.json')
         for scale in (0., 1.):
             print(f'Rendering 1536px showcase, scale={scale}', flush=True)
             image = backend.generate(HELDOUT, scale, 1234, args.final_resolution)

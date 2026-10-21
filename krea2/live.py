@@ -197,6 +197,9 @@ class LiveKrea2BboxBackend:
             "te": ["q_proj", "k_proj", "v_proj", "o_proj"],
             "text_encoder": ["q_proj", "k_proj", "v_proj", "o_proj"],
         }
+        self.pipe.transformer.requires_grad_(False)
+        self.pipe.text_encoder.requires_grad_(False)
+        self.pipe.vae.requires_grad_(False)
         label = self.lora_targets
         if label in ("dit", "dit+te"):
             config = LoraConfig(r=self.rank, lora_alpha=self.rank, target_modules=targets["dit"])

@@ -62,9 +62,11 @@ pytest -q
 
 ## Shared formulation
 
-Training calls `winning_formulation()` from the pinned `particle-sliders-core`
-package: gmix architecture and the provisional `particle-gmix-1600-v2`
-parameters. See [FORMULATION.md](../FORMULATION.md). Hub id, Comfy node, turbo
+Live training executes `particle_sliders.pg09.ConditionalPG09` from the pinned
+`particle-sliders-core` package and released ParticleGAN 0.9.1. This adapter GAN
+uses actual native spatial responses and PEFT leaves, with no routed particle bank.
+The historical `winning_formulation()` / `particle-gmix-1600-v2` stamp did not
+execute the old live MSE loop as a GAN. See [FORMULATION.md](../FORMULATION.md). Hub id, Comfy node, turbo
 sample numbers, and prompt cards stay in this repo.
 
 The product entrypoints were first drafted in particle-sliders PR #131

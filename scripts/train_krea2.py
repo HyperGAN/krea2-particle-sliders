@@ -4,9 +4,9 @@
     python scripts/train_krea2.py --help
     python scripts/train_krea2.py --dummy
 
-The shared game is particle-sliders-core ``winning_formulation()`` (gmix,
-provisional ``particle-gmix-1600-v2``). Hub id, Comfy, turbo samples, and
-prompt cards stay here.
+The live game executes particle_sliders.pg09.ConditionalPG09 with released
+ParticleGAN 0.9.1. Hub id, Comfy, turbo samples and prompt cards stay here.
+Dummy output is a diagnostic and never trains product weights.
 """
 
 from __future__ import annotations

@@ -1,0 +1,6 @@
+WARNING: The directory '/mnt/nvme/ai/caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Processing /ml2/codex-storage/future-workspaces/2026-10-21/task-2/evidence/core081-build/particle_sliders_core-0.8.1-py3-none-any.whl
+Processing /ml2/codex-storage/future-workspaces/2026-10-21/task-2/dependencies/particlegan-0.9.1-py3-none-any.whl
+Processing /ml2/codex-storage/future-workspaces/2026-10-21/task-6/krea2/evidence/core081-installed/artifacts/krea2_particle_sliders-0.2.0-py3-none-any.whl
+Installing collected packages: particlegan, particle-sliders-core, krea2-particle-sliders
+Successfully installed krea2-particle-sliders-0.2.0 particle-sliders-core-0.8.1 particlegan-0.9.1

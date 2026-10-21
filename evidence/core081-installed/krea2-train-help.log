@@ -1,0 +1,87 @@
+usage: krea2-train [-h] [--name NAME] [--rank RANK] [--resolution RESOLUTION]
+                   [--model_id MODEL_ID]
+                   [--transformer_subfolder TRANSFORMER_SUBFOLDER]
+                   [--transformer TRANSFORMER]
+                   [--skeleton_model SKELETON_MODEL]
+                   [--prompts_file PROMPTS_FILE] [--config_file CONFIG_FILE]
+                   [--save_dir SAVE_DIR] [--steps STEPS] [--lr LR]
+                   [--seed SEED] [--device DEVICE]
+                   [--sample_steps SAMPLE_STEPS]
+                   [--sample_guidance SAMPLE_GUIDANCE] [--mu MU]
+                   [--hold_weight HOLD_WEIGHT]
+                   [--gan_batch_size GAN_BATCH_SIZE]
+                   [--gan_preset {bispf,bispf_optimized}]
+                   [--lora_targets {dit,te,dit+te,text_encoder}]
+                   [--lm_target {v,embed,velocity,embed_uni,te,text_encoder}]
+                   [--recipe {uni,embed_uni}] [--dummy] [--live]
+                   [--revision REVISION]
+                   [--skeleton_revision SKELETON_REVISION]
+                   [--save_every SAVE_EVERY]
+                   [--sample_resolution SAMPLE_RESOLUTION]
+                   [--final_resolution FINAL_RESOLUTION]
+                   [--cache_seeds CACHE_SEEDS] [--resume RESUME] [--allow_hub]
+                   [--control_prompt CONTROL_PROMPT]
+                   [--sample_seed SAMPLE_SEED] [--load_te_lora LOAD_TE_LORA]
+                   [--print_card]
+
+Train a concept slider on jimmycarter/krea2-turbo-bbox
+(epoch-14-step-73184/transformer). Distilled card: 8 steps, guidance 0,
+mu=1.15. VAE and text encoder come from krea/Krea-2-Raw. The live game is
+particle_sliders.pg09.ConditionalPG09 using released ParticleGAN 0.9.1
+(adapter GAN, no particle bank). --dummy never downloads Hub weights.
+
+options:
+  -h, --help            show this help message and exit
+  --name NAME
+  --rank RANK
+  --resolution RESOLUTION
+  --model_id MODEL_ID   Hub repo for the turbo-bbox transformer (default:
+                        jimmycarter/krea2-turbo-bbox)
+  --transformer_subfolder TRANSFORMER_SUBFOLDER
+                        diffusers subfolder inside --model_id (default:
+                        epoch-14-step-73184/transformer)
+  --transformer TRANSFORMER
+                        local Comfy .safetensors or a diffusers transformer
+                        directory (default: None)
+  --skeleton_model SKELETON_MODEL
+                        VAE, text encoder, tokenizer, and scheduler (not the
+                        bbox repo) (default: krea/Krea-2-Raw)
+  --prompts_file PROMPTS_FILE
+  --config_file CONFIG_FILE
+  --save_dir SAVE_DIR
+  --steps STEPS
+  --lr LR
+  --seed SEED
+  --device DEVICE
+  --sample_steps SAMPLE_STEPS
+                        distilled sample steps (default: 8)
+  --sample_guidance SAMPLE_GUIDANCE
+                        distilled guidance_scale (0 is CFG off) (default: 0.0)
+  --mu MU               distilled timestep shift, not a CFG scale (default:
+                        1.15)
+  --hold_weight HOLD_WEIGHT
+                        historical MSE option; GAN uses balanced4:1
+                        edit/preserve sampling (default: 0.1)
+  --gan_batch_size GAN_BATCH_SIZE
+  --gan_preset {bispf,bispf_optimized}
+  --lora_targets {dit,te,dit+te,text_encoder}
+  --lm_target {v,embed,velocity,embed_uni,te,text_encoder}
+  --recipe {uni,embed_uni}
+  --dummy               CPU backend, 2 steps, no Hub weights (default: False)
+  --live                run real CUDA DiT conditional GAN training (default:
+                        False)
+  --revision REVISION
+  --skeleton_revision SKELETON_REVISION
+  --save_every SAVE_EVERY
+  --sample_resolution SAMPLE_RESOLUTION
+  --final_resolution FINAL_RESOLUTION
+  --cache_seeds CACHE_SEEDS
+  --resume RESUME
+  --allow_hub           permit a Hub download on a live run (default: False)
+  --control_prompt CONTROL_PROMPT
+  --sample_seed SAMPLE_SEED
+  --load_te_lora LOAD_TE_LORA
+                        skip the train loop and write the sample grid for this
+                        adapter (default: None)
+  --print_card          print the distilled card and exit (default: False)
+Installed console help contract passed; CUDA initialized: False

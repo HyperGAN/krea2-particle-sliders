@@ -1,0 +1,10 @@
+usage: consume-native-artifacts.py [-h] [--config CONFIG] [--runtime RUNTIME]
+                                   [--mode {render,response}] [--out OUT]
+                                   [--resume RESUME] [--artifact ARTIFACT]
+                                   [--stop-after STOP_AFTER]
+                                   [--selection {raw,ema}] [--row ROW]
+                                   [--seed SEED] [--strength STRENGTH]
+                                   [--native NATIVE]
+                                   {capabilities,train,evaluate,render,infer}
+consume-native-artifacts.py: error: infer accepts no training config/resume; use --artifact and --runtime
+FRESH NATIVE CONSUMER PASSED 9 checks

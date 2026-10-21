@@ -1,0 +1,28 @@
+{
+  "source_head": "095edd467c0cfa75ab089840612d74c7f82458ee",
+  "mode": "current product source overlay plus unchanged installed dependencies; not a fresh wheel qualification",
+  "command": [
+    "/ml2/codex-storage/future-workspaces/2026-10-21/task-2/.venv-krea311/bin/python",
+    "-I",
+    "-c",
+    "import sys, importlib.metadata as md, json\nfrom pathlib import Path\nsys.path.insert(0, '/ml2/codex-storage/future-workspaces/2026-10-21/task-6/krea2')\nimport torch\nimport krea2.lifecycle as product\nimport particle_sliders\nfrom krea2.shared import validate_shared_runtime\ntorch.set_num_threads(1)\ntorch.set_num_interop_threads(1)\nprint(json.dumps(dict(product_origin=product.__file__, core_origin=particle_sliders.__file__,\n    versions={n:md.version(n) for n in ('torch','diffusers','peft','transformers','safetensors','pytest','particlegan','particle-sliders-core')},\n    shared=validate_shared_runtime(), cpu_threads=torch.get_num_threads(), cuda_initialized=torch.cuda.is_initialized()), indent=2), flush=True)\nimport pytest\nresult = pytest.main(['-o', 'pythonpath=', '-p', 'no:cacheprovider', '-q', '/ml2/codex-storage/future-workspaces/2026-10-21/task-6/krea2/tests/test_lifecycle.py', '/ml2/codex-storage/future-workspaces/2026-10-21/task-6/krea2/tests/test_pg09_product.py', '--junitxml=/ml2/codex-storage/future-workspaces/2026-10-21/task-6/krea2/evidence/core070/bounded-tests.xml', '--basetemp=/tmp/krea2-core070-bounded-tests'])\nprint('CUDA initialized after tests:', torch.cuda.is_initialized(), flush=True)\nif torch.cuda.is_initialized():\n    raise RuntimeError('unexpected CUDA initialization')\nsys.exit(result)\n"
+  ],
+  "memory_limit_bytes": 4294967296,
+  "limit_type": "hard RLIMIT_AS plus RSS watchdog",
+  "host_available_floor_bytes": 17179869184,
+  "cpu_affinity_count": 1,
+  "min_available_bytes": 51914502144,
+  "peak_rss_bytes": 284958720,
+  "env": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1"
+  },
+  "returncode": 1,
+  "elapsed_seconds": 0.2031281580002542,
+  "outcome": "failed"
+}

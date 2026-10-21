@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "<string>", line 4, in <module>
+  File "/home/mikkel/anaconda3/envs/minimax-music3/lib/python3.11/site-packages/torch/__init__.py", line 442, in <module>
+    from torch._C import *  # noqa: F403
+    ^^^^^^^^^^^^^^^^^^^^^^
+ImportError: libtorch_cuda.so: failed to map segment from shared object

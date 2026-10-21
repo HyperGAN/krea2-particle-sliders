@@ -1,0 +1,30 @@
+{
+  "generator_arm": "adapter_gan",
+  "render": false,
+  "strength_min": null,
+  "strength_max": null,
+  "reference_images": false,
+  "references_required": false,
+  "base_precisions": [
+    "float32"
+  ],
+  "render_outputs": [
+    "pil"
+  ],
+  "qualification": "CPU conformance only; pretrained/GPU quality unqualified",
+  "operations": [
+    "train",
+    "resume",
+    "evaluate",
+    "export",
+    "response",
+    "render"
+  ],
+  "unavailable_reasons": [
+    [
+      "render",
+      "tiny Krea2 fixture has no native sampler/decoder"
+    ]
+  ]
+}
+NATIVE ARTIFACT PRODUCER PASSED

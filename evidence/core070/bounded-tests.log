@@ -1,0 +1,26 @@
+{
+  "product_origin": "/ml2/codex-storage/future-workspaces/2026-10-21/task-6/krea2/krea2/lifecycle.py",
+  "core_origin": "/ml2/codex-storage/future-workspaces/2026-10-21/task-2/.venv-krea311/lib/python3.11/site-packages/particle_sliders/__init__.py",
+  "versions": {
+    "torch": "2.11.0+cu128",
+    "diffusers": "0.40.0.dev0",
+    "peft": "0.20.0",
+    "transformers": "5.15.0",
+    "safetensors": "0.8.0",
+    "pytest": "9.1.1",
+    "particlegan": "0.9.1",
+    "particle-sliders-core": "0.7.0"
+  },
+  "shared": {
+    "distribution": "particle-sliders-core",
+    "version": "0.7.0",
+    "commit": "fd89e1c780ab5210cd1be98ec3b70977e6349379",
+    "particlegan": "0.9.1",
+    "source_sha256": "c15d990ca3849592902c8e85b879f62841bad11e2044e1fd2d4b9398a922ce1d"
+  },
+  "cpu_threads": 1,
+  "cuda_initialized": false
+}
+..........................                                               [100%]
+26 passed in 20.16s
+CUDA initialized after tests: False

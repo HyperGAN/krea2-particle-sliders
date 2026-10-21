@@ -1,26 +1,48 @@
-# Formulation
+# Krea2 training formulation
 
-`krea2-particle-sliders` (this repo) owns the Krea2 product surface for sliders on `jimmycarter/krea2-turbo-bbox`: which transformer subfolder is loaded, how it sits on the `krea/Krea-2-Raw` pipeline, the turbo sample numbers (8 steps, diffusers `guidance_scale=0.0`, `mu=1.15`, Comfy CFG 1.0), the Comfy node in `comfy_krea2.py`, the UNI prompt cards under `configs/krea2/`, and the train/infer entrypoints in `krea2/` and `scripts/`.
+Current `krea2-particle-sliders` live training executes the installed
+`particle_sliders.pg09.ConditionalPG09` API with released ParticleGAN **0.9.1**.
+The exact shared source pin is in requirements.txt. This product does not vendor ParticleGAN. There is no vendored ParticleGAN,
+local GAN loss, product optimizer, or copied shared backend.
 
-The gmix architecture and the formulation overlay come from `particle-sliders-core`:
+`python scripts/train_krea2.py --live` stages the frozen
+`jimmycarter/krea2-turbo-bbox` transformer and `krea/Krea-2-Raw` skeleton,
+attaches DiT PEFT weights, and records frozen positive and neutral velocities on
+identical states and native timesteps. The installed `ImageResponseAdapter`
+recomputes the student using neutral conditioning and those actual PEFT leaves.
+Native pack/unpack preserves `[1,C,1,H,W]`; model time is `raw_t/1000`.
+The installed field critic receives those spatial fields and full native
+conditioning projections. Native `guidance_scale=0` means direct conditional;
+the shared mathematical CFG coefficient for that operation is 1.
 
-```text
-particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@a119ca1ecd3d5d6c437065839d22739b04f2f4d8#subdirectory=packages/particle-sliders-core
-```
+This is an **adapter GAN**. Krea2 has no routed particle bank. The common API
+owns the public BISPF/BISPF optimized losses, critic penalty, optimizers, RNG,
+balanced row sampling, and full-state checkpoints. The edit contrast RMS from
+training rows supplies the response scale. Full balanced cycles contain exactly
+four edited rows per preservation row. No velocity MSE, reconstruction loss, or
+historical hold coefficient is optimized. Only enhance rows with target equal
+to neutral are supported. Scale +1 is the positive teacher, zero disables the
+adapter exactly, and negative strengths are extrapolation, not a trained minus pole.
 
-`krea2/train.py` is the product entry. It locks training with:
+Checkpoints bind actual frozen transformer/VAE tensor hashes, encoded contexts,
+teacher cache bytes, local model bytes or exact Hub revisions, source/runtime,
+recipe, domain and sampler state. Resume rejects historical MSE state and changed
+cohorts. Crash recovery may continue into a new output directory while preserving
+the original log. Native and PEFT exports retain alpha/rank metadata.
 
-```python
-from particle_sliders import winning_formulation
+`--dummy` produces stand-in images and one real shared GAN CPU diagnostic. Its
+receipt explicitly says no product weights were trained. CPU tests use real tiny
+Krea2 modules and PEFT; they do not establish full model GPU rendering or image quality.
 
-stamp = winning_formulation()
-stamp.require(stamp.as_dict())
-```
+## Historical releases
 
-At this pin, `winning_formulation()` is gmix plus the provisional `particle-gmix-1600-v2` parameters. When ParticleGAN #38 crowns a full-board winner, the overlay changes in [HyperGAN/particle-sliders](https://github.com/HyperGAN/particle-sliders) and this repo bumps that pin. This repo does not keep a second copy of those knobs.
-
-There is no local copy of `RoutedMLP`, `GradRegularizer`, or `locked_shared`. `--dummy` runs one CPU step through `stamp.bridge()`, `stamp.critic()`, `stamp.losses()`, `stamp.regularizer()`, and `stamp.noise_std_at()`. ParticleGAN is a transitive dependency of `particle-sliders-core`. This repo does not vendor ParticleGAN.
-
-The published Final Boss and Eldritch weights are linear LoRAs. `scripts/train_final_boss_gpu0.sh` and `scripts/train_eldritch_gpu0.sh` still run that DiT objective, and they call `winning_formulation()` before the first update. Music and Anima products keep their own defaults.
-
-Formulation toys, ablations, and pass/fail gates stay in [HyperGAN/conceptmod](https://github.com/HyperGAN/conceptmod).
+The published Final Boss and Eldritch LoRAs were produced by the historical
+velocity MSE trainer. The old `winning_formulation()` / `stamp.require` metadata
+(`particle-gmix-1600-v2`, gmix) and separate CPU smoke did not make its live loop
+a GAN. The reproduction pin was
+`a119ca1ecd3d5d6c437065839d22739b04f2f4d8`, from
+`HyperGAN/particle-sliders`, package `subdirectory=packages/particle-sliders-core`.
+Earlier work also used the `HyperGAN/conceptmod` namespace. Those historical
+weights and source archives retain their original identity. This change creates
+a new training cohort and does not relabel or resume their optimizer state.
+`comfy_krea2.py` remains the native Comfy adapter loader.

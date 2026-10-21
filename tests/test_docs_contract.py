@@ -102,11 +102,10 @@ def test_formulation_boundaries():
 
 def test_requirements_pin_shared_core():
     text = _text("requirements.txt")
-    pin = (
-        "particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git"
-        "@a119ca1ecd3d5d6c437065839d22739b04f2f4d8"
-        "#subdirectory=packages/particle-sliders-core"
-    )
+    import json
+    lock = json.loads((ROOT / 'krea2/shared.lock.json').read_text())
+    pin = ('particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@'
+           + lock['commit'] + '#subdirectory=packages/particle-sliders-core')
     assert pin in text
 
 

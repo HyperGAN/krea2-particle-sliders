@@ -1,0 +1,15 @@
+{
+  "preset": "bispf",
+  "exact_fresh_process_resume": true,
+  "completed_steps": 5,
+  "cuda_initialized": false,
+  "product_source": "/ml2/codex-storage/future-workspaces/2026-10-17/task-19/qa-venv/lib/python3.11/site-packages/krea2/__init__.py",
+  "game_source": "/ml2/codex-storage/future-workspaces/2026-10-17/task-19/qa-venv/lib/python3.11/site-packages/particle_sliders/pg09.py",
+  "runtime": {
+    "distribution": "particle-sliders-core",
+    "version": "0.6.0",
+    "commit": "4be0b5b29d2e2c741431f468d71ba8a7c884b724",
+    "particlegan": "0.9.1",
+    "source_sha256": "b2c2203edba4a3cd517f2d1e9e0fa9ddfe4919110678d61cd122db5ae893385b"
+  }
+}

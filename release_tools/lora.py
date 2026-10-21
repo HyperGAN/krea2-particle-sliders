@@ -101,7 +101,7 @@ def export_lora(root, tier, name, factors, alpha, parent_sha256, method):
         raise ValueError('Exports require a uniform rank and positive finite alpha')
     rank = ranks.pop()
     config = dict(r=rank, lora_alpha=float(alpha), target_modules=['to_q', 'to_k', 'to_v', 'to_out.0'],
-                  lora_dropout=0., bias='none', inference_mode=True, use_dora=False, use_rslora=False)
+                  lora_dropout=0., bias='none', inference_mode=True, use_dora=False, use_rslora=False, rank_pattern={}, alpha_pattern={})
     native, comfy, peft = {}, {}, {}
     for module, (down, up) in sorted(factors.items()):
         for suffix, tensor in (('lora_A.weight', down), ('lora_B.weight', up)):

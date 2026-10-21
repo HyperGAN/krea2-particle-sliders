@@ -1,0 +1,104 @@
+{
+  "schema": "krea2-cdf-consumer-qualification-v1",
+  "date_utc": "2026-10-17T19:48:38.532606+00:00",
+  "repository": "https://github.com/HyperGAN/krea2-particle-sliders",
+  "base_commit": "0b489f63388b000f18242c5d401d8b7709c27dee",
+  "prior_product_commit": "bc6b824cfb9592081b59ba35591510677f138186",
+  "runtime_implementation_commit": "fa407b32eef08df73d0966cf7ad64335dd479c15",
+  "runtime_python_changes_for_cdf": false,
+  "shared_commit": "cdfb80a76b882b4b73861b12f555263bd64ffeb7",
+  "shared_wheel_sha256": "4abc83988fdeb6d7478de830e7ee8ec5d9bd99c20d52f89e4ce594d50dfd39a3",
+  "producer_build_receipt": "/ml2/codex-storage/future-workspaces/2026-10-17/task-14/releases/cdfb80a76b882b4b73861b12f555263bd64ffeb7/build-receipt.json",
+  "particlegan": {
+    "version": "0.9.1",
+    "wheel_sha256": "b01b7957169cb3de45887e22b4d525fd54071577e1de58089707cf05fe6992ec"
+  },
+  "product_wheel": {
+    "path": "/ml2/codex-storage/future-workspaces/2026-10-17/task-19/cdf-product-wheels/krea2_particle_sliders-0.2.0-py3-none-any.whl",
+    "sha256": "7a57dc32465862188009f2bc41e43ea555b5095b9b8e32a71b962e5474c9e490",
+    "runtime_payload_matches_tree": true,
+    "payload_sources": {
+      "configs/krea2/config-eldritch.yaml": "41de46f0d72b26be34bd9157776b2a5d3b3e3ba301ebaba5190db41d5b6ed8c6",
+      "configs/krea2/config-expression.yaml": "779a403117491cf0dcc9f400c4ef823e2705de7d6e0f7410414ee6cee5496a54",
+      "configs/krea2/config-final-boss.yaml": "baf4aeb3d184045c4ab42de5af5408223f1f4a4ec94586fd039dcef2dbf4fcfa",
+      "configs/krea2/config-lighting.yaml": "100f41af2f25a7b03fc8ba97ded10585e5ea644c42a37b3e9e18a1756fd122a8",
+      "configs/krea2/config-panel-clarity.yaml": "f7a67fbeb685fca5b666060fe566a0a6c72ec84385ab70e3662b963f00f13c7f",
+      "configs/krea2/config-smile.yaml": "0267905a14cecf894bf4bb7312160fc21a62a45e4c64eeb0c04d84fc5ae59566",
+      "configs/krea2/model.lock.json": "17380f212ecb2001bf7782430697c85813968d4349799460784ffb4bf1d4392b",
+      "configs/krea2/preview-robots.json": "755d8ecbb22f6f2ac213033e04330acd456c78fe1445175ad8156153ca03e1f2",
+      "configs/krea2/prompts-eldritch.yaml": "bd24a3f45b7c992af7701182ff6e9f9eec8409baf15f61684c4541f66d80b2f2",
+      "configs/krea2/prompts-expression.yaml": "0040099603862f380ddcc3b419098da31bdea921300e4cc97531932856ba4ef3",
+      "configs/krea2/prompts-final-boss.yaml": "2079346ad0f8374bef29da687be3525d33dc965b31ac244cac2b5b24f7dccaf7",
+      "configs/krea2/prompts-lighting.yaml": "2489ad0c20270bc707cd80e2c58f146a11242632210bd7d58d0a8978a9bbc136",
+      "configs/krea2/prompts-panel-clarity.yaml": "18dbe78fd99edf73588761d2fb052928dd99ae108076950cdee7a5bafad351cb",
+      "configs/krea2/prompts-smile.yaml": "1370cf41c48924f7759a8194da97faf624e05069bf220637c75af11feaf1df48",
+      "krea2/__init__.py": "e177c4977e146c23bee342779199095bbc7d1b7a63f1448dd0393340f419cc47",
+      "krea2/attention.py": "1a350b22039204cdd9d8dec856cb22df58fa8daa45ab6a19b9c7f9720700bc89",
+      "krea2/card.py": "18d7c688754030b1e09b4719f4a320f5f00497ef27282213dea162a315e82125",
+      "krea2/cuda_train.py": "2f67e65e35cab6be6bee3916c4dc7fbbd8d54244e33a2f933743d8fa20b2de1c",
+      "krea2/defaults.py": "dd9d16cf5760a1dbed92ac78ab1320ddda8f6699f53a1d9b347b7fc95851a322",
+      "krea2/dummy.py": "0efe4db04652271f8942ad84d21e64c2a091759700a856388fb7148666bd222d",
+      "krea2/formulation.py": "14acdb22ddcbdb9205dfc6f1e013c892bd7d7d57ac6d60575bd189c503882a8c",
+      "krea2/grounding.py": "18c7451bf7b0384ecd2ad579d825c2fdec1971c0119f16b6d8c95536f2437921",
+      "krea2/infer.py": "a0933fef8a3243728a1ce5c298e15ad5d1b8693c1b205f716803882697fdde31",
+      "krea2/live.py": "d37e801c27f46a63c52e80680f9acc0885c01d9cd8b38f583c6dc76d41c839fe",
+      "krea2/pg09.py": "df3e4268017078f588355fcf963d903345174bde1d4c81c2db150de92d827a88",
+      "krea2/prompts.py": "26433987ad4ba1a947d67e22892e31e96d79f1a7e67e5dfd4e9df5d5f64a6de8",
+      "krea2/samples.py": "accfe47ca2aa75fd382701eb7988a80f2885b327b4e66864e9f4e477ab7ba3e6",
+      "krea2/shared.lock.json": "017fea9112d962040429851b058d98e66c89d645fe31a1579eaf99b8fd457ce3",
+      "krea2/shared.py": "3bcdf7a209732c2d4b47682754b4bde3e9ccdeda66a75f7956e04b3c1188bcef",
+      "krea2/train.py": "e76b9d7a0fb58b4016aa1c19fea04d7f2069ac4eb4e5033439b83f26a638390a",
+      "krea2/uni.py": "3852a98144b1c25e60ba2d746e3221563ddc3dcb9cca002eb13153fb15f59663"
+    }
+  },
+  "tests": {
+    "installed_narrow_consumer": {
+      "passed": 8,
+      "deselected": 12,
+      "seconds": 9.389,
+      "receipt": "installed-consumer.xml",
+      "scope": [
+        "both preset actual native Krea2 GAN updates, export and continuation",
+        "live-entrypoint interruption/new-directory resume",
+        "negative Adam second moment atomic rejection",
+        "G/D zero and future clocks atomic rejection with valid exact next update",
+        "Krea2 retains installed Diffusers metadata"
+      ]
+    },
+    "fresh_process_resume": {
+      "presets": [
+        "bispf",
+        "bispf_optimized"
+      ],
+      "uninterrupted_updates": 5,
+      "split_updates": [
+        2,
+        3
+      ],
+      "exact_state_equal": true
+    },
+    "installed_origin_and_old_cohort": {
+      "receipt": "origin-and-cohort.json",
+      "isolated_python": true,
+      "checkout_imports": false,
+      "old_4be_checkpoint_rejected_atomically": true,
+      "valid_cdf_cohort_update": true
+    }
+  },
+  "prior_receipts": "../pg091 remains scoped to 4be0b5b2. Its broad 74/28-test results are not relabeled or repeated on CDF.",
+  "constraints": {
+    "cuda_initialized": false,
+    "gpu_jobs": false,
+    "services_changed": false,
+    "active_source_pins_changed": false,
+    "old_checkpoints_rebound": false,
+    "held_image_payload_included": false,
+    "models_published": false,
+    "merged": false
+  },
+  "limits": [
+    "CPU native tiny fixtures and installed packages only",
+    "Full 12B GPU train/render, mixed precision sampler parity, large-image attention and image quality remain unqualified",
+    "Ada exact-head review and parent-controlled merge pending"
+  ]
+}
