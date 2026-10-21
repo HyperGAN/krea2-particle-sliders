@@ -65,9 +65,11 @@ training are unsupported. Base BF16/native versus FP32/tiny gates stay distinct.
 
 ## Core rough spots for parent
 
-- `SliderSession.step/train` at this exact milestone do not enforce
-  `inference_only`, despite the documented inference packet training prohibition.
-  Core must gate this; do not hide it in a Krea callback.
+- `SliderSession.step/train` do not preflight `inference_only` themselves.
+  Correction after bounded verification: ConditionalPG09 already checks
+  `_export_loaded` before updates, so inference artifacts cannot train. Session
+  preflight would improve diagnostics and avoid closing on that rejected call;
+  this is not a training bypass. Do not add a Krea-specific session class.
 - `Backend.open` chooses RNG devices from `options.device`, whereas Krea's actual
   native CUDA device lives inside `native_args`. Preparation can consume CUDA RNG
   outside that guard. Need a common preflight device declaration/resolver seam.
@@ -115,3 +117,43 @@ Coordination delivery to parent thread `01a157c0-24ba-7273-9be8-c36fa69e301f`
 failed with `thread not found`; no message was delivered by that action. The
 plan and rough spots therefore accompany the final task result for automatic
 parent notification. This is a failed lookup/delivery, not an approval denial.
+
+
+## Scheduled bounded CPU verification
+
+Parent admitted one slot: one CPU thread, offline tiny fixtures, maximum 4 GiB
+process memory, stop when host MemAvailable falls below 16 GiB. The existing
+`task-2/.venv-krea311` environment was reused read-only with current product source
+explicitly prepended under `python -I`; no packages or source pins were changed.
+Installed core bytes validated against fd89e1c/core0.7.0 and ParticleGAN 0.9.1.
+This is source-backed integration evidence, not a new installed-wheel result.
+
+`tests/test_lifecycle.py` (six cases, including all four newly authored cases)
+and `tests/test_pg09_product.py` (20 cases) passed: **26 passed, zero skipped,
+zero failures**, pytest time 20.16 seconds. Coverage includes actual tiny native
+PEFT fields, both presets, exact resume, raw/EMA inference reload, unchanged
+observation state/RNG, source/cache/conditioning/optimizer identity rejection,
+legacy live-dispatch interruption and new-directory recovery, plus new native
+callback gates/cleanup/scheduler behavior. CUDA remained uninitialized.
+
+The first attempt applied an overly broad 4 GiB virtual-address-space limit;
+PyTorch's CUDA-linked shared libraries could not map and no tests collected.
+Peak observed RSS was 284,958,720 bytes. This was a runtime resource-limit failure,
+not a missing dependency or approval denial; that attempt is retained separately.
+The successful retry used a hard 3 GiB data-allocation limit, a conservative
+3.5 GiB RSS stop guard, one-CPU affinity and one-thread library limits, with a
+16 GiB MemAvailable floor polled every 50 ms. Observed peak RSS was 942,530,560
+bytes (0.878 GiB); minimum available host memory was 45,142,577,152 bytes
+(42.04 GiB). No guard triggered. Total child runtime was 24.93 seconds.
+
+Command, environment, exact origins/versions, memory observations and JUnit/logs
+are in `evidence/core070/bounded-tests-*`; `run-bounded-tests.py` reproduces the
+resource limits and test selection. The original source-only receipt remains
+historical to source commit 095edd4. No dependency-direction suite, packaging
+build, compact inference, pretrained or native GPU qualification was run.
+
+The passing existing direct-game export test and inspection of PG09's
+`_export_loaded` guard correct the original inference-only blocker report: GAN
+updates were already prohibited. The remaining session-layer question is typed
+preflight/rejection behavior, not bypassed training. The nested CUDA preparation
+RNG device seam remains unresolved at this exact shared milestone.

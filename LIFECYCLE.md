@@ -45,8 +45,9 @@ Use CPU thread limits and offline mode for these fixtures. They do not qualify
 pretrained behavior, GPU memory, convergence or image quality.
 
 Fresh derivative audit: see [the bounded migration plan](docs/core070-integration-plan.md).
-This source-only follow-up has not run the new conformance cases. The reference
-milestone's receipts remain scoped to its exact original heads.
+The bounded follow-up passed 26 source-backed CPU tests; see
+`evidence/core070/bounded-tests-receipt.json`. The reference milestone's
+installed-wheel receipts remain scoped to its exact original heads.
 
 Native rendering currently returns a PIL image and accepts only prompts encoded
 from the teacher cache. An unseen prompt raises `UnsupportedOperation` because
@@ -62,8 +63,10 @@ identity. Current product Python/JSON bytes and native library versions are boun
 into the new packet identity alongside the immutable teacher-cache identity.
 This is a new source cohort, with no automatic old-packet rebinding.
 
-Core `fd89e1c` still needs its inference-only training gate and a preparation RNG
-device declaration for Krea's nested native CUDA argument. These are parent/core
-fixes; this adapter does not conceal them with product-specific session classes.
-Until those fixes and scheduled CPU conformance are reviewed, this is a bounded
-integration draft, not a completed qualification or approval for native execution.
+Core `fd89e1c` needs a preparation RNG device declaration for Krea's nested
+native CUDA argument. Correction to the initial audit: ConditionalPG09 already
+blocks updates after an inference export is loaded; session-level preflight would
+improve diagnostics and avoid closing the session on that rejected request. This
+is not a training bypass. These are parent/core seams; this adapter does not add
+product-specific session classes. This remains a bounded integration draft, with
+installed-wheel and native qualification pending.
