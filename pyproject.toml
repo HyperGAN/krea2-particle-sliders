@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=84.2.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-native = ["diffusers>=0.40.0.dev0", "peft>=0.20,<1", "safetensors>=0.4,<1", "Pillow", "numpy"]
+native = ["diffusers>=0.40.0.dev0", "peft>=0.20,<1", "safetensors>=0.4,<1", "Pillow>=13.0.0", "numpy"]
 test = ["pytest>=8"]
 
 [project.scripts]

@@ -162,7 +162,7 @@ def main():
                          expected_sha256=originals[name]['sha256']['native'])
         runtime.active = name
         runtime.pipe.set_adapters(name, adapter_weights=1.)
-        cache = torch.load(run / 'teacher_cache.pt', map_location='cpu', weights_only=False)
+        cache = torch.load(run / 'teacher_cache.pt', map_location='cpu', weights_only=True)
         records = [record for index, record in enumerate(cache['edit']) if index % 8 in (0, 2, 4, 6, 7)]
         train_grams, train_counts, _ = capture(runtime, records, factors[name], status, name + '-capture-train')
         dev_grams, dev_counts, teacher_predictions = capture(runtime, dev, factors[name], status, name + '-capture-dev')
