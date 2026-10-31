@@ -5,8 +5,10 @@ pass**, with zero skips; the editable installer lane separately passes 7 cases.
 The missing-external-packet probe gives 8 passes and one optional skip and is not
 full legacy qualification. See [issue-by-issue source/test receipts](evidence/review-fixes-20261031/README.md).
 Supported runtime source bytes and its historical lock remain unchanged from
-review head `567fb4044e2b782217d5af09d5e0525253e2c1f9`. Candidate core publication
-and pretrained/GPU qualification remain separate gates.
+review head `567fb4044e2b782217d5af09d5e0525253e2c1f9`. Exact candidate core
+`4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231` became publicly reachable during the
+final handoff; that publication blocker is cleared. Full native dependency
+resolution and pretrained/GPU qualification remain unrun.
 
 2026-10-31 inventory continuation: public main at
 `afc226f4710db5e4fe9379f22606cd5ccb8ee917` includes merged PR4 and PR5; there

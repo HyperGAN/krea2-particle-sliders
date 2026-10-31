@@ -25,8 +25,11 @@ full resolver or pretrained/GPU qualification is claimed. Candidate runtime is
 still exact core012/PG094/HyperGAN5f368/HNDL010. The original inventory receipt
 and its 50/5 results remain historical and unchanged.
 
-The candidate's normal remote installation still requires coordinated publication
-of exact shared commit `4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231`. No new native
-training, model downloads, GPU work, release, deployment or merge was performed.
+The final remote check now resolves exact shared commit
+`4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231`; the prior publication blocker is
+cleared (see `core-availability.json`). Clean full native dependency resolution
+remains unrun. This status follow-up changes docs/receipts only; runtime bytes and
+test results above are unchanged. No new native training, model downloads, GPU
+work, release, deployment or merge was performed.
 The repository has no checked-in CI/release/deployment workflows. Root owns
 review routing and merge decisions.

@@ -81,7 +81,7 @@ venv, with no inherited Krea2 installation or source paths:
 ```bash
 python -m venv /tmp/krea2-hndl-env
 /tmp/krea2-hndl-env/bin/python -I scripts/install_hndl_candidate.py --check-only
-# After the exact core is published and normal dependencies can resolve:
+# Normal dependency resolution needs a compatible native dependency environment:
 /tmp/krea2-hndl-env/bin/python -I scripts/install_hndl_candidate.py \
   --wheel /tmp/krea2-hndl-wheels/krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl
 ```
@@ -91,9 +91,10 @@ performs normal pip dependency resolution. It adds no `--pre`, `--upgrade` or
 `--no-deps` flag. Direct pip installation bypasses this environment check and
 must not be used to replace the supported profile. Build-only commands remain
 safe in an existing environment because they install nothing.
-The core commit is not yet published, so ordinary remote dependency resolution
-for this profile remains blocked until coordinated core publication. Do not
-change the SHA or disable its source guard to make installation succeed.
+The exact core commit is now publicly reachable, verified during the final PR6
+review-fix handoff. The earlier publication blocker is cleared; a clean full
+native dependency resolution has not been run here. Do not change the SHA or
+disable its source guard to make installation succeed.
 
 After installing that candidate in its separate environment:
 
@@ -130,9 +131,10 @@ from collecting the repository's unrelated ComfyUI root initializer.
 
 The coordinated local candidate is core 0.12 / PG 0.9.4 / HyperGAN develop
 `5f368a3770cf5bdae0448995c9f76e29af8049f7`, joint commit
-`4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231`. It is unpublished and its shared CPU
-results do not qualify this Krea2 product. Installing it here must fail the exact
-runtime guard. A new product cohort needs all of the following before adoption:
+`4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231`. It is now publicly reachable; its
+shared CPU results do not qualify this Krea2 product. Installing it into the
+supported environment must fail that profile's exact runtime guard. Default
+adoption still needs all of the following:
 
 1. A reviewed reachable core commit, its canonical full source map and wheel
    receipt, an exact new product lock and aligned installer metadata. Preserve
