@@ -175,3 +175,15 @@ def test_training_critic_has_fixed_spatial_contract(height, width):
     with pytest.raises(ValueError, match='fixed training H/W'):
         critic(torch.zeros(2, 4, 1, width, height), condition)
     assert all(torch.equal(value, before[name]) for name, value in critic.state_dict().items())
+
+
+def test_rejected_geometry_preserves_complete_training_state():
+    with open_session(SessionConfig('krea2-hndl', 'geometry-rejection', dummy=True,
+                                    steps=4, ema_decay=.9)) as session:
+        session.train(stop_after=2)  # Include initialized optimizers, EMA and sampler state.
+        before = session.checkpoint()['sha256']
+        _, channels, temporal, height, width = session.game.rows.response_shape
+        with pytest.raises(ValueError, match='fixed training H/W'):
+            session.game.critic(torch.zeros(2, channels, temporal, height, width + 1),
+                                session.game.rows.conditions([0, 1]))
+        assert session.checkpoint()['sha256'] == before

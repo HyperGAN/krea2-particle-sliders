@@ -1,9 +1,12 @@
 # Publication and qualification status
 
-PR6 source-review follow-up: **53 supported-wheel cases and 9 candidate cases
-pass**, with zero skips; the editable installer lane separately passes 7 cases.
-The missing-external-packet probe gives 8 passes and one optional skip and is not
-full legacy qualification. See [issue-by-issue source/test receipts](evidence/review-fixes-20261031/README.md).
+PR6 final polish: **54 supported-wheel cases and 10 candidate cases pass**, with
+zero skips; the editable installer lane separately passes 8 cases. A fresh CPU
+base installation from the exact public core/HyperGAN sources also passes normal
+resolution, isolated builds, source admission and `pip check`; see
+[clean CPU installation receipts](evidence/public-cpu-install-20261031/README.md).
+Earlier [issue-by-issue source/test receipts](evidence/review-fixes-20261031/README.md)
+retain the previous selected suites and optional missing-fixture probe.
 Supported runtime source bytes and its historical lock remain unchanged from
 review head `567fb4044e2b782217d5af09d5e0525253e2c1f9`. Exact candidate core
 `4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231` became publicly reachable during the

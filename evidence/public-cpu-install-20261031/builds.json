@@ -1,0 +1,19 @@
+{
+  "particle_sliders_core": {
+    "path": "evidence/public-cpu-install/built-wheels/particle_sliders_core-0.12.0-py3-none-any.whl",
+    "sha256": "40572c5e96ccc9e3b71f3edb6e3c11f6f1c199d1856ee5c8807f2e761df11a3e",
+    "size": 156568
+  },
+  "hypergan": {
+    "path": "evidence/public-cpu-install/built-wheels/hypergan-2.0.0-py3-none-any.whl",
+    "sha256": "649ac92e012a4aaee5027a8e9564fbe6b302904d4e396451138811d5f702b636",
+    "size": 822545
+  },
+  "candidate": {
+    "path": "evidence/review-20261031/hndl-wheels/krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl",
+    "sha256": "a2571418091c0ad935de47fc17acd5d65ad28cf5c7ad296d4f058197056208aa",
+    "source_head": "e43907c1df41df9a29976aa811d690bc08c973d1",
+    "runtime_sources_match": true
+  },
+  "official_pg_wheel_sha256": "ad21eeaea861cf0582fc39aa96eb3fd8ab8cf21e8e0f0179f0597a9c42eb99b6"
+}

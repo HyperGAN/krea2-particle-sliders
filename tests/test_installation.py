@@ -69,6 +69,16 @@ def test_candidate_installer_refuses_existing_product(tmp_path):
     assert 'already installed' in result.stderr
 
 
+def test_candidate_installer_refuses_non_venv_with_intended_error(tmp_path):
+    # Execute the actual base interpreter rather than failing in the current venv.
+    base_python = getattr(sys, '_base_executable', sys.executable)
+    result = subprocess.run([base_python, '-I', str(ROOT / 'scripts/install_hndl_candidate.py'),
+                             '--check-only'], cwd=tmp_path, text=True, capture_output=True)
+    assert result.returncode == 2
+    assert 'error: create a fresh virtual environment for the candidate' in result.stderr
+    assert 'already installed' not in result.stderr
+
+
 def test_candidate_builder_rejects_wrong_core_artifact(tmp_path):
     wheel = tmp_path / 'wrong.whl'
     wheel.write_bytes(b'not the recorded core wheel')

@@ -1,0 +1,106 @@
+{
+  "cwd": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9",
+  "commands": [
+    {
+      "command": [
+        "/ml2/iris-particle-sliders-task-20261008/python/cpython-3.12.15-linux-x86_64-gnu/bin/python3.12",
+        "-m",
+        "venv",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-public-cpu"
+      ],
+      "result": "passed; include-system-site-packages=false"
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-public-cpu/bin/python",
+        "-I",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/scripts/install_hndl_candidate.py",
+        "--check-only"
+      ],
+      "result": "passed"
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-public-cpu/bin/python",
+        "-I",
+        "-m",
+        "pip",
+        "install",
+        "--dry-run",
+        "--report",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/resolution.json",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/review-20261031/hndl-wheels/krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "GIT_TERMINAL_PROMPT": "0",
+        "PIP_INDEX_URL": "https://pypi.org/simple",
+        "PIP_CONSTRAINT": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/cpu-constraints.txt",
+        "PIP_FIND_LINKS": "/ml2/codex-storage/future-workspaces/2026-10-31/task-3/evidence/torch26-wheelhouse",
+        "PIP_CACHE_DIR": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/pip-cache",
+        "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+      },
+      "unset_environment": [
+        "PIP_EXTRA_INDEX_URL"
+      ],
+      "result": "passed; 18 packages, CPU Torch only"
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-public-cpu/bin/python",
+        "-I",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/scripts/install_hndl_candidate.py",
+        "--wheel",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/review-20261031/hndl-wheels/krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "GIT_TERMINAL_PROMPT": "0",
+        "PIP_INDEX_URL": "https://pypi.org/simple",
+        "PIP_CONSTRAINT": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/cpu-constraints.txt",
+        "PIP_FIND_LINKS": "/ml2/codex-storage/future-workspaces/2026-10-31/task-3/evidence/torch26-wheelhouse",
+        "PIP_CACHE_DIR": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/pip-cache",
+        "PIP_DISABLE_PIP_VERSION_CHECK": "1",
+        "PIP_REPORT": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/install-report.json"
+      },
+      "unset_environment": [
+        "PIP_EXTRA_INDEX_URL"
+      ],
+      "result": "passed; normal dependency resolution and build isolation"
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-public-cpu/bin/python",
+        "-I",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "environment": {
+        "PIP_CACHE_DIR": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/pip-cache"
+      },
+      "result": "No broken requirements found."
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-public-cpu/bin/python",
+        "-I",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/scripts/check_install.py",
+        "--profile",
+        "hypergan-hndl"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "result": "passed; complete installed-source and HyperGAN/HNDL/PG closure admission"
+    }
+  ]
+}
