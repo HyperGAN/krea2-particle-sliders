@@ -11,6 +11,7 @@ For the current source:
 
 ```bash
 python -m pip install -r requirements.txt
+python -I scripts/check_install.py
 python scripts/train_krea2.py --dummy --save_dir /tmp/krea2-diagnostic
 python scripts/infer_krea2.py --help
 ```
@@ -19,6 +20,11 @@ The exact installed API is `particle_sliders.pg09.ConditionalPG09`, from
 `subdirectory=packages/particle-sliders-core`, using ParticleGAN 0.9.1.
 The diagnostic downloads no weights and trains no Krea2 slider. Tests execute
 both public presets through actual tiny Krea2 models on CPU.
+
+The installer registers this product and its commands. Native tiny-model tests
+and live loading additionally require `python -m pip install '.[native,test]'`
+in a compatible isolated Torch/Torchvision environment. See
+[installation checks and modern-core adoption gates](docs/modernization.md).
 
 A resource owner must admit full model GPU work. After admission, use a new
 cohort directory:

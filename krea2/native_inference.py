@@ -17,7 +17,7 @@ def capabilities(config):
         unavailable_reasons=(('render', 'tiny Krea2 fixture has no native sampler/decoder'),))
 
 
-def validate(options, spec):
+def validate(options, spec, *, runtime_validator=None):
     from .lifecycle import _native_arguments, _validate_device, _validate_prompts
     from .shared import validate_shared_runtime
     config = spec.configuration
@@ -37,7 +37,7 @@ def validate(options, spec):
         _validate_prompts(options.get('prompts'), required=True)
         if {key: getattr(args, key) for key in CARD_FIELDS} != spec.configuration['card']:
             raise ValueError('native adapter geometry, revision or turbo policy differs')
-    validate_shared_runtime()
+    (runtime_validator or validate_shared_runtime)()
 
 
 def preflight(options, request, spec):
@@ -94,7 +94,7 @@ def _response_callback(native, adapter):
     return response
 
 
-def prepare(options, spec):
+def prepare(options, spec, *, native_factory=None, protocol=PROTOCOL, identity_factory=None):
     from .lifecycle import _native_arguments
     from particle_sliders.pg09_images import ImageResponseAdapter, image_lora_parameters
     dummy = spec.configuration['dummy']
@@ -104,14 +104,14 @@ def prepare(options, spec):
     else:
         from .cuda_train import CudaUNI
         args = _native_arguments(options)
-        native = CudaUNI(args, options['prompts'], Path(args.save_dir), write_prompt_counts=False)
+        native = (native_factory or CudaUNI)(args, options['prompts'], Path(args.save_dir), write_prompt_counts=False)
     close = own_native(native)
     try:
-        identity = model_identity(native, dummy=dummy)
+        identity = (identity_factory or model_identity)(native, dummy=dummy)
         adapter = ImageResponseAdapter('krea2', native.model, image_lora_parameters(native.model),
             pipeline=native.pipe, scheduler=native.pipe.scheduler, model_identity=identity)
         return InferenceBinding(adapter.network,
-            native_identity(adapter, model_identity=identity, protocol=PROTOCOL), close,
+            native_identity(adapter, model_identity=identity, protocol=protocol), close,
             None if dummy else render_callback(native), _response_callback(native, adapter),
             observation=lambda: observation(native))
     except BaseException:

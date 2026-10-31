@@ -1,0 +1,7 @@
+# Exact new GAN cohort API. Historical release pins remain in FORMULATION.md.
+particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@32f6830f6402e85aa77b6631db64fcbbb2131f6b#subdirectory=packages/particle-sliders-core
+PyYAML>=6
+pytest>=8
+
+# Native Krea2 runtime additionally needs compatible diffusers, peft and safetensors.
+# See REPRODUCE.md; CPU tests never download model weights.

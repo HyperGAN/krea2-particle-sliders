@@ -1,5 +1,9 @@
 # Krea2 common lifecycle
 
+For the 2026-10-31 installer repair and separate real HyperGAN/HNDL candidate,
+see [modernization and adoption gates](docs/modernization.md). The candidate
+is an explicit new backend/profile; the supported cohort below stays pinned.
+
 Exact tested shared pin: `32f6830f6402e85aa77b6631db64fcbbb2131f6b`,
 clean core **0.8.1**, ParticleGAN **0.9.1**. The canonical source map and wheel hash
 are consumed directly from the core owner's `core081-build/receipt.json`.

@@ -1,5 +1,13 @@
 # Publication and qualification status
 
+2026-10-31 inventory continuation: public main at
+`afc226f4710db5e4fe9379f22606cd5ccb8ee917` includes merged PR4 and PR5; there
+was no open PR at the start of this continuation. The proposed installer repair
+and explicit, separate HyperGAN/HNDL candidate are described in
+[modernization](docs/modernization.md). The supported pin remains core0.8.1.
+The following paragraphs preserve the earlier PR4 publication-stage receipt;
+they do not describe the current PR state or qualify the new candidate.
+
 This source is proposed through [the existing draft PR](https://github.com/HyperGAN/krea2-particle-sliders/pull/4).
 Its qualified candidate is `b1f42f17f028cab70d3b4517e8f51aa3b5396355`; tested runtime is
 `c5bf060bd15925ff2e9ea31415ceabf232717699`. The publication follow-up changes Markdown

@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-native = ["diffusers>=0.40.0.dev0", "peft>=0.20,<1", "safetensors>=0.4,<1", "Pillow>=13.0.0", "numpy"]
+native = ["diffusers>=0.40.0.dev0", "peft>=0.20,<1", "transformers>=5.15,<6", "torchvision>=0.21,<1", "safetensors>=0.4,<1", "Pillow>=13.0.0", "numpy"]
 test = ["pytest>=8"]
 
 [project.scripts]
@@ -24,7 +24,7 @@ krea2-infer = "krea2.infer:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["krea2*", "configs.krea2*"]
+include = ["krea2", "configs.krea2*"]
 namespaces = true
 
 [tool.setuptools.package-data]
