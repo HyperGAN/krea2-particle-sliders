@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "product": "0.2.0",
+  "profile": "supported",
+  "shared": {
+    "distribution": "particle-sliders-core",
+    "version": "0.8.1",
+    "commit": "32f6830f6402e85aa77b6631db64fcbbb2131f6b",
+    "particlegan": "0.9.1",
+    "source_sha256": "dedbc1f3ea45f68ea015449cc9ee0a99aae8d0cea480fec2a8f1d3fb4183cbb2"
+  },
+  "installation": {
+    "editable": true,
+    "direct_url": "file:///ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work"
+  },
+  "registrations": {
+    "console_scripts:krea2-train": "krea2.train:main",
+    "console_scripts:krea2-infer": "krea2.infer:main",
+    "particle_sliders.image_backends:krea2": "krea2.lifecycle:BACKEND",
+    "particle_sliders.inference_backends:krea2": "krea2.native_inference:BACKEND"
+  },
+  "qualification": "installation only; pretrained/GPU behavior unqualified",
+  "origins": {
+    "krea2": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/krea2/__init__.py",
+    "particle_sliders": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-installer/lib/python3.11/site-packages/particle_sliders/__init__.py",
+    "particlegan": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-installer/lib/python3.11/site-packages/particlegan/__init__.py"
+  },
+  "cuda_initialized": false
+}

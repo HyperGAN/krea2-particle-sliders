@@ -8,6 +8,7 @@ import sys
 
 def inspect_install(*, native=False, profile='supported'):
     product = distribution('krea2-particle-sliders')
+    direct_url = json.loads(product.read_text('direct_url.json') or '{}')
     registrations = {(entry.group, entry.name): entry for entry in product.entry_points}
     expected = {
         ('console_scripts', 'krea2-train'): 'krea2.train:main',
@@ -28,6 +29,8 @@ def inspect_install(*, native=False, profile='supported'):
     else:
         from krea2.shared import validate_shared_runtime
     report = dict(product=product.version, profile=profile, shared=validate_shared_runtime(),
+                  installation=dict(editable=bool(direct_url.get('dir_info', {}).get('editable')),
+                                    direct_url=direct_url.get('url')),
                   registrations={group + ':' + name: target for (group, name), target in expected.items()},
                   qualification='installation only; pretrained/GPU behavior unqualified', origins={})
     modules = ['krea2', 'particle_sliders', 'particlegan']

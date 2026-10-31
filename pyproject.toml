@@ -24,7 +24,7 @@ krea2-infer = "krea2.infer:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["krea2", "configs.krea2*"]
+include = ["krea2", "krea2.*", "configs.krea2*"]
 namespaces = true
 
 [tool.setuptools.package-data]

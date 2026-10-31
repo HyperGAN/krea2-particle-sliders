@@ -16,10 +16,17 @@ def validate_runtime():
               for p in sorted((root / package).rglob('*')) if p.suffix in ('.py', '.json', '.hndl')}
     if actual != lock['sources']:
         raise RuntimeError('shared source differs from the exact Krea2 HNDL candidate lock')
+    # Delegate official PG byte/profile admission to the verified shared API.
+    # A version match alone is insufficient; this host-only probe constructs no model.
+    from particle_sliders.pg09 import validate_pg09_domain
+    pg = validate_pg09_domain((1, 1, 1, 1, 1), response_domain='continuous_field')
     from particle_sliders.fibo_hndl import verified_builder
     _, identity = verified_builder()
     return dict(core_commit=lock['commit'], core_version=lock['version'],
-                particlegan=lock['particlegan'], network=identity)
+                particlegan=lock['particlegan'], pg_sources_sha256=pg['pg_sources_sha256'],
+                core_validation='complete installed Python/JSON/HNDL source map',
+                reference_core_wheel_sha256=lock['reference_wheel_sha256'],
+                network=identity)
 
 
 def native_factory(*args, **kwargs):

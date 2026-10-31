@@ -63,6 +63,16 @@ def test_real_hndl_native_lifecycle_resume_and_inference(preset, tmp_path, monke
         row = resumed.game.rows[0].row
         request = dict(prompt='neutral', latent=row.latent.clone(), timestep=row.timestep.clone())
         response = resumed.evaluate(strength=-.5)
+        raw_weights = deepcopy(resumed.game.network.state_dict())
+        ema_weights = deepcopy(resumed.ema.values)
+        assert any(not torch.equal(value, ema_weights[name]) for name, value in raw_weights.items())
+        before = resumed.checkpoint()['sha256']
+        try:
+            resumed.game.network.load_state_dict(ema_weights)
+            ema_response = resumed.evaluate(strength=-.5)
+        finally:
+            resumed.game.network.load_state_dict(raw_weights)
+        assert resumed.checkpoint()['sha256'] == before
     import krea2_hndl.lifecycle as product
     import krea2.synthetic as synthetic
     def forbidden(*args, **kwargs):
@@ -78,6 +88,9 @@ def test_real_hndl_native_lifecycle_resume_and_inference(preset, tmp_path, monke
                 assert torch.isfinite(inference.response(strength=strength, **request)).all()
             if artifact is raw:
                 assert torch.equal(inference.response(strength=-.5, **request), response)
+            else:
+                assert torch.equal(inference.response(strength=-.5, **request), ema_response)
+                assert all(torch.equal(value, ema_weights[name]) for name, value in artifact['network'].items())
     assert torch.equal(rng, torch.get_rng_state())
     assert not torch.cuda.is_initialized()
 
@@ -106,7 +119,11 @@ def test_singleton_axis_binding_matches_shared_field_critic_and_derivatives():
 
 
 def test_actual_legacy_packet_refused_without_mutation():
-    legacy = Path(os.environ['KREA2_LEGACY_PACKET'])
+    filename = os.environ.get('KREA2_LEGACY_PACKET')
+    if not filename:
+        pytest.skip('optional external core081 packet; full qualification must supply KREA2_LEGACY_PACKET')
+    legacy = Path(filename)
+    assert legacy.is_file(), 'KREA2_LEGACY_PACKET was set but does not name an existing packet'
     packet = torch.load(legacy, map_location='cpu', weights_only=True)
     with open_session(SessionConfig('krea2-hndl', 'krea2-hndl-cpu-v1', dummy=True, steps=4)) as session:
         before = session.checkpoint()['sha256']
@@ -122,3 +139,39 @@ def test_source_admission_rejects_tamper_before_native_loading(monkeypatch):
     monkeypatch.setattr(shared, '_sha', lambda p: '0' * 64 if str(p).endswith('hndl_networks.py') else original(p))
     with pytest.raises(ValueError, match='HyperGAN builder closure'):
         runtime.validate_runtime()
+
+
+def test_valid_other_cohort_packet_refused_without_mutation():
+    # Required even when the optional cross-environment legacy packet is absent.
+    with open_session(SessionConfig('krea2-hndl', 'other-valid-cohort', dummy=True, steps=4)) as other:
+        packet = other.checkpoint()
+    with open_session(SessionConfig('krea2-hndl', 'krea2-hndl-cpu-v1', dummy=True, steps=4)) as session:
+        before = session.checkpoint()['sha256']
+        with pytest.raises(CheckpointError, match='cohort'):
+            session.restore(packet)
+        assert session.checkpoint()['sha256'] == before
+
+
+def test_pg_source_bytes_checked_by_shared_admission(tmp_path, monkeypatch):
+    import shutil
+    import particlegan
+    from krea2_hndl.runtime import validate_runtime
+    source = Path(particlegan.__file__).parent
+    copied = tmp_path / 'particlegan'
+    shutil.copytree(source, copied, ignore=shutil.ignore_patterns('__pycache__'))
+    (copied / 'policy.py').write_text((copied / 'policy.py').read_text() + '\n# source drift\n')
+    monkeypatch.setattr(particlegan, '__file__', str(copied / '__init__.py'))
+    with pytest.raises(RuntimeError, match='ParticleGAN sources differ'):
+        validate_runtime()
+
+
+@pytest.mark.parametrize('height,width', [(3, 4), (4, 3)])
+def test_training_critic_has_fixed_spatial_contract(height, width):
+    critic = Krea2HNDLFieldCritic(4, 3, (height, width))
+    condition = torch.zeros(2, 3)
+    assert critic(torch.zeros(2, 4, 1, height, width), condition).shape == (2,)
+    before = deepcopy(critic.state_dict())
+    # Even an equal-area H/W swap needs another resolved training graph/cohort.
+    with pytest.raises(ValueError, match='fixed training H/W'):
+        critic(torch.zeros(2, 4, 1, width, height), condition)
+    assert all(torch.equal(value, before[name]) for name, value in critic.state_dict().items())

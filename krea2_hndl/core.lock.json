@@ -3,7 +3,7 @@
   "commit": "4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231",
   "version": "0.12.0",
   "particlegan": "0.9.4",
-  "wheel_sha256": "9afad3afc1f6c653a574074dc14f0da1f1c43975c31ca45c4eac049df0b0b4ad",
+  "reference_wheel_sha256": "9afad3afc1f6c653a574074dc14f0da1f1c43975c31ca45c4eac049df0b0b4ad",
   "sources": {
     "concept_slider_core/__init__.py": "9afadb5c36b00413160442900e6190a7d93f272b61413f72a932c1db948623d3",
     "particle_sliders/__init__.py": "840ac3d54df90b121c7d2a13c5097c6132ba19ec3c95f5673251dd709935f799",

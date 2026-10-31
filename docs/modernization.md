@@ -30,6 +30,10 @@ python -I -m pytest -o pythonpath= --import-mode=importlib --confcutdir=tests -q
 ```
 
 Use a wheel install and run outside the checkout for release qualification.
+The default requirements file deliberately uses `-e .[test]` for development;
+inspection reports the editable metadata and source origin. Installation tests
+accept that declared editable origin. Their wheel lane separately refuses source
+checkout imports, so development installation is not reported as wheel evidence.
 The inspection command checks the installed distribution, exact shared source
 map, registrations and optional class imports. It never downloads weights,
 allocates a model, trains, or selects another core profile.
@@ -44,6 +48,13 @@ generator; no particle bank or alternate objective is introduced.
 
 `krea2_hndl/core.lock.json` admits the complete exact joint-candidate source map,
 then the core verifies the HNDL source closure and clean HyperGAN build provenance.
+PG's version is checked first, then the shared `validate_pg09_domain` API verifies
+the official PG Python source map before any model is allocated. Installed core
+validation hashes Python/JSON/HNDL files, not the original wheel archive.
+`reference_wheel_sha256` records that original build artifact; supply
+`--core-wheel /path/to/exact-core.whl` to the candidate builder to verify the
+archive too. Rebuilt wheels may have different archive metadata and are admitted
+at runtime only when the complete installed source map matches.
 Independent native-only exports use backend `krea2-hndl` and protocol
 `krea2-hypergan-hndl-native-v1`; source/architecture/cohort mismatches refuse.
 Shared product preparation seams permit this explicit binding without replacing
@@ -60,6 +71,26 @@ from `profiles/hypergan-hndl/pyproject.toml`. It never installs or publishes the
 wheel and leaves the default `pyproject.toml`/requirements/core081 lock intact.
 Use a **separate** environment containing the exact reviewed local core wheel,
 official PG 0.9.4, HyperGAN commit and HNDL 0.10.0, and compatible native extras.
+The supported and candidate wheels intentionally share distribution name
+`krea2-particle-sliders` and top-level module `krea2`: they are mutually exclusive
+alternative builds and cannot be coinstalled. `pip --pre` or `--upgrade` in the
+supported environment could replace its distribution and is not an adoption
+path. Keep the original environment intact. Use the guarded installer in a fresh
+venv, with no inherited Krea2 installation or source paths:
+
+```bash
+python -m venv /tmp/krea2-hndl-env
+/tmp/krea2-hndl-env/bin/python -I scripts/install_hndl_candidate.py --check-only
+# After the exact core is published and normal dependencies can resolve:
+/tmp/krea2-hndl-env/bin/python -I scripts/install_hndl_candidate.py \
+  --wheel /tmp/krea2-hndl-wheels/krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl
+```
+
+The installer refuses an existing distribution or importable Krea2 module and
+performs normal pip dependency resolution. It adds no `--pre`, `--upgrade` or
+`--no-deps` flag. Direct pip installation bypasses this environment check and
+must not be used to replace the supported profile. Build-only commands remain
+safe in an existing environment because they install nothing.
 The core commit is not yet published, so ordinary remote dependency resolution
 for this profile remains blocked until coordinated core publication. Do not
 change the SHA or disable its source guard to make installation succeed.
@@ -77,9 +108,21 @@ candidate wheel. Legacy `krea2-train`/`krea2-infer` console scripts are omitted
 from the candidate profile because they select the supported legacy runtime.
 Native loading remains local and requires separate resource admission.
 
-Installed candidate tests live in `tests/test_hndl_candidate.py`. They require
-`KREA2_LEGACY_PACKET` pointing to an actual core081 training packet created in
-its separate supported environment. Run with `-I`, `-o pythonpath=`,
+The HNDL training critic is resolved for one native channel count and H/W. It
+accepts different batch sizes but rejects changed spatial dimensions, including
+an equal-area H/W swap, before graph execution. A different training resolution
+requires a fresh graph, cache and cohort. This is stricter than the legacy
+convolutional FieldCritic. Native-only inference exports have no critic; this
+training restriction does not establish or prohibit any unqualified pretrained
+multi-resolution rendering behavior.
+
+Installed candidate tests live in `tests/test_hndl_candidate.py`. The optional
+external legacy-packet test skips if `KREA2_LEGACY_PACKET` is absent; a supplied
+but missing/invalid file fails. Required tests still check a valid incompatible
+cohort packet and unchanged target state. Full cross-cohort qualification must
+set `KREA2_LEGACY_PACKET` to an actual core081 packet from the separate supported
+environment and obtain zero skips; a missing-fixture run is not full evidence.
+Run with `-I`, `-o pythonpath=`,
 `--import-mode=importlib` and `--confcutdir=tests`; the last option prevents pytest
 from collecting the repository's unrelated ComfyUI root initializer.
 
