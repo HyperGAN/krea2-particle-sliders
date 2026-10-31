@@ -24,7 +24,7 @@ def test_supported_lock_and_legacy_profile_remain_exact():
     candidate = tomllib.loads((ROOT / 'profiles/hypergan-hndl/pyproject.toml').read_text())
     assert default['project']['version'] == '0.2.0'
     assert '32f6830f6402e85aa77b6631db64fcbbb2131f6b' in default['project']['dependencies'][0]
-    assert '4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231' in candidate['project']['dependencies'][0]
+    assert 'a794e3b4a8813b012f2c4faa3da82b78d4a90214' in candidate['project']['dependencies'][0]
     assert 'hypergan-hndl' in candidate['project']['dependencies'][0]
 
 

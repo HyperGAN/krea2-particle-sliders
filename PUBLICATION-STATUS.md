@@ -1,5 +1,16 @@
 # Publication and qualification status
 
+The active modern candidate now pins exact shared core
+`a794e3b4a8813b012f2c4faa3da82b78d4a90214`. Its installed CPU conformance suite
+passes 16 cases with no skips. Fresh wheel and sdist installations pass normal
+public dependency resolution, exact source/data admission, import/provenance
+checks and `pip check`. The stable product still passes 54 cases and its editable
+installer passes 8 cases. See [the coordinated pin receipt](evidence/core-a794/README.md).
+Prior preview packets and review notes remain historical. Old preview packets
+are rejected without rebinding or tensor mutation. Native model, width, sampler
+and quality admission gates are unchanged. This migration ran no GPU jobs and
+requires root's Claude actual-diff RETURN review before landing.
+
 PR6 final polish: **54 supported-wheel cases and 10 candidate cases pass**, with
 zero skips; the editable installer lane separately passes 8 cases. A fresh CPU
 base installation from the exact public core/HyperGAN sources also passes normal

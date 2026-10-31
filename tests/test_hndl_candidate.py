@@ -187,3 +187,125 @@ def test_rejected_geometry_preserves_complete_training_state():
             session.game.critic(torch.zeros(2, channels, temporal, height, width + 1),
                                 session.game.rows.conditions([0, 1]))
         assert session.checkpoint()['sha256'] == before
+
+
+@pytest.mark.parametrize('change', ['license', 'extra_nested_data'])
+def test_recursive_core_data_tamper_rejected_before_preparation(tmp_path, monkeypatch, change):
+    import shutil
+    import particle_sliders
+    import krea2.synthetic as synthetic
+    root = Path(particle_sliders.__file__).resolve().parent.parent
+    for package in ('particle_sliders', 'concept_slider_core'):
+        shutil.copytree(root / package, tmp_path / package, ignore=shutil.ignore_patterns('__pycache__'))
+    if change == 'license':
+        (tmp_path / 'particle_sliders/LICENSE').write_text('changed data bytes')
+    else:
+        path = tmp_path / 'particle_sliders/nested/unexpected.dat'
+        path.parent.mkdir()
+        path.write_bytes(b'unexpected recursive data')
+    monkeypatch.setattr(particle_sliders, '__file__', str(tmp_path / 'particle_sliders/__init__.py'))
+    def forbidden():
+        raise AssertionError('source/data rejection must precede model preparation')
+    monkeypatch.setattr(synthetic, 'staged_fixture', forbidden)
+    before = torch.get_rng_state().clone()
+    with pytest.raises(RuntimeError, match='shared source differs'):
+        open_session(SessionConfig('krea2-hndl', 'tampered-core', dummy=True, steps=4))
+    assert torch.equal(before, torch.get_rng_state())
+
+
+def test_old_modern_preview_packets_refused_without_rebinding(monkeypatch):
+    filename = os.environ.get('KREA2_OLD_PREVIEW_DIR')
+    if not filename:
+        pytest.skip('qualification supplies actual old 4abc training, raw and EMA previews')
+    directory = Path(filename)
+    packet = torch.load(directory / 'training.pt', map_location='cpu', weights_only=True)
+    with open_session(SessionConfig('krea2-hndl', 'krea2-hndl-cpu-v1', dummy=True,
+                                    steps=4, ema_decay=.9)) as session:
+        before = session.checkpoint()['sha256']
+        with pytest.raises(CheckpointError):
+            session.restore(packet)
+        assert session.checkpoint()['sha256'] == before
+    # Capture the fresh inference network without changing the registered factory sources.
+    import krea2.native_inference as product
+    original = product.prepare
+    observed = []
+    def capture(*args, **kwargs):
+        binding = original(*args, **kwargs)
+        observed.append((binding.network, deepcopy(binding.network.state_dict())))
+        return binding
+    monkeypatch.setattr(product, 'prepare', capture)
+    for name in ('raw.pt', 'ema.pt'):
+        before = torch.get_rng_state().clone()
+        with pytest.raises(CheckpointError, match='source|protocol|model'):
+            open_inference(directory / name, operation='response')
+        assert torch.equal(before, torch.get_rng_state())
+    assert len(observed) == 2
+    for network, values in observed:
+        assert all(torch.equal(value, values[name]) for name, value in network.state_dict().items())
+
+
+def test_observation_failure_restores_state_and_allows_retry():
+    from contextlib import contextmanager
+    with open_session(SessionConfig('krea2-hndl', 'observation-retry', dummy=True,
+                                    steps=4, ema_decay=.9)) as session:
+        session.train(stop_after=2)
+        before = session.checkpoint()['sha256']
+        rng = torch.get_rng_state().clone()
+        original = session.binding.observation
+        attempts = 0
+        @contextmanager
+        def fail_once():
+            nonlocal attempts
+            with original():
+                yield
+                attempts += 1
+                if attempts == 1:
+                    torch.rand(3)
+                    raise RuntimeError('observation cleanup fixture')
+        session.binding.observation = fail_once
+        with pytest.raises(RuntimeError, match='observation cleanup fixture'):
+            session.evaluate()
+        assert session.checkpoint()['sha256'] == before
+        assert torch.equal(rng, torch.get_rng_state())
+        assert torch.isfinite(session.evaluate()).all()
+        assert session.checkpoint()['sha256'] == before
+
+
+def test_close_failure_before_product_cleanup_allows_retry():
+    session = open_session(SessionConfig('krea2-hndl', 'close-retry', dummy=True, steps=4))
+    original = session.binding.close
+    attempts = 0
+    def fail_once():
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise RuntimeError('before product cleanup fixture')
+        original()
+    session.binding.close = fail_once
+    try:
+        before = session.checkpoint()['sha256']
+        with pytest.raises(RuntimeError, match='before product cleanup fixture'):
+            session.close()
+        assert not session.closed and session.checkpoint()['sha256'] == before
+        session.close()
+        session.close()
+        assert session.closed and attempts == 2
+    finally:
+        session.binding.close = original
+        session.close()
+
+
+def test_lock_file_digest_tamper_rejected(monkeypatch):
+    import json
+    from krea2_hndl.runtime import validate_runtime
+    original = Path.read_text
+    def changed(path, *args, **kwargs):
+        text = original(path, *args, **kwargs)
+        if path.name == 'core.lock.json' and path.parent.name == 'krea2_hndl':
+            lock = json.loads(text)
+            lock['sources']['particle_sliders/LICENSE'] = '0' * 64
+            return json.dumps(lock)
+        return text
+    monkeypatch.setattr(Path, 'read_text', changed)
+    with pytest.raises(RuntimeError, match='shared source differs'):
+        validate_runtime()

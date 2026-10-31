@@ -1,5 +1,24 @@
 # Supported installation and next core cohort
 
+The active modern candidate now pins immutable core
+`a794e3b4a8813b012f2c4faa3da82b78d4a90214`, the coordinated transactional
+lifecycle fix. Core remains at 0.12 with official PG 0.9.4. HyperGAN develop
+remains at `5f368a3770cf5bdae0448995c9f76e29af8049f7`, and HNDL remains at 0.10.0.
+The recursive lock is generated from a wheel whose entire source/data closure
+is checked against that exact Git tree. Maintainers can verify the lock with:
+
+```bash
+python -I scripts/regenerate_hndl_lock.py --check \
+  --core-repo /path/to/particle-sliders --core-wheel /path/to/reference-core.whl
+```
+
+The prior 4abc preview environment, packets and review receipts retain their old
+identities. New training and raw/EMA native packets have a different signed
+source/cohort identity, despite unchanged version numbers and native protocol.
+Old previews fail closed without applying checkpoint tensors; no rebinding or
+automatic conversion is supported. Keep the old environment to consume them.
+The supported core 0.8.1 defaults and their lock are unchanged.
+
 The supported Krea2 cohort remains core 0.8.1 at
 `32f6830f6402e85aa77b6631db64fcbbb2131f6b` with official ParticleGAN 0.9.1.
 `pyproject.toml` owns this dependency and `krea2/shared.lock.json` verifies its
@@ -46,11 +65,12 @@ only the native singleton time axis at the critic boundary. The shared game and
 PG penalty still receive genuine 5D responses. Native PEFT leaves remain the
 generator; no particle bank or alternate objective is introduced.
 
-`krea2_hndl/core.lock.json` admits the complete exact joint-candidate source map,
+`krea2_hndl/core.lock.json` admits the complete recursive exact candidate source/data map,
 then the core verifies the HNDL source closure and clean HyperGAN build provenance.
 PG's version is checked first, then the shared `validate_pg09_domain` API verifies
 the official PG Python source map before any model is allocated. Installed core
-validation hashes Python/JSON/HNDL files, not the original wheel archive.
+validation hashes every package file recursively, including data and licenses,
+excluding only compiled Python caches; it does not hash the original archive.
 `reference_wheel_sha256` records that original build artifact; supply
 `--core-wheel /path/to/exact-core.whl` to the candidate builder to verify the
 archive too. Rebuilt wheels may have different archive metadata and are admitted
@@ -63,7 +83,7 @@ the supported factory's validator, game, or inference protocol.
 Build a separate local candidate wheel with the patched build tools installed:
 
 ```bash
-python -I scripts/build_hndl_candidate.py --output /tmp/krea2-hndl-wheels
+python -I scripts/build_hndl_candidate.py --sdist --output /tmp/krea2-hndl-wheels
 ```
 
 This creates version `0.3.0.dev0` with its own exact modern dependency metadata
@@ -91,6 +111,19 @@ performs normal pip dependency resolution. It adds no `--pre`, `--upgrade` or
 `--no-deps` flag. Direct pip installation bypasses this environment check and
 must not be used to replace the supported profile. Build-only commands remain
 safe in an existing environment because they install nothing.
+
+For a clean CPU base installation, constrain `torch==2.6.0+cpu`,
+`setuptools==84.2.1`, `particlegan==0.9.4` and `hndl==0.10.0` in a separate
+constraints file. Run the guarded installer with `PIP_CONSTRAINT` pointing to
+that file and `PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cpu` (or use
+`PIP_FIND_LINKS` pointing to the verified official CPU wheel). Use the normal
+PyPI index for other dependencies and normal build isolation; do not use
+`--no-deps` for clean resolution. The generated candidate sdist can also be
+installed with normal pip in a second fresh environment and needs no checkout.
+This base lane does not install native model extras or qualify pretrained work.
+The upstream target's synthetic CUDA software tests do not establish Krea2
+native/GPU sampler, model, width or quality qualification. This product migration
+runs CPU checks only and preserves all native and domain admission gates.
 The exact core commit is now publicly reachable, verified during the final PR6
 review-fix handoff. The earlier publication blocker is cleared; a clean full
 native dependency resolution has not been run here. Do not change the SHA or
@@ -131,7 +164,7 @@ from collecting the repository's unrelated ComfyUI root initializer.
 
 The coordinated local candidate is core 0.12 / PG 0.9.4 / HyperGAN develop
 `5f368a3770cf5bdae0448995c9f76e29af8049f7`, joint commit
-`4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231`. It is now publicly reachable; its
+`a794e3b4a8813b012f2c4faa3da82b78d4a90214`. It is now publicly reachable; its
 shared CPU results do not qualify this Krea2 product. Installing it into the
 supported environment must fail that profile's exact runtime guard. Default
 adoption still needs all of the following:

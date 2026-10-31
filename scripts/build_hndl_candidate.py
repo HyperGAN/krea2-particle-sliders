@@ -14,6 +14,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--core-wheel', type=Path,
                         help='optionally verify the original core wheel artifact before building')
+    parser.add_argument('--sdist', action='store_true', help='also build the exact candidate source distribution')
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     if args.core_wheel is not None:
@@ -29,7 +30,20 @@ def main():
                             ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
         for name in ('LICENSE', 'NOTICE', 'LIFECYCLE.md'):
             shutil.copy2(root / name, source / name)
+        for name in ('docs/modernization.md', 'scripts/build_hndl_candidate.py',
+                     'scripts/install_hndl_candidate.py', 'scripts/check_install.py',
+                     'scripts/regenerate_hndl_lock.py', 'profiles/hypergan-hndl/pyproject.toml'):
+            target = source / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(root / name, target)
+        (source / 'MANIFEST.in').write_text(
+            'include LIFECYCLE.md NOTICE\ninclude docs/modernization.md\n'
+            'recursive-include scripts *.py\nrecursive-include profiles *.toml\n')
         shutil.copy2(root / 'profiles/hypergan-hndl/pyproject.toml', source / 'pyproject.toml')
+        if args.sdist:
+            subprocess.run([sys.executable, '-I', '-c',
+                'import sys; from setuptools.build_meta import build_sdist; build_sdist(sys.argv[1])',
+                str(output)], cwd=source, check=True)
         subprocess.run([sys.executable, '-I', '-m', 'pip', 'wheel', '--no-index',
             '--no-deps', '--no-build-isolation', '--wheel-dir', str(output), str(source)], check=True)
 

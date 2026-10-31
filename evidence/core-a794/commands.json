@@ -1,0 +1,153 @@
+{
+  "workspace": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9",
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/scripts/regenerate_hndl_lock.py",
+        "--core-repo",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-3/repos/core012-lifecycle-fixes",
+        "--core-wheel",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-3/evidence/core012-review2-wheels/particle_sliders_core-0.12.0-py3-none-any.whl"
+      ],
+      "result": "Wrote the coherent target lock once; later --check runs reproduced it."
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-a794-conformance/bin/python",
+        "-I",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/scripts/build_hndl_candidate.py",
+        "--sdist",
+        "--output",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/wheels",
+        "--core-wheel",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-3/evidence/core012-review2-wheels/particle_sliders_core-0.12.0-py3-none-any.whl"
+      ],
+      "result": "Candidate wheel and sdist built."
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-a794-clean/bin/python",
+        "-I",
+        "-m",
+        "pip",
+        "install",
+        "--dry-run",
+        "--report",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/resolution.json",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/wheels/krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "GIT_TERMINAL_PROMPT": "0",
+        "PIP_INDEX_URL": "https://pypi.org/simple",
+        "PIP_CONSTRAINT": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/cpu-constraints.txt",
+        "PIP_FIND_LINKS": "/ml2/codex-storage/future-workspaces/2026-10-31/task-3/evidence/torch26-wheelhouse",
+        "PIP_CACHE_DIR": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/pip-cache",
+        "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+      },
+      "result": "Normal public dependency resolution passed."
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-a794-clean/bin/python",
+        "-I",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/scripts/install_hndl_candidate.py",
+        "--wheel",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/wheels/krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "GIT_TERMINAL_PROMPT": "0",
+        "PIP_INDEX_URL": "https://pypi.org/simple",
+        "PIP_CONSTRAINT": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/cpu-constraints.txt",
+        "PIP_FIND_LINKS": "/ml2/codex-storage/future-workspaces/2026-10-31/task-3/evidence/torch26-wheelhouse",
+        "PIP_CACHE_DIR": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/pip-cache",
+        "PIP_DISABLE_PIP_VERSION_CHECK": "1",
+        "PIP_REPORT": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/install-report.json"
+      },
+      "result": "Fresh CPU wheel installation passed with normal build isolation."
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-a794-sdist/bin/python",
+        "-I",
+        "-m",
+        "pip",
+        "install",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/wheels/krea2_particle_sliders-0.3.0.dev0.tar.gz"
+      ],
+      "cwd": "/tmp",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "GIT_TERMINAL_PROMPT": "0",
+        "PIP_INDEX_URL": "https://pypi.org/simple",
+        "PIP_CONSTRAINT": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/public-cpu-install/cpu-constraints.txt",
+        "PIP_FIND_LINKS": "/ml2/codex-storage/future-workspaces/2026-10-31/task-3/evidence/torch26-wheelhouse",
+        "PIP_CACHE_DIR": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/pip-cache",
+        "PIP_DISABLE_PIP_VERSION_CHECK": "1",
+        "PIP_REPORT": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/sdist-install-report.json"
+      },
+      "result": "Fresh CPU sdist installation passed with the checkout absent from imports."
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-a794-clean/bin/python",
+        "-I",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "result": "No broken requirements found."
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-a794-sdist/bin/python",
+        "-I",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "result": "No broken requirements found."
+    },
+    {
+      "command": [
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-a794-conformance/bin/python",
+        "-I",
+        "-m",
+        "pytest",
+        "-q",
+        "-o",
+        "pythonpath=",
+        "--import-mode=importlib",
+        "-p",
+        "no:cacheprovider",
+        "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/installed-tests/test_hndl_candidate.py",
+        "--junitxml=/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/conformance-final.xml"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "",
+        "HF_HUB_OFFLINE": "1",
+        "TRANSFORMERS_OFFLINE": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "KREA2_LEGACY_PACKET": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/actual-core081-training.pt",
+        "KREA2_OLD_PREVIEW_DIR": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/core-a794/old-preview"
+      },
+      "result": "16 passed, zero skips; copied tests import installed packages, not the checkout."
+    }
+  ]
+}

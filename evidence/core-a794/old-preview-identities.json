@@ -1,0 +1,18 @@
+{
+  "core_commit": "4abc0eb03a4e3a84fc3e6d02734c13dc7e8ea231",
+  "packets": {
+    "ema.pt": {
+      "sha256": "c24f1c50ff2e9ddb3a9ba994c403aa534d7b68b678b92bfd46f93d604b123c5b",
+      "bytes": 92379
+    },
+    "raw.pt": {
+      "sha256": "a86164ced5efd99f89ab18f696a473760b2c170b9fd5180572c44ffaf267680e",
+      "bytes": 92379
+    },
+    "training.pt": {
+      "sha256": "42060bc6358fca4457a17d7369093853df9eb393c5b0fe5147675693a6d1303e",
+      "bytes": 248474
+    }
+  },
+  "conversion": "none; original packets remain in their old environment"
+}

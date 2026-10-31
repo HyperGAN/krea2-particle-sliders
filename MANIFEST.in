@@ -4,5 +4,6 @@ include docs/modernization.md
 include scripts/check_install.py
 include scripts/build_hndl_candidate.py
 include scripts/install_hndl_candidate.py
+include scripts/regenerate_hndl_lock.py
 recursive-include profiles *.toml
 recursive-include krea2_hndl *.py *.json
