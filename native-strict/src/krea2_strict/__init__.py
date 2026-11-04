@@ -1,0 +1,6 @@
+"""An explicit new native cohort; the default and HNDL products remain separate."""
+BACKEND_NAME = "krea2-native-strict"
+COHORT = "krea2-native-bf16-math-v1"
+EXECUTION = "krea2-native-bf16-math-sdpa-strict-v1"
+BASE = "9d3ad435daa230fe7746bc0888abad8fcf2a7913"
+CORE = "ddb41423bcefc1fe76cd94d0f9b367353b3ea137"
