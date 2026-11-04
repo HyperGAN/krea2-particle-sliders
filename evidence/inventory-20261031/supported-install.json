@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "product": "0.2.0",
+  "profile": "supported",
+  "shared": {
+    "distribution": "particle-sliders-core",
+    "version": "0.8.1",
+    "commit": "32f6830f6402e85aa77b6631db64fcbbb2131f6b",
+    "particlegan": "0.9.1",
+    "source_sha256": "dedbc1f3ea45f68ea015449cc9ee0a99aae8d0cea480fec2a8f1d3fb4183cbb2"
+  },
+  "registrations": {
+    "console_scripts:krea2-train": "krea2.train:main",
+    "console_scripts:krea2-infer": "krea2.infer:main",
+    "particle_sliders.image_backends:krea2": "krea2.lifecycle:BACKEND",
+    "particle_sliders.inference_backends:krea2": "krea2.native_inference:BACKEND"
+  },
+  "qualification": "installation only; pretrained/GPU behavior unqualified",
+  "origins": {
+    "krea2": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-krea/lib/python3.11/site-packages/krea2/__init__.py",
+    "particle_sliders": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-krea/lib/python3.11/site-packages/particle_sliders/__init__.py",
+    "particlegan": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-krea/lib/python3.11/site-packages/particlegan/__init__.py",
+    "diffusers": "/home/mikkel/anaconda3/envs/minimax-music3/lib/python3.11/site-packages/diffusers/__init__.py",
+    "peft": "/home/mikkel/anaconda3/envs/minimax-music3/lib/python3.11/site-packages/peft/__init__.py",
+    "transformers": "/home/mikkel/anaconda3/envs/minimax-music3/lib/python3.11/site-packages/transformers/__init__.py",
+    "torchvision": "/home/mikkel/anaconda3/envs/minimax-music3/lib/python3.11/site-packages/torchvision/__init__.py",
+    "safetensors": "/home/mikkel/anaconda3/envs/minimax-music3/lib/python3.11/site-packages/safetensors/__init__.py"
+  },
+  "native_versions": {
+    "diffusers": "0.40.0.dev0",
+    "peft": "0.20.0",
+    "transformers": "5.15.0",
+    "torchvision": "0.26.0+cu128",
+    "safetensors": "0.8.0"
+  },
+  "cuda_initialized": false
+}

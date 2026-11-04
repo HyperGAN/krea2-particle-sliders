@@ -38,7 +38,7 @@ def _native_arguments(options):
     return args
 
 
-def validate(options):
+def validate(options, *, runtime_validator=None):
     import math
     allowed = {'cache_file', 'native_args', 'steps', 'seed', 'batch', 'preset', 'lr',
                'base_precision', 'ema_decay', 'dummy', 'device', 'render_prompts'}
@@ -66,7 +66,7 @@ def validate(options):
     if type(lr) not in (int, float) or not math.isfinite(lr) or lr <= 0:
         raise ValueError('Krea2 learning rate must be positive and finite')
     from .shared import validate_shared_runtime
-    validate_shared_runtime()
+    (runtime_validator or validate_shared_runtime)()
 
 
 def _cache_identity(cache, args):
@@ -106,7 +106,8 @@ def preflight(options, request, staged):
         raise ValueError('before_update admission must be a callback')
 
 
-def prepare(options, *, native=None, cache=None, before_update=None):
+def prepare(options, *, native=None, cache=None, before_update=None,
+            game_builder=None, specification_factory=None, native_factory=None):
     import torch
     from .pg09 import build_game, file_digest
     if options.get('dummy'):
@@ -125,7 +126,7 @@ def prepare(options, *, native=None, cache=None, before_update=None):
         if native is None:
             # Common sessions own their packet output destinations. Preparing a
             # session must not write into the legacy CLI's save_dir.
-            native = CudaUNI(args, texts, Path(args.save_dir), write_prompt_counts=False)
+            native = (native_factory or CudaUNI)(args, texts, Path(args.save_dir), write_prompt_counts=False)
     # Ownership transfers only after successful native construction. Any later
     # identity/build failure must release the attached PEFT and checkpoint hooks.
     close = own_native(native)
@@ -135,11 +136,11 @@ def prepare(options, *, native=None, cache=None, before_update=None):
             raise ValueError('Krea2 cache differs from staged frozen model')
         if not options.get('dummy') and identity['conditioning_identity'] != native.conditioning_identity:
             raise ValueError('Krea2 cache differs from staged frozen conditioning')
-        game = build_game(native, cache, cache_sha256=checksum, model_identity=_product_identity(identity),
+        game = (game_builder or build_game)(native, cache, cache_sha256=checksum, model_identity=_product_identity(identity),
             total_steps=options.get('steps', 4), seed=options.get('seed', 7),
             batch_size=options.get('batch', 2), preset=options.get('preset', 'bispf_optimized'), lr=options.get('lr', 5e-5))
         from .native_inference import specification
-        inference = specification(native, game.backend, dummy=bool(options.get('dummy')))
+        inference = (specification_factory or specification)(native, game.backend, dummy=bool(options.get('dummy')))
     except BaseException:
         close()
         raise

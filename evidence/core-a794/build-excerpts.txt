@@ -1,0 +1,14 @@
+product-build.log
+  Created wheel for krea2-particle-sliders: filename=krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl size=72227 sha256=564e871a83a21462947dc973f5551fa49f7db0475bc868256674a62fb3a9f30d
+Successfully built krea2-particle-sliders
+clean-install.log
+  Resolved https://github.com/HyperGAN/particle-sliders.git to commit a794e3b4a8813b012f2c4faa3da82b78d4a90214
+  Resolved https://github.com/HyperGAN/HyperGAN.git to commit 5f368a3770cf5bdae0448995c9f76e29af8049f7
+  Created wheel for particle-sliders-core: filename=particle_sliders_core-0.12.0-py3-none-any.whl size=159713 sha256=d4e4f8a534ec37ed4e2f5348a5d0db26c0ba7b0012b178d9a98316c9d77ee21b
+  Created wheel for hypergan: filename=hypergan-2.0.0-py3-none-any.whl size=822545 sha256=96584ea22f3e4043fc9854d35828533b858bd078f98005d67d2d86c734fb0ff2
+Successfully built particle-sliders-core hypergan
+Successfully installed MarkupSafe-3.0.4 PyYAML-6.0.3 filelock-4.2.6 foldlitedb-0.1.2 fsspec-2026.9.0 hndl-0.10.0 hypergan-2.0.0 jinja2-3.1.6 krea2-particle-sliders-0.3.0.dev0 mpmath-1.3.0 networkx-3.7 numpy-2.5.4 particle-sliders-core-0.12.0 particlegan-0.9.4 setuptools-84.2.1 sympy-1.13.1 torch-2.6.0+cpu typing-extensions-4.16.0
+sdist-install.log
+  Created wheel for krea2-particle-sliders: filename=krea2_particle_sliders-0.3.0.dev0-py3-none-any.whl size=72227 sha256=5d76a7b91de720fd977ac4f13757614b205e1987477a695aab2c2747c3aa0fcd
+Successfully built krea2-particle-sliders
+Successfully installed MarkupSafe-3.0.4 PyYAML-6.0.3 filelock-4.2.6 foldlitedb-0.1.2 fsspec-2026.9.0 hndl-0.10.0 hypergan-2.0.0 jinja2-3.1.6 krea2-particle-sliders-0.3.0.dev0 mpmath-1.3.0 networkx-3.7 numpy-2.5.4 particle-sliders-core-0.12.0 particlegan-0.9.4 setuptools-84.2.1 sympy-1.13.1 torch-2.6.0+cpu typing-extensions-4.16.0

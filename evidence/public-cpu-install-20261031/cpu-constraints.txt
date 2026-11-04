@@ -1,0 +1,4 @@
+torch==2.6.0+cpu
+setuptools==84.2.1
+particlegan==0.9.4
+hndl==0.10.0

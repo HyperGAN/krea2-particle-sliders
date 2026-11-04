@@ -10,7 +10,7 @@ def formulation_record(preset="bispf_optimized"):
     from krea2.shared import validate_shared_runtime
     runtime = validate_shared_runtime()
     return dict(shared_runtime=runtime, api='particle_sliders.pg09.ConditionalPG09',
-                particlegan='0.9.1', preset=preset,
+                particlegan=runtime['particlegan'], preset=preset,
                 generator_arm='adapter_gan', particles=None,
                 objective='g_adv;d_adv+public_penalty', optimized_mse=False,
                 quality_qualified=False)

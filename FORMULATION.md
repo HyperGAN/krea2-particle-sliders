@@ -1,8 +1,8 @@
 # Krea2 training formulation
 
 Current `krea2-particle-sliders` live training executes the installed
-`particle_sliders.pg09.ConditionalPG09` API with released ParticleGAN **0.9.1**.
-The exact shared source pin is in requirements.txt. This product does not vendor ParticleGAN. There is no vendored ParticleGAN,
+`particle_sliders.pg09.ConditionalPG09` API with released ParticleGAN **0.9.4**.
+The exact shared source pin is in pyproject.toml; requirements.txt installs that package. This product does not vendor ParticleGAN. There is no vendored ParticleGAN,
 local GAN loss, product optimizer, or copied shared backend.
 
 `python scripts/train_krea2.py --live` stages the frozen

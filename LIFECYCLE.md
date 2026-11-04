@@ -1,11 +1,12 @@
 # Krea2 common lifecycle
 
-Exact tested shared pin: `32f6830f6402e85aa77b6631db64fcbbb2131f6b`,
-clean core **0.8.1**, ParticleGAN **0.9.1**. The canonical source map and wheel hash
-are consumed directly from the core owner's `core081-build/receipt.json`.
-The tested pin is publicly reachable through merged common-core PR144 ancestry.
-This source remains a draft for exact-head review, not a package release; see
-[qualification status](PUBLICATION-STATUS.md). No PG 0.9.3 profile is downgraded.
+The canonical product now uses core **0.12.0**, official ParticleGAN **0.9.4**,
+source `ddb41423bcefc1fe76cd94d0f9b367353b3ea137`.
+The complete installed package source/data closure and official PG bytes are
+validated before training/loading. See [PG 0.9.4 adoption](docs/pg094-adoption.md).
+The separate HNDL preview retains its original core pin and qualification gates.
+The prior core0.8.1/PG0.9.1 source is reproducible through
+`profiles/core081/requirements.txt` in its own environment.
 
 The registered image backend owns native loading/conditioning, geometry and
 sampler differences. Core owns session updates, EMA, resume, export and cleanup;
@@ -17,7 +18,7 @@ supported as executable extrapolation, without a negative teacher.
 
 ```python
 from particle_sliders.lifecycle import SessionConfig, open_session
-config = SessionConfig('krea2', 'new-krea-core081', dummy=True, steps=4, ema_decay=.9)
+config = SessionConfig('krea2', 'new-krea-pg094', dummy=True, steps=4, ema_decay=.9)
 with open_session(config) as session:
     session.train()
     session.checkpoint('new-krea-run/training.pt')
@@ -37,7 +38,7 @@ with open_inference('new-krea-run/native-ema.pt', operation='response') as infer
                                   timestep=500., strength=-.5)
 ```
 
-Installed qualification passed on exact runtime source `c5bf060`: **43 pytest
+Historical core0.8.1 qualification passed on exact runtime source `c5bf060`: **43 pytest
 cases passed**, zero failures/skips, plus fresh-process raw/EMA and CLI probes.
 All 35 packaged Python/JSON/YAML files match source and installed bytes, with the
 canonical 30-file core map verified. See `evidence/core081-installed/summary.json`.

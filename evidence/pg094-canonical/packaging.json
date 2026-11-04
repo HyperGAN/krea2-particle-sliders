@@ -1,0 +1,11 @@
+{
+  "wheel_sha256": "ec536a29542ecf27409b71030be5d4f83c0252a26050b1aad8f0de0077527e16",
+  "sdist_sha256": "2f49e1e22bef93ba28ee5af9392fa67fb746ab422aa5bd8bcff225ec4335dfa6",
+  "package_files": 35,
+  "package_bytes": "source == initial tested wheel == wheel rebuilt from sdist",
+  "canonical_core": "ddb41423bcefc1fe76cd94d0f9b367353b3ea137",
+  "core_version": "0.12.0",
+  "particlegan": "0.9.4",
+  "pg_source": "330eb94ee748cdcad131b0275d8de75fd5a7f96f",
+  "native_quality_qualified": false
+}

@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "product": "0.2.1",
+  "profile": "supported",
+  "shared": {
+    "distribution": "particle-sliders-core",
+    "version": "0.12.0",
+    "commit": "ddb41423bcefc1fe76cd94d0f9b367353b3ea137",
+    "particlegan": "0.9.4",
+    "pg_sources_sha256": "2ccc05a2e2e4c9ce00187e6cd13495f0b468a6fb22644cd5f8993dd6ec80a3a8",
+    "source_sha256": "97d1b9162c56e7d685d70f8ff8f467e2a97e3b9bdc419ec5841dfce1042b0116"
+  },
+  "installation": {
+    "editable": false,
+    "direct_url": "file:///ml2/particlesliders-working/pg094-upgrades/krea2-final-dist/krea2_particle_sliders-0.2.1-py3-none-any.whl"
+  },
+  "registrations": {
+    "console_scripts:krea2-train": "krea2.train:main",
+    "console_scripts:krea2-infer": "krea2.infer:main",
+    "particle_sliders.image_backends:krea2": "krea2.lifecycle:BACKEND",
+    "particle_sliders.inference_backends:krea2": "krea2.native_inference:BACKEND"
+  },
+  "qualification": "installation only; pretrained/GPU behavior unqualified",
+  "origins": {
+    "krea2": "/ml2/particlesliders-working/pg094-upgrades/krea2-cpu-venv/lib/python3.11/site-packages/krea2/__init__.py",
+    "particle_sliders": "/ml2/particlesliders-working/pg094-upgrades/krea2-cpu-venv/lib/python3.11/site-packages/particle_sliders/__init__.py",
+    "particlegan": "/ml2/particlesliders-working/pg094-upgrades/qwen-clean-venv/lib/python3.11/site-packages/particlegan/__init__.py",
+    "diffusers": "/ml2/particlesliders-working/pg094-upgrades/qwen-clean-venv/lib/python3.11/site-packages/diffusers/__init__.py",
+    "peft": "/ml2/particlesliders-working/pg094-upgrades/krea2-cpu-venv/lib/python3.11/site-packages/peft/__init__.py",
+    "transformers": "/ml2/particlesliders-working/pg094-upgrades/qwen-clean-venv/lib/python3.11/site-packages/transformers/__init__.py",
+    "torchvision": "/ml2/particlesliders-working/pg094-upgrades/qwen-clean-venv/lib/python3.11/site-packages/torchvision/__init__.py",
+    "safetensors": "/ml2/particlesliders-working/pg094-upgrades/qwen-clean-venv/lib/python3.11/site-packages/safetensors/__init__.py"
+  },
+  "native_versions": {
+    "diffusers": "0.41.0.dev0",
+    "peft": "0.21.2",
+    "transformers": "5.17.0",
+    "torchvision": "0.29.1+cpu",
+    "safetensors": "0.8.0"
+  },
+  "cuda_initialized": false
+}

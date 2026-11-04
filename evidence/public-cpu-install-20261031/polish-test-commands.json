@@ -1,0 +1,71 @@
+[
+  {
+    "profile": "supported",
+    "command": [
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-krea/bin/python",
+      "-I",
+      "-m",
+      "pytest",
+      "-q",
+      "-o",
+      "pythonpath=",
+      "--import-mode=importlib",
+      "-p",
+      "no:cacheprovider",
+      "--confcutdir=/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_lifecycle.py",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_native_inference.py",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_pg09_product.py",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_native_checkpoint.py",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_docs_contract.py",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_configs.py",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_installation.py",
+      "--junitxml=/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/review-20261031/supported-tests.xml"
+    ],
+    "cwd": "/tmp",
+    "returncode": 0,
+    "legacy_packet": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/actual-core081-training.pt"
+  },
+  {
+    "profile": "hndl",
+    "command": [
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-hndl/bin/python",
+      "-I",
+      "-m",
+      "pytest",
+      "-q",
+      "-o",
+      "pythonpath=",
+      "--import-mode=importlib",
+      "-p",
+      "no:cacheprovider",
+      "--confcutdir=/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_hndl_candidate.py",
+      "--junitxml=/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/review-20261031/hndl-tests.xml"
+    ],
+    "cwd": "/tmp",
+    "returncode": 0,
+    "legacy_packet": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/actual-core081-training.pt"
+  },
+  {
+    "profile": "editable",
+    "command": [
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/.venv-installer/bin/python",
+      "-I",
+      "-m",
+      "pytest",
+      "-q",
+      "-o",
+      "pythonpath=",
+      "--import-mode=importlib",
+      "-p",
+      "no:cacheprovider",
+      "--confcutdir=/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests",
+      "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/krea2-work/tests/test_installation.py",
+      "--junitxml=/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/review-20261031/editable-tests.xml"
+    ],
+    "cwd": "/tmp",
+    "returncode": 0,
+    "legacy_packet": "/ml2/codex-storage/future-workspaces/2026-10-31/task-9/evidence/actual-core081-training.pt"
+  }
+]

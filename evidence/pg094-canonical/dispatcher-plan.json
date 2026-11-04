@@ -1,0 +1,47 @@
+{
+  "schema": "particle-slider-train-v1",
+  "training": {
+    "backend": "krea2",
+    "cohort": "krea2-pg094-dispatcher-cpu-qualification",
+    "options": {
+      "dummy": true,
+      "steps": 4,
+      "ema_decay": 0.9
+    }
+  },
+  "execution": {
+    "runner": "local"
+  },
+  "output": {
+    "root": "/ml2/particlesliders-working/pg094-upgrades/krea2-particle-sliders/evidence/pg094-canonical/runs/krea2-pg094-cpu-qualification-20261104T055421.738368Z",
+    "checkpoint_every": 2,
+    "selection": "raw",
+    "export_format": "v1"
+  },
+  "profile": "krea2-pg094-cpu-qualification",
+  "input_files": [],
+  "reporting": null,
+  "resolved": {
+    "profile": {
+      "schema": "particle-slider-profile-v1",
+      "name": "krea2-pg094-cpu-qualification",
+      "product": "krea2-particle-sliders",
+      "config_kind": "session",
+      "backend": "krea2",
+      "interface": "image",
+      "status": "fixture",
+      "runtime": {},
+      "capabilities": {
+        "resume": true,
+        "periodic_checkpoint": true,
+        "check": true
+      },
+      "default_checkpoint_every": 2
+    },
+    "profile_dir": "/ml2/particlesliders-working/pg094-upgrades/krea2-particle-sliders/evidence/pg094-canonical",
+    "config_dir": "/ml2/particlesliders-working/pg094-upgrades/krea2-particle-sliders/evidence/pg094-canonical",
+    "target_steps": 4,
+    "semantic_sha256": "5c00561f0b912cdd1bcf83530cda02dc70cb8540c7697014aa4710f276df5b46",
+    "runtime_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+  }
+}

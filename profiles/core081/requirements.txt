@@ -1,0 +1,3 @@
+# Immutable prior product/source cohort; install in a separate environment.
+# This retains the original core0.8.1/PG0.9.1 runtime, sources and checkpoints.
+krea2-particle-sliders @ git+https://github.com/HyperGAN/krea2-particle-sliders.git@91ae74b12c123a7241142f134cc4501c5288583a

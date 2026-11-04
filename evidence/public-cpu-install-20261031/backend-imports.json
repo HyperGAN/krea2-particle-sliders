@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "backends": {
+    "particle_sliders.image_backends": {
+      "name": "krea2-hndl",
+      "target": "krea2_hndl.lifecycle:BACKEND"
+    },
+    "particle_sliders.inference_backends": {
+      "name": "krea2-hndl",
+      "target": "krea2_hndl.native_inference:BACKEND"
+    }
+  },
+  "cuda_initialized": false
+}

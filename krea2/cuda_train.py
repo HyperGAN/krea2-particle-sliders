@@ -46,9 +46,15 @@ def write_json(path, data):
 
 
 class CudaUNI:
-    def __init__(self, args, texts, out, *, write_prompt_counts=True):
+    def __init__(self, args, texts, out, *, write_prompt_counts=True, runtime_profile='supported'):
         from krea2.shared import validate_shared_runtime
-        validate_shared_runtime()
+        if runtime_profile == 'supported':
+            validate_shared_runtime()
+        elif runtime_profile == 'hypergan-hndl-v1':
+            from krea2_hndl.runtime import validate_runtime
+            validate_runtime()
+        else:
+            raise ValueError('unknown Krea2 runtime profile')
         validate_native_card(args)
         self.args, self.out = args, out
         self.device = torch.device(f'cuda:{args.device}')

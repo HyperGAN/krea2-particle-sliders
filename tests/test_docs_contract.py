@@ -101,12 +101,13 @@ def test_formulation_boundaries():
 
 
 def test_requirements_pin_shared_core():
-    text = _text("requirements.txt")
+    text = _text("pyproject.toml")
     import json
     lock = json.loads((ROOT / 'krea2/shared.lock.json').read_text())
     pin = ('particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@'
            + lock['commit'] + '#subdirectory=packages/particle-sliders-core')
     assert pin in text
+    assert '-e .[test]' in _text('requirements.txt')
 
 
 def test_prompting_pointer_is_short():

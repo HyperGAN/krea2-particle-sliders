@@ -1,0 +1,16 @@
+{
+  "schema": "particle-slider-profile-v1",
+  "name": "krea2-pg094-cpu-qualification",
+  "product": "krea2-particle-sliders",
+  "config_kind": "session",
+  "backend": "krea2",
+  "interface": "image",
+  "status": "fixture",
+  "runtime": {},
+  "capabilities": {
+    "resume": true,
+    "periodic_checkpoint": true,
+    "check": true
+  },
+  "default_checkpoint_every": 2
+}
