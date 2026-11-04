@@ -1,3 +1,16 @@
+# Current canonical PG 0.9.4 source upgrade
+
+The canonical source dependency now pins core0.12.0 / official PG0.9.4 at
+`ddb41423bcefc1fe76cd94d0f9b367353b3ea137`. This creates a new source cohort;
+Final Boss/Eldritch weights remain historical velocity-MSE artifacts.
+The HNDL preview remains separate at its recorded a794 core pin.
+No native model/GPU training, model publication or image-quality qualification
+was performed for this upgrade. See [the adoption record](docs/pg094-adoption.md).
+
+## Prior qualification records
+
+The following records retain their original source/cohort meaning.
+
 # Publication and qualification status
 
 The active modern candidate now pins exact shared core

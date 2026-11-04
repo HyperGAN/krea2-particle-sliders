@@ -1,0 +1,21 @@
+step 3/4
+step 4/4
+{
+  "status": "completed",
+  "completed_steps": 4,
+  "target_steps": 4,
+  "profile": "krea2-pg094-cpu-qualification",
+  "qualification": "fixture",
+  "checkpoint": "/ml2/particlesliders-working/pg094-upgrades/krea2-cli-resumed/artifacts/checkpoints/step-000004",
+  "adapter": "/ml2/particlesliders-working/pg094-upgrades/krea2-cli-resumed/artifacts/adapter.pt",
+  "semantic_sha256": "5c00561f0b912cdd1bcf83530cda02dc70cb8540c7697014aa4710f276df5b46",
+  "runtime_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "native_result": {
+    "status": "completed",
+    "completed_steps": 4,
+    "checkpoint": "/ml2/particlesliders-working/pg094-upgrades/krea2-cli-resumed/artifacts/checkpoints/step-000004",
+    "adapter": "/ml2/particlesliders-working/pg094-upgrades/krea2-cli-resumed/artifacts/adapter.pt",
+    "rendered_images": 0,
+    "lr_search": false
+  }
+}

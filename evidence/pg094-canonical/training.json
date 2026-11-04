@@ -1,0 +1,9 @@
+{
+  "backend": "krea2",
+  "cohort": "krea2-pg094-dispatcher-cpu-qualification",
+  "options": {
+    "dummy": true,
+    "steps": 4,
+    "ema_decay": 0.9
+  }
+}

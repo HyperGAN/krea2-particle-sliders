@@ -1,6 +1,11 @@
-# Supported installation and next core cohort
+# Preserved HNDL preview and prior-core adoption record
 
-The active modern candidate now pins immutable core
+This record describes the separate HNDL preview and the prior core0.8.1
+canonical product. The current canonical product is core0.12.0/PG0.9.4; see
+[its adoption record](pg094-adoption.md). Historical measurements below apply
+to their recorded commits, not the new canonical package.
+
+The HNDL candidate pins immutable core
 `a794e3b4a8813b012f2c4faa3da82b78d4a90214`, the coordinated transactional
 lifecycle fix. Core remains at 0.12 with official PG 0.9.4. HyperGAN develop
 remains at `5f368a3770cf5bdae0448995c9f76e29af8049f7`, and HNDL remains at 0.10.0.
@@ -17,9 +22,9 @@ identities. New training and raw/EMA native packets have a different signed
 source/cohort identity, despite unchanged version numbers and native protocol.
 Old previews fail closed without applying checkpoint tensors; no rebinding or
 automatic conversion is supported. Keep the old environment to consume them.
-The supported core 0.8.1 defaults and their lock are unchanged.
+The HNDL candidate lock remains unchanged; the canonical package has since advanced.
 
-The supported Krea2 cohort remains core 0.8.1 at
+The prior supported Krea2 cohort used core 0.8.1 at
 `32f6830f6402e85aa77b6631db64fcbbb2131f6b` with official ParticleGAN 0.9.1.
 `pyproject.toml` owns this dependency and `krea2/shared.lock.json` verifies its
 complete source map. The default requirements installer now installs the product

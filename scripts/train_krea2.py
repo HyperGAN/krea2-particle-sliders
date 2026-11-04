@@ -5,7 +5,7 @@
     python scripts/train_krea2.py --dummy
 
 The live game executes particle_sliders.pg09.ConditionalPG09 with released
-ParticleGAN 0.9.1. Hub id, Comfy, turbo samples and prompt cards stay here.
+ParticleGAN 0.9.4. Hub id, Comfy, turbo samples and prompt cards stay here.
 Dummy output is a diagnostic and never trains product weights.
 """
 

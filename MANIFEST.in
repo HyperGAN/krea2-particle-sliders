@@ -7,3 +7,6 @@ include scripts/install_hndl_candidate.py
 include scripts/regenerate_hndl_lock.py
 recursive-include profiles *.toml
 recursive-include krea2_hndl *.py *.json
+include scripts/regenerate_shared_lock.py
+recursive-include profiles *.txt
+include docs/pg094-adoption.md

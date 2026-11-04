@@ -16,14 +16,18 @@ def test_original_dependency_only_installer_preserved():
     assert (ROOT / 'requirements-legacy.txt').read_bytes() == original
 
 
-def test_supported_lock_and_legacy_profile_remain_exact():
-    original = subprocess.check_output(['git', 'show',
-        'afc226f4710db5e4fe9379f22606cd5ccb8ee917:krea2/shared.lock.json'], cwd=ROOT)
-    assert (ROOT / 'krea2/shared.lock.json').read_bytes() == original
+def test_canonical_lock_and_immutable_legacy_profile():
+    lock = json.loads((ROOT / 'krea2/shared.lock.json').read_text())
     default = tomllib.loads((ROOT / 'pyproject.toml').read_text())
     candidate = tomllib.loads((ROOT / 'profiles/hypergan-hndl/pyproject.toml').read_text())
-    assert default['project']['version'] == '0.2.0'
-    assert '32f6830f6402e85aa77b6631db64fcbbb2131f6b' in default['project']['dependencies'][0]
+    assert default['project']['version'] == '0.2.1'
+    assert lock['schema'] == 'krea2-shared-api-v3'
+    assert lock['version'] == '0.12.0' and lock['particlegan'] == '0.9.4'
+    assert lock['commit'] == 'ddb41423bcefc1fe76cd94d0f9b367353b3ea137'
+    assert lock['commit'] in default['project']['dependencies'][0]
+    assert 'particle_sliders/LICENSE' in lock['sources']
+    assert any(name.endswith('.yaml') for name in lock['sources'])
+    assert '91ae74b12c123a7241142f134cc4501c5288583a' in (ROOT / 'profiles/core081/requirements.txt').read_text()
     assert 'a794e3b4a8813b012f2c4faa3da82b78d4a90214' in candidate['project']['dependencies'][0]
     assert 'hypergan-hndl' in candidate['project']['dependencies'][0]
 
@@ -33,7 +37,8 @@ def test_inspection_checks_installed_distribution(tmp_path):
         cwd=tmp_path, text=True, capture_output=True, check=True)
     report = json.loads(result.stdout)
     assert report['status'] == 'passed'
-    assert report['shared']['version'] == '0.8.1'
+    assert report['shared']['version'] == '0.12.0'
+    assert report['shared']['particlegan'] == '0.9.4'
     assert report['cuda_initialized'] is False
     origin = Path(report['origins']['krea2']).resolve()
     if report['installation']['editable']:
@@ -47,6 +52,23 @@ def test_unknown_native_profile_rejected_before_loading():
     from krea2.cuda_train import CudaUNI
     with pytest.raises(ValueError, match='unknown Krea2 runtime profile'):
         CudaUNI(None, [], None, runtime_profile='unqualified')
+
+
+def test_canonical_admission_checks_data_and_official_pg(monkeypatch):
+    import particle_sliders
+    import particle_sliders.pg09 as pg
+    from krea2.shared import validate_shared_runtime
+    data = next(Path(particle_sliders.__file__).parent.rglob('*.yaml')).resolve()
+    original = Path.read_bytes
+    with monkeypatch.context() as changed:
+        changed.setattr(Path, 'read_bytes', lambda path: b'drift' if path.resolve() == data else original(path))
+        with pytest.raises(RuntimeError, match='shared API source differs'):
+            validate_shared_runtime()
+    def reject(*args, **kwargs):
+        raise RuntimeError('official PG source drift')
+    monkeypatch.setattr(pg, 'validate_pg09_domain', reject)
+    with pytest.raises(RuntimeError, match='official PG source drift'):
+        validate_shared_runtime()
 
 
 def test_supported_discovery_keeps_subpackages_and_excludes_candidate(tmp_path):
