@@ -1,0 +1,17 @@
+{
+  "backend": "krea2",
+  "cohort": "krea2-new-owned-run",
+  "options": {
+    "steps": 128,
+    "device": "cuda:0",
+    "cache_file": "/path/to/local/cache.pt",
+    "native_args": [
+      "--transformer",
+      "/path/to/local/transformer",
+      "--skeleton_model",
+      "/path/to/local/skeleton",
+      "--device",
+      "0"
+    ]
+  }
+}
