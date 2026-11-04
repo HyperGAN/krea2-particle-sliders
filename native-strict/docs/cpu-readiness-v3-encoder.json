@@ -1,0 +1,58 @@
+{
+  "artifacts": {
+    "krea2_strict_native_candidate-0.1.1-py3-none-any.whl": {
+      "bytes": 257806,
+      "sha256": "0ba7f6c6fca03fd525e7efb4e2ddf64d6f7fe00ddffe419b9eb573839040a9af"
+    },
+    "krea2_strict_native_candidate-0.1.1.tar.gz": {
+      "bytes": 263602,
+      "sha256": "85167cdf2d9c0c85694851bca9856161e23dad653ba64ca3b80e70c4749515dd"
+    }
+  },
+  "base_commit": "9d3ad435daa230fe7746bc0888abad8fcf2a7913",
+  "change": "Exact-class identity corrected from Qwen3VLForConditionalGeneration to pinned native Qwen3VLModel; exact-type/frozen-BF16/resolved-attention guards retained. No math/data/loader/recipe changes.",
+  "command": "CUDA_VISIBLE_DEVICES='' CUBLAS_WORKSPACE_CONFIG=:4096:8 /ml2/particlesliders-working/lr-work/krea-encoder-native-venv/bin/python -m pytest -q --import-mode=importlib /ml2/particlesliders-working/lr-work/krea-encoder-native-dist/sdist-check/krea2_strict_native_candidate-0.1.1/tests",
+  "core_commit": "ddb41423bcefc1fe76cd94d0f9b367353b3ea137",
+  "diagnosis_receipt_sha256": "483d763b0512fe7d2492de45614041483a407e585e0bad8b1362e7fdeee24bb2",
+  "installed_environment": "/ml2/particlesliders-working/lr-work/krea-encoder-native-venv",
+  "preserved_native_failure": {
+    "min_host_available_GiB": 71.50889205932617,
+    "path": "/mnt/nvme/sliders/experiments/lr-standardization-20261104/krea2/native-strict-proof-v2",
+    "peak_own_NVML_MiB": 24774,
+    "result": "DiT and713tensorencoder loaded; exact class guard refusal before prompt encoding, teacher cache, PG updates, raw export or native images",
+    "root_unload_receipt_sha256": "4d1ce48348cb776dc7414b0fd576545f4e39e7c6ae2f955fca95d8bdb8a1d9e0"
+  },
+  "proof": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "CUDA_initialized": false,
+    "actual713_meta_weight_key_shapes_exact": true,
+    "entry_points_per_namespace": 1,
+    "exact_runtime_distributions_verified": 11,
+    "full_pretrained_CPU_or_GPU_allocated": false,
+    "generation_wrapper_and_subclasses_refused": true,
+    "installed_CPU_seconds": 6.79,
+    "installed_wheel_tests_from_sdist_passed": 58,
+    "meta_native_parameters": 4437815808,
+    "old_class_guard_false_refusal_reproduced": true,
+    "pip_check": "No broken requirements found.",
+    "source_CPU_seconds": 8.7,
+    "source_CPU_tests_passed": 58,
+    "tiny_pinned_pipeline12_taps_shape": [
+      1,
+      32,
+      12,
+      16
+    ],
+    "tiny_public_native_loader_parameters": 2521152,
+    "wheel_sdist_python_json_parity_files": 13,
+    "wrong_precision_trainable_or_attention_refused": true
+  },
+  "qualification": "CPU exact-source/native-class readiness only; no pretrained conditioning, teacher data, GAN update, native GPU fit/resume/render, LR or image quality qualification. Fresh source/environment/proof required; no old packet relabelling or automatic retry.",
+  "runtime_commit": "267a7772e68ae5db1c16675f6370322364149482",
+  "schema": "krea-strict-native-exact-encoder-class-readiness-v3",
+  "source_identity": {
+    "product_index_sha256": "d652c278ef414eb2daef4c65613eb91ee9c5ffd8e7d45e9d91b138af193f908a",
+    "source_lock_sha256": "907104c11b7c34d4844d13c9941d42412dc3c96d0dedc11a77df5228d6dd697f"
+  },
+  "version": "0.1.1"
+}
