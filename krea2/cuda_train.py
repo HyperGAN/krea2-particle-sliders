@@ -305,6 +305,8 @@ def validate_native_card(args):
 
 def validate_args(args):
     validate_native_card(args)
+    from .learning_rates import recipe_overrides
+    recipe_overrides(lr=args.lr, d_lr_mult=getattr(args, 'd_lr_mult', None))
     if args.resume and args.load_te_lora:
         raise ValueError('--resume and --load_te_lora are mutually exclusive')
     if (args.steps < 1 or args.cache_seeds < 1 or args.save_every < 1 or args.rank < 1 or
@@ -370,7 +372,7 @@ def run_contract(args, prompts):
         local_skeleton=skeleton_local,
         resolution=args.resolution, seeds=args.cache_seeds, seed=args.seed,
         sample_steps=args.sample_steps, guidance=args.sample_guidance, mu=args.mu,
-        rank=args.rank, steps=args.steps, lr=args.lr, batch_size=args.gan_batch_size, preset=args.gan_preset,
+        rank=args.rank, steps=args.steps, lr=args.lr, d_lr_mult=getattr(args, 'd_lr_mult', None), batch_size=args.gan_batch_size, preset=args.gan_preset,
         prompts=[vars(p) for p in prompts], preservation=list(PRESERVE), dtype='bfloat16; adapter=float32',
         versions={n: importlib.metadata.version(n) for n in
                   ('torch', 'diffusers', 'transformers', 'peft', 'safetensors', 'particle-sliders-core')},
@@ -522,7 +524,7 @@ def train_cuda(args, prompts, meta, formulation):
             from krea2.pg09 import build_game, file_digest
             game = build_game(backend, cache, cache_sha256=file_digest(cache_path),
                 model_identity=cache_contract, total_steps=args.steps, seed=args.seed,
-                batch_size=args.gan_batch_size, preset=args.gan_preset, lr=args.lr)
+                batch_size=args.gan_batch_size, preset=args.gan_preset, lr=args.lr, d_lr_mult=getattr(args, 'd_lr_mult', None))
             if args.resume:
                 game.load_state_dict(torch.load(Path(args.resume) / 'training_state.pt',
                                                 map_location='cpu', weights_only=True))

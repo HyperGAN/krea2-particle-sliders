@@ -150,8 +150,12 @@ class Krea2Rows:
 
 
 def build_game(native, cache, *, cache_sha256, model_identity, total_steps, seed=7,
-               batch_size=2, preset='bispf_optimized', lr=5e-5):
+               batch_size=2, preset='bispf_optimized', lr=5e-5, d_lr_mult=None):
     """Bind staged native components; never load weights or start a device job."""
+    from .learning_rates import recipe_overrides
+    rates = recipe_overrides(lr=lr, d_lr_mult=d_lr_mult)
+    if 'lr' not in rates:
+        raise ValueError('Krea2 lr must be a finite positive number')
     from krea2.shared import validate_shared_runtime
     validate_shared_runtime()
     rows = Krea2Rows(native, cache, cache_sha256=cache_sha256)
@@ -164,5 +168,5 @@ def build_game(native, cache, *, cache_sha256, model_identity, total_steps, seed
     game = ConditionalPG09(adapter, rows, critic, particles=None,
         response_domain='continuous_field', response_scale=rows.response_scale,
         preset=preset, batch_size=batch_size, seed=seed, total_steps=total_steps,
-        recipe_overrides={'lr': lr}, sampling='balanced')
+        recipe_overrides=rates, sampling='balanced')
     return game

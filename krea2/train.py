@@ -124,7 +124,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--config_file", type=str, default="configs/krea2/config-smile.yaml")
     parser.add_argument("--save_dir", type=str, default="models/krea2-bbox-slider")
     parser.add_argument("--steps", type=int, default=800)
-    parser.add_argument("--lr", type=float, default=1e-4)
+    parser.add_argument("--lr", type=float, default=5e-5, help="PG base/G rate; D = lr * d_lr_mult")
+    parser.add_argument("--d-lr-mult", type=float, help="critic LR multiplier; PG preset default when omitted")
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--device", type=int, default=0)
     parser.add_argument(

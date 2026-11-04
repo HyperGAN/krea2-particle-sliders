@@ -34,14 +34,24 @@ def _native_arguments(options):
     args = parse_args(values)
     if args.allow_hub or args.resume or args.load_te_lora or args.dummy or args.print_card:
         raise ValueError('only local fresh native loading; use session resume/artifact arguments')
+    from .learning_rates import recipe_overrides
+    rates = recipe_overrides(lr=options.get('lr', 5e-5), d_lr_mult=options.get('d_lr_mult'))
+    if 'lr' not in rates:
+        raise ValueError('Krea2 lr must be a finite positive number')
+    for key, default in (('lr', 5e-5), ('d_lr_mult', None)):
+        flag = '--' + key.replace('_', '-')
+        explicit = any(value == flag or value.startswith(flag + '=') for value in values)
+        requested = rates.get(key, default)
+        if explicit and getattr(args, key, default) != requested:
+            raise ValueError('native_args and common Krea2 learning-rate options differ: ' + key)
+        setattr(args, key, requested)
     validate_args(args)
     return args
 
 
 def validate(options, *, runtime_validator=None):
-    import math
     allowed = {'cache_file', 'native_args', 'steps', 'seed', 'batch', 'preset', 'lr',
-               'base_precision', 'ema_decay', 'dummy', 'device', 'render_prompts'}
+               'base_precision', 'ema_decay', 'dummy', 'device', 'render_prompts', 'd_lr_mult'}
     if set(options) - allowed:
         raise ValueError('unknown Krea2 session option')
     if type(options.get('dummy', False)) is not bool:
@@ -62,9 +72,10 @@ def validate(options, *, runtime_validator=None):
     _validate_prompts(options.get('render_prompts'))
     if options.get('preset', 'bispf_optimized') not in ('bispf', 'bispf_optimized'):
         raise ValueError('unsupported Krea2 PG preset')
-    lr = options.get('lr', 5e-5)
-    if type(lr) not in (int, float) or not math.isfinite(lr) or lr <= 0:
-        raise ValueError('Krea2 learning rate must be positive and finite')
+    from .learning_rates import recipe_overrides
+    recipe_overrides(lr=options.get('lr', 5e-5), d_lr_mult=options.get('d_lr_mult'))
+    if options.get('lr', 5e-5) is None:
+        raise ValueError('Krea2 lr must be a finite positive number')
     from .shared import validate_shared_runtime
     (runtime_validator or validate_shared_runtime)()
 
@@ -138,7 +149,7 @@ def prepare(options, *, native=None, cache=None, before_update=None,
             raise ValueError('Krea2 cache differs from staged frozen conditioning')
         game = (game_builder or build_game)(native, cache, cache_sha256=checksum, model_identity=_product_identity(identity),
             total_steps=options.get('steps', 4), seed=options.get('seed', 7),
-            batch_size=options.get('batch', 2), preset=options.get('preset', 'bispf_optimized'), lr=options.get('lr', 5e-5))
+            batch_size=options.get('batch', 2), preset=options.get('preset', 'bispf_optimized'), lr=options.get('lr', 5e-5), d_lr_mult=options.get('d_lr_mult'))
         from .native_inference import specification
         inference = (specification_factory or specification)(native, game.backend, dummy=bool(options.get('dummy')))
     except BaseException:
