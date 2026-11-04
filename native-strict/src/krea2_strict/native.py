@@ -74,8 +74,8 @@ class StrictCudaUNI(CudaUNI):
         # encoder before encoding or releasing it. Bind its resolved attention
         # and dtype rather than inferring them from package metadata.
         import torch
-        from transformers import Qwen3VLForConditionalGeneration
-        if type(module) is not Qwen3VLForConditionalGeneration:
+        from transformers import Qwen3VLModel
+        if type(module) is not Qwen3VLModel:
             raise ValueError("strict native actual text encoder class differs")
         configs = (module.config, module.config.text_config, module.config.vision_config)
         attention = [getattr(config, "_attn_implementation", None) for config in configs]
@@ -83,7 +83,7 @@ class StrictCudaUNI(CudaUNI):
             raise ValueError("strict native actual encoder attention implementation differs")
         if any(p.dtype != torch.bfloat16 or p.requires_grad for p in module.parameters()):
             raise ValueError("strict native actual frozen encoder precision differs")
-        self.strict_encoder = dict(native_class="transformers.Qwen3VLForConditionalGeneration",
+        self.strict_encoder = dict(native_class="transformers.Qwen3VLModel",
                                    attention=attention, dtype="bfloat16")
         return CudaUNI.module_identity(module)
 
