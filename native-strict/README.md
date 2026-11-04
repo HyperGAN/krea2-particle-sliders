@@ -14,6 +14,14 @@ Transformers5.15.0 and PEFT0.20.0. Source/origin/runtime locks must pass before
 model construction. Candidate PG801 and the old fixture profiles are separate
 environments, not interchangeable dependency substitutions.
 
+```sh
+python -m pip install torch==2.9.1 torchvision==0.24.1 --index-url https://download.pytorch.org/whl/cu128
+python -m pip install 'git+https://github.com/HyperGAN/krea2-particle-sliders.git@2aeed5c555e92513154e2159983bd7f41b4fe0cc#subdirectory=native-strict'
+```
+
+The [CPU readiness receipt](docs/cpu-readiness-v1.json) records the tested source,
+package parity and limits, including the separate inherited-suite failures.
+
 The metadata command imports no ML framework and allocates no model:
 
 ```sh
