@@ -80,3 +80,17 @@ identity before base allocation; it never constructs cache rows or a critic.
 Old MSE/PEFT folders and default/HNDL packets cannot be relabeled for this
 cohort. GPU two-update/resume/raw inference and matched preservation/render
 controls must precede any native learning-rate recommendation.
+
+Version0.1.1 corrects the strict text encoder identity to the exact
+`transformers.Qwen3VLModel` declared by the pinned skeleton model index,
+encoder architecture and native Krea pipeline. The generation wrapper and
+subclasses remain refused; frozen BF16 and resolved attention checks remain.
+All713 source weight keys/shapes match that native class on a meta model.
+Tiny random-weight public native loading and the pipeline's12 hidden-state
+taps pass CPU checks without loading pretrained tensors or initializing CUDA.
+
+The first full native attempt using version0.1.0 loaded the DiT and encoder,
+then refused this correct native class before encoding, teacher capture or
+training. Its source, environment and failure/unload receipts are preserved.
+Version0.1.1 needs its own source/environment/cache and separately reviewed
+bounded proof; no old packet is relabeled and no retry is implicit.
