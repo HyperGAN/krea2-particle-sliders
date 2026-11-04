@@ -10,6 +10,11 @@ from .execution import admission, forward_guards, geometry, initialization, requ
 from .provenance import execution_identity
 
 
+def require_live(native):
+    if getattr(native, "_strict_closing", False):
+        raise RuntimeError("strict native ownership is closing or closed")
+
+
 def validate_geometry(native):
     import torch
     resolution(native.args.resolution)
@@ -97,6 +102,8 @@ class StrictCudaUNI(CudaUNI):
             # initialization. No torch.manual_seed/manual_seed_all is called.
             with initialization():
                 super().__init__(args, texts, Path(out), write_prompt_counts=False)
+            # Capture before shared adapter/checkpoint wrappers are installed.
+            self._strict_restore = own_native(self)
             require_policy(self.strict_execution["numerical"])
             validate_geometry(self)
             self.strict_loaded = audit_loaded(self)
@@ -108,20 +115,87 @@ class StrictCudaUNI(CudaUNI):
             self.strict_close()
             raise
 
-    def strict_close(self):
-        for handle in reversed(self._strict_handles):
-            handle.remove()
-        self._strict_handles.clear()
-        if hasattr(self, "model") and hasattr(self, "pipe"):
-            if not getattr(self, "_strict_closed", False):
-                self._strict_closed = True
-                own_native(self)()
+    def strict_close(self, *, game=None, network=None):
+        """Release owned GPU storage even while a closed binding is retained."""
+        import torch
+        from particle_sliders.lifecycle import _restore_all
+        if getattr(self, "_strict_closed", False):
+            return
+        self._strict_closing = True
+        actions = [handle.remove for handle in reversed(getattr(self, "_strict_handles", []))]
+        self._strict_handles = []
+        restore = getattr(self, "_strict_restore", None)
+        if restore is None and hasattr(self, "model") and hasattr(self, "pipe"):
+            restore = own_native(self)
+        if restore is not None:
+            actions.append(restore)
+        def cpu(value):
+            if isinstance(value, torch.Tensor):
+                return value.detach().to("cpu")
+            if isinstance(value, dict):
+                return {key: cpu(child) for key, child in value.items()}
+            if isinstance(value, (tuple, list)):
+                return type(value)(cpu(child) for child in value)
+            return value
+        def release_models():
+            # Partial construction may have pipe.transformer/text_encoder before
+            # self.model exists. These objects all belong to this local loader.
+            pipe = getattr(self, "pipe", None)
+            models = [getattr(self, "model", None)] + [getattr(pipe, key, None)
+                for key in ("transformer", "text_encoder", "vae")]
+            seen = set()
+            moves = []
+            for model in models:
+                if model is not None and id(model) not in seen:
+                    seen.add(id(model))
+                    moves.append(lambda model=model: model.to("cpu"))
+            # PEFT unload removes LoRA modules; the old parameter objects can
+            # still be held by the shared network and optimizer.
+            def release_leaves():
+                with torch.no_grad():
+                    for parameter in getattr(self, "params", []):
+                        gradient = parameter.grad.detach().to("cpu") if parameter.grad is not None else None
+                        parameter.grad = None
+                        parameter.data = parameter.detach().to("cpu")
+                        parameter.grad = gradient
+            moves.append(release_leaves)
+            if network is not None:
+                moves.append(lambda: network.to("cpu"))
+            if game is not None:
+                for key in ("network", "critic", "prior"):
+                    module = getattr(game, key, None)
+                    if module is not None:
+                        moves.append(lambda module=module: module.to("cpu"))
+                def release_optimizers():
+                    for optimizer in (game.opt_g, game.opt_d):
+                        for key, state in list(optimizer.state.items()):
+                            optimizer.state[key] = cpu(state)
+                moves.append(release_optimizers)
+            if pipe is not None and getattr(pipe, "vae", None) is not None:
+                from krea2.native_runtime import VAE_STATE
+                for key in VAE_STATE:
+                    if hasattr(pipe.vae, key):
+                        moves.append(lambda key=key: setattr(pipe.vae, key, cpu(getattr(pipe.vae, key))))
+            moves.append(lambda: getattr(self, "position_ids", {}).clear())
+            _restore_all(moves)
+        actions.append(release_models)
+        def release_allocator():
+            device = getattr(self, "device", None)
+            if device is not None and device.type == "cuda" and torch.cuda.is_initialized():
+                # Restore the caller's selected CUDA device on success/failure.
+                with torch.cuda.device(device):
+                    torch.cuda.empty_cache()
+        actions.append(release_allocator)
+        _restore_all(actions)
+        self._strict_closed = True
 
     def forward(self, *args, **kwargs):
+        require_live(self)
         require_policy(self.strict_execution["numerical"])
         return super().forward(*args, **kwargs)
 
     def generate(self, prompt, scale, seed, image_resolution):
+        require_live(self)
         require_policy(self.strict_execution["numerical"])
         resolution(image_resolution)
         return super().generate(prompt, scale, seed, image_resolution)
@@ -129,6 +203,7 @@ class StrictCudaUNI(CudaUNI):
 
 @contextmanager
 def observation(native):
+    require_live(native)
     require_policy(native.strict_execution["numerical"])
     with base_observation(native):
         yield

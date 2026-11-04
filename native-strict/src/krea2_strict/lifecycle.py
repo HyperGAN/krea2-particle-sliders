@@ -67,7 +67,7 @@ def prepare(options, *, native=None, cache=None, before_update=None):
     from .assets import digest
     from .cache import validate_cache, verify_native_parity
     from .game import build_game
-    from .native import StrictCudaUNI, check_cache_geometry, observation
+    from .native import StrictCudaUNI, check_cache_geometry, observation, require_live
     from .inference import specification
     args = arguments(options)
     execution = execution_identity()
@@ -79,6 +79,7 @@ def prepare(options, *, native=None, cache=None, before_update=None):
                    | set(options.get("render_prompts", [])))
     if native is None:
         native = StrictCudaUNI(args, texts, Path(args.save_dir), expected_gpu_uuid=options["expected_gpu_uuid"])
+    game = None
     try:
         if (native.strict_execution != execution or native.strict_assets != assets
                 or identity["frozen_model_sha256"] != native.frozen_identity()
@@ -95,12 +96,13 @@ def prepare(options, *, native=None, cache=None, before_update=None):
             d_lr_mult=options.get("d_lr_mult"))
         inference = specification(native, game.backend)
     except BaseException:
-        native.strict_close()
+        native.strict_close(game=game)
         raise
     def admit(state):
+        require_live(native)
         require_policy(execution["numerical"])
         return before_update(state) if before_update is not None else True
-    return Binding(game, native.strict_close, render_callback(native), inference=inference,
+    return Binding(game, lambda: native.strict_close(game=game), render_callback(native), inference=inference,
                    before_update=admit, observation=lambda: observation(native))
 
 

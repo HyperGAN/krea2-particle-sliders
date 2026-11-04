@@ -63,15 +63,16 @@ def prepare(options, spec):
     from .native import StrictCudaUNI, observation
     args = arguments(options)
     native = StrictCudaUNI(args, options["prompts"], Path(args.save_dir), expected_gpu_uuid=options["expected_gpu_uuid"])
+    adapter = None
     try:
         identity = model_identity(native)
         adapter = ImageResponseAdapter("krea2", native.model, image_lora_parameters(native.model),
             pipeline=native.pipe, scheduler=native.pipe.scheduler, model_identity=identity)
         return InferenceBinding(adapter.network, native_identity(adapter, model_identity=identity, protocol=PROTOCOL),
-            native.strict_close, render_callback(native), _response_callback(native, adapter),
+            lambda: native.strict_close(network=adapter.network), render_callback(native), _response_callback(native, adapter),
             observation=lambda: observation(native))
     except BaseException:
-        native.strict_close()
+        native.strict_close(network=adapter.network if adapter is not None else None)
         raise
 
 

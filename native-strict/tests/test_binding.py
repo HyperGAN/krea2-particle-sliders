@@ -148,7 +148,7 @@ def test_actual_tiny_native_only_inference_factory_has_no_game_or_rows(tiny, mon
     from particle_sliders.pg09 import _hash
     native, cache = tiny
     closes = []
-    native.strict_close = lambda: closes.append(True)
+    native.strict_close = lambda **kwargs: closes.append(True)
     monkeypatch.setattr(loader, "StrictCudaUNI", lambda *a, **kw: native)
     monkeypatch.setattr(inference, "arguments", lambda options: SimpleNamespace(save_dir="/unused"))
     monkeypatch.setattr(inference, "base_identity", lambda native, dummy: dict(
