@@ -10,3 +10,6 @@ recursive-include krea2_hndl *.py *.json
 include scripts/regenerate_shared_lock.py
 recursive-include profiles *.txt
 include docs/pg094-adoption.md
+
+recursive-include cohorts/pre-lr-hndl *.py *.json
+include LEARNING-RATES.md

@@ -417,3 +417,5 @@ Agreement](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/KRE
 must agree to and be bound by that agreement. See [NOTICE](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/NOTICE).
 This is an independent ntc-ai release, not an official or endorsed Krea product.
 Independently authored source code is [MIT](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/LICENSE); that does not relicense the weights.
+
+Learning-rate controls and preserved defaults: [LEARNING-RATES.md](LEARNING-RATES.md).

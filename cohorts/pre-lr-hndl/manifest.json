@@ -1,0 +1,9 @@
+{
+  "source_commit": "51e9256801477e5f8c437a866458884711a24276",
+  "files": {
+    "krea2/pg09.py": "833d4eaf3b3a3aa0ef6f8c5c0dc451e9a9d987d561a32c2c3d111c02380ffba5",
+    "krea2/train.py": "215844c29784a7e1fbe79b7ae03c6a4545b1fb2293d49d62e13a9f5155cdb962",
+    "krea2/cuda_train.py": "b25efc0bb2152235455b92fea3134f470cca2cd42c6d7fc4f3619000c9b137f3",
+    "krea2/lifecycle.py": "14da36352cdf74d875a773623e5a4b0ee33852e9d2ecbb2c66969db8d0228ad9"
+  }
+}
