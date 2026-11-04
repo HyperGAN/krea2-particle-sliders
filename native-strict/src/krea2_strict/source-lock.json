@@ -1,0 +1,43 @@
+{
+  "base_commit": "9d3ad435daa230fe7746bc0888abad8fcf2a7913",
+  "base_sources": {
+    "__init__.py": "e177c4977e146c23bee342779199095bbc7d1b7a63f1448dd0393340f419cc47",
+    "attention.py": "1a350b22039204cdd9d8dec856cb22df58fa8daa45ab6a19b9c7f9720700bc89",
+    "card.py": "18d7c688754030b1e09b4719f4a320f5f00497ef27282213dea162a315e82125",
+    "cuda_train.py": "65a0455413f9107cd10e9027ede3ad3ca33b69ae77c86ed697261a7ac1c191e4",
+    "defaults.py": "dd9d16cf5760a1dbed92ac78ab1320ddda8f6699f53a1d9b347b7fc95851a322",
+    "dummy.py": "0efe4db04652271f8942ad84d21e64c2a091759700a856388fb7148666bd222d",
+    "formulation.py": "c75dd6bc00050d8c7bf8d0815a4f796f1a4ffea980c4fc9940fa87ee83dc3ee1",
+    "grounding.py": "18c7451bf7b0384ecd2ad579d825c2fdec1971c0119f16b6d8c95536f2437921",
+    "infer.py": "a0933fef8a3243728a1ce5c298e15ad5d1b8693c1b205f716803882697fdde31",
+    "learning_rates.py": "ef59ad8a147e37a0a26c6481460272cea9ecdf45a886113346e00c0d3649cbe1",
+    "lifecycle.py": "071b740ceb622f9ace67abfb7d5b24ff4dc4564dd522b88e9ddb3a0bca8f6daf",
+    "live.py": "d37e801c27f46a63c52e80680f9acc0885c01d9cd8b38f583c6dc76d41c839fe",
+    "native_inference.py": "9097942da58753edc54d1a908d1a0bcea092ee6a588ec4ea0c6ea1ae7158bb6f",
+    "native_runtime.py": "58aca02bdde3f8ec7e4671260a33ff07b7662772ce07d7a2b0550a9d95005fb5",
+    "pg09.py": "22fc51c21da9aa24f756423facefd5ec3d639a34ef0b24284828c7a2c8739d1c",
+    "prompts.py": "26433987ad4ba1a947d67e22892e31e96d79f1a7e67e5dfd4e9df5d5f64a6de8",
+    "samples.py": "accfe47ca2aa75fd382701eb7988a80f2885b327b4e66864e9f4e477ab7ba3e6",
+    "shared.lock.json": "0d205564446bf07ea4e3185022e445252f41f65d6eb8c131c6bda427d15bfe39",
+    "shared.py": "6dfe95c845f30e8bc682c100ab8d329159ccc542697fad0b0b4f67a9e59b0462",
+    "synthetic.py": "70d4ef7b9eb19cb7e8bd6cb0f4324d4c47acbeba18a41fcebcc352ada6116336",
+    "train.py": "bbc5e31886125c596bf52179764751cf074338872394273e6aaebdd837b15bbe",
+    "uni.py": "3852a98144b1c25e60ba2d746e3221563ddc3dcb9cca002eb13153fb15f59663"
+  },
+  "core_commit": "ddb41423bcefc1fe76cd94d0f9b367353b3ea137",
+  "product_sources": {
+    "__init__.py": "0e4bf52d78ea1357dbb0c623a198a3ea160e506bea59f23ce5ad2f8ae7f0f7fd",
+    "__main__.py": "6f7c9e7bd53028643bad05a99de6a6c10191907427d083a9e21cb8e04e7ebb2b",
+    "assets.json": "dbcaee29caf0e8c0e4f98efa3a5d6b8dec71513dc61a3fe942112bbe9120cf57",
+    "assets.py": "20740f169350ae77bf9ff3a5f7b1f5941d6ec9fb646f09568c5ea74122168534",
+    "cache.py": "9a023c8c3509e9432b66b2a7d5c4b0393915eca783fc75378cb43badb0cc4c2c",
+    "execution.py": "96e653bbcf5e4d8f3230ebbe9ce7129bd1af27d4ebb12afd35d78b57829a2c55",
+    "game.py": "ef9419d0891e6b85c1651310d2bbba01c92ed6f747ce600c564806c84cb42cac",
+    "inference.py": "db5972ea98375730a483d62b3eb344778e2e5b1ec0766400a0915cff9ae0c399",
+    "lifecycle.py": "45252fcf8e1ebf5892d309e24b85418d97cc3357c86a16e32ac7df831e841030",
+    "native.py": "20990a926bcaeafef9c67aa3ff2f44c340def5a7ae3a1a8ee9639495b5292c95",
+    "provenance.py": "31c0b8bd69ab771d56acb07feb575069470a3f32b3837001321601a98f71881d",
+    "runtime-lock.json": "1d60f43f95c01bcfdedc1f6894d4c3665f077e7120d72fe4c47b484c4e570e4b"
+  },
+  "schema": "krea2-strict-native-source-lock-v1"
+}

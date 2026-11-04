@@ -1,0 +1,93 @@
+{
+  "changes": [
+    "Separate krea2-native-strict image/inference registrations and cohort; old default/HNDL runtime bytes unchanged",
+    "Caller-owned strict BF16/math-SDPA flags and sources/assets bound before game; numerical checks before load/update/forward/observation",
+    "CPU plus only visible cuda:0 initialization seed41 scoped before frozen/PEFT construction, preserving external RNG on success/failure",
+    "Actual combined latent/context and attention geometry<=4096; render resolutions<=768; legacy efficient-attention path refused",
+    "Actual pinned native class/device/dtype/attention audit including Diffusers FP32 RMSNorm exceptions",
+    "Fresh current-source cache capture; actual shared OFF teacher parity across all stored rows before game; legacy cache/source identity refused",
+    "Native-only inference without teacher rows/critic, old source/policy/assets/card refused before model allocation",
+    "Default G/base5e-5 unchanged, D from core recipe or multiplier, adapter-only/noP; resolved EMA disabled"
+  ],
+  "native_exact_resume_qualified": false,
+  "native_gpu_updates": 0,
+  "native_learning_rates_recommended": false,
+  "native_pretrained_loaded": false,
+  "native_raw_inference_qualified": false,
+  "native_rendering_qualified": false,
+  "package_parity": {
+    "base_files": 22,
+    "core_files": 574,
+    "native_gpu_qualified": false,
+    "native_pretrained_loaded": false,
+    "preserved_default_and_closed_hndl_bytes": true,
+    "runtime_data_files": 13,
+    "sdist_sha256": "af61ecab13ee29c78a23af62c6ba676b953d52aae4d5b254fb05df3afb613460",
+    "source_wheel_sdist_exact": true,
+    "wheel_sha256": "1f4e2b45cdb42d3f2fe6892ebe130669601d7ef85b0adadeb60081c3d87510db"
+  },
+  "runtime_source_commit": "2aeed5c555e92513154e2159983bd7f41b4fe0cc",
+  "schema": "krea2-strict-native-cpu-readiness-v1",
+  "scope": "Additive native-strict subproject; CPU source/structural/software-seam checks only. No full pretrained model or CUDA allocation.",
+  "source": {
+    "base": "9d3ad435daa230fe7746bc0888abad8fcf2a7913",
+    "base_files": 22,
+    "core": "ddb41423bcefc1fe76cd94d0f9b367353b3ea137",
+    "core_files": 574,
+    "diffusers": "d5baa4fb548294f47dbca49890abd4b291204c60",
+    "pg": "official PyPI ParticleGAN0.9.4/release-0.9.4-v1/auto",
+    "runtime_dependency_files": 4875
+  },
+  "tests": {
+    "bounded_software_seams": {
+      "actual_random_Krea2": 26978,
+      "actual_random_Qwen3VL": 51680,
+      "cuda_initialized": false,
+      "local_from_pretrained_native_norms": "torch.float32",
+      "other_base_weights": "torch.bfloat16",
+      "resolved_encoder_attention": [
+        "sdpa",
+        "sdpa",
+        "sdpa"
+      ]
+    },
+    "broader_inherited_suite": {
+      "failed": 12,
+      "failures": "10 archival krea2-hndl registrations absent from independent strict env;2 unchanged release_tools mocked Runtime fixtures lack conditioning_identity before sidecar validation. These source/tests were not changed or relabeled.",
+      "log": "lr-work/krea-native-preserved-base-tests.log",
+      "passed": 126,
+      "skipped": 2
+    },
+    "fresh_process_tiny_actual_Krea2_CPU_FP32": {
+      "all_teacher_rows_exact": true,
+      "cuda_initialized": false,
+      "full2_vs1plus1_bitwise_exact": true,
+      "horizon": 2,
+      "packet_sha256": "50901c8ed8280dd25a7b7a1048080f129311c10f0d91823f7b141a9aa262ee41",
+      "pythonhashseed": [
+        11,
+        29,
+        73
+      ]
+    },
+    "installed_candidate_cpu": 47,
+    "pip_check": "No broken requirements found",
+    "selected_installed_default_cpu": 56,
+    "source_candidate_cpu": 47
+  },
+  "unmeasured_budget": {
+    "admission_free_gib": 41,
+    "encoder_bf16_gib": 8.266153872013092,
+    "global_free_floor_gib": 5,
+    "inherited_loader_overlaps_transformer_and_encoder": true,
+    "measured_peak": null,
+    "missing": [
+      "PEFT/optimizer/critic",
+      "math-SDPA activations/workspace",
+      "text encoder/VAE load/staging",
+      "CUDA context/allocator"
+    ],
+    "process_cap_gib": 36,
+    "transformer_bf16_gib": 23.87924685329199
+  }
+}

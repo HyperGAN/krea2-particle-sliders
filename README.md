@@ -2,6 +2,10 @@ Common lifecycle draft: **43 selected CPU checks passed** on the tested runtime 
 
 For the new common session/CLI interface, see [LIFECYCLE.md](LIFECYCLE.md).
 
+The separate [strict native BF16/math-SDPA candidate](native-strict/README.md)
+preserves the released/default and historical HNDL routes. Its CPU readiness
+does not qualify pretrained GPU updates, native rendering or learning rates.
+
 # Krea2 Turbo-BBox Particle Sliders
 
 **Final Boss and Eldritch**, with original rank-16 LoRAs and compressed rank-8 distills.
