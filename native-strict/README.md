@@ -16,10 +16,10 @@ environments, not interchangeable dependency substitutions.
 
 ```sh
 python -m pip install torch==2.9.1 torchvision==0.24.1 --index-url https://download.pytorch.org/whl/cu128
-python -m pip install 'git+https://github.com/HyperGAN/krea2-particle-sliders.git@2aeed5c555e92513154e2159983bd7f41b4fe0cc#subdirectory=native-strict'
+python -m pip install 'git+https://github.com/HyperGAN/krea2-particle-sliders.git@018ae7a91a1f7e81e627dd47f2f64ae5291f4cbf#subdirectory=native-strict'
 ```
 
-The [CPU readiness receipt](docs/cpu-readiness-v1.json) records the tested source,
+The [CPU readiness receipt](docs/cpu-readiness-v2.json) records the tested source,
 package parity and limits, including the separate inherited-suite failures.
 
 The metadata command imports no ML framework and allocates no model:
@@ -58,7 +58,10 @@ The proposed process cap is36GiB plus a5GiB global reserve, requiring41GiB
 free at admission. The transformer alone is23.879GiB BF16 and the inherited
 loader overlaps it with the8.267GiB text encoder. LoRA, optimizer, critic,
 activations, math attention and loading peaks remain unmeasured. This is not a
-claim that training fits. No model/GPU admission is authorized by this document.
+claim that training fits. Closing releases owned GPU storage to CPU, including
+retained game/optimizer aliases; retaining a closed session can keep roughly
+24 GiB of base weights in host RAM. The host peak remains unmeasured. No
+model/GPU admission is authorized by this document.
 
 For an admitted future cohort, use `StrictCudaUNI` with explicit local native
 args including `--device 0 --resolution 512 --sample_resolution 768
