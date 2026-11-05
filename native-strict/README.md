@@ -78,8 +78,10 @@ expected_gpu_uuid=...)` produces the common SessionConfig. Use the core
 uses local prompts/args/UUID and refuses old source, numerical, asset or card
 identity before base allocation; it never constructs cache rows or a critic.
 Old MSE/PEFT folders and default/HNDL packets cannot be relabeled for this
-cohort. GPU two-update/resume/raw inference and matched preservation/render
-controls must precede any native learning-rate recommendation.
+cohort. GPU two-update/resume/raw-response correctness must precede any native
+learning-rate recommendation. Selection and independent confirmation use only
+the held-out raw metric in [the LR protocol](../LEARNING-RATES.md).
+Matched preservation/render controls are optional diagnostics, never rate gates.
 
 Version0.1.1 corrects the strict text encoder identity to the exact
 `transformers.Qwen3VLModel` declared by the pinned skeleton model index,
