@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "krea2-strict-native-candidate"
-version = "0.1.1"
+version = "0.1.2"
 description = "Separate strict BF16/math-SDPA Krea2 native source cohort; GPU qualification pending"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = {file = "LICENSE"}
 dependencies = [
-  "krea2-particle-sliders @ git+https://github.com/HyperGAN/krea2-particle-sliders.git@9d3ad435daa230fe7746bc0888abad8fcf2a7913",
+  "krea2-particle-sliders @ git+https://github.com/HyperGAN/krea2-particle-sliders.git@fe5f8686b6ef0f3cbcffb9bb36ff61a9ca7efaf4",
   "diffusers @ git+https://github.com/huggingface/diffusers.git@d5baa4fb548294f47dbca49890abd4b291204c60",
   "torch==2.9.1", "torchvision==0.24.1", "transformers==5.15.0",
   "peft==0.20.0", "accelerate==1.15.0", "safetensors==0.8.0",

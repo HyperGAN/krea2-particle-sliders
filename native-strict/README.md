@@ -1,3 +1,5 @@
+> Current source candidate: released PG0.9.5/core0.13.0, fresh cohort. Earlier PG0.9.4 native mechanics and resource measurements remain historical; no PG0.9.5 pretrained qualification is claimed.
+
 # Krea2 strict native source candidate
 
 This separate package registers `krea2-native-strict`. The released `krea2`
@@ -9,14 +11,16 @@ or prior rate. EMA defaults to disabled; selection and export use raw weights.
 
 Use Python3.12 in a fresh environment, actual Torch2.9.1+cu128 and
 TorchVision0.24.1+cu128, then install this subproject with dependencies. Its
-manifest pins base9d3/coreddb, official ParticleGAN0.9.4, Diffusersd5baa4,
+manifest pins base `fe5f8686b6ef0f3cbcffb9bb36ff61a9ca7efaf4`, core
+`3dd672a7f9b8c169daef90fd63e4bb42b9ddc423`, official ParticleGAN0.9.5, Diffusersd5baa4,
 Transformers5.15.0 and PEFT0.20.0. Source/origin/runtime locks must pass before
 model construction. Candidate PG801 and the old fixture profiles are separate
 environments, not interchangeable dependency substitutions.
 
 ```sh
 python -m pip install torch==2.9.1 torchvision==0.24.1 --index-url https://download.pytorch.org/whl/cu128
-python -m pip install 'git+https://github.com/HyperGAN/krea2-particle-sliders.git@018ae7a91a1f7e81e627dd47f2f64ae5291f4cbf#subdirectory=native-strict'
+# From a checkout of this PG0.9.5 source revision:
+python -m pip install ./native-strict
 ```
 
 The [CPU readiness receipt](docs/cpu-readiness-v2.json) records the tested source,

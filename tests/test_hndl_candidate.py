@@ -309,3 +309,12 @@ def test_lock_file_digest_tamper_rejected(monkeypatch):
     monkeypatch.setattr(Path, 'read_text', changed)
     with pytest.raises(RuntimeError, match='shared source differs'):
         validate_runtime()
+
+
+def test_current_hndl_rates_use_common_resolved_recipe():
+    config = SessionConfig('krea2-hndl', 'krea2-hndl-pg095-rates', dummy=True,
+                           steps=2, lr=2e-5, d_lr_mult=3.)
+    with open_session(config) as session:
+        assert all(g['lr'] == 2e-5 for g in session.game.opt_g.param_groups)
+        assert all(g['lr'] == 2e-5 * 3. for g in session.game.opt_d.param_groups)
+        assert session.game._signature['pg_version'] == '0.9.5'

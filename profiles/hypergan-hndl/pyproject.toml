@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "krea2-particle-sliders"
-version = "0.3.0.dev0"
+version = "0.3.0.dev1"
 description = "Krea2 exact local HyperGAN HNDL integration candidate; GPU unqualified"
 readme = "LIFECYCLE.md"
 requires-python = ">=3.11,<3.15"

@@ -35,7 +35,9 @@ class Krea2HNDLFieldCritic(HNDLFieldCritic):
 
 
 def build_game(native, cache, *, cache_sha256, model_identity, total_steps, seed=7,
-               batch_size=2, preset='bispf_optimized', lr=5e-5):
+               batch_size=2, preset='bispf_optimized', lr=5e-5, d_lr_mult=None):
+    from krea2.learning_rates import recipe_overrides
+    rates = recipe_overrides(lr=lr, d_lr_mult=d_lr_mult)
     runtime = validate_runtime()
     rows = Krea2Rows(native, cache, cache_sha256=cache_sha256)
     adapter = ImageResponseAdapter('krea2', native.model, image_lora_parameters(native.model),
@@ -49,7 +51,7 @@ def build_game(native, cache, *, cache_sha256, model_identity, total_steps, seed
     return ConditionalPG09(adapter, rows, critic, particles=None,
         response_domain='continuous_field', response_scale=rows.response_scale,
         preset=preset, batch_size=batch_size, seed=seed, total_steps=total_steps,
-        recipe_overrides={'lr': lr}, sampling='balanced')
+        recipe_overrides=rates, sampling='balanced')
 
 
 def validate(options):
