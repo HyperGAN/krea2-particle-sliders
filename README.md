@@ -3,6 +3,8 @@
 Common lifecycle draft: **43 selected CPU checks passed** on the tested runtime below. See [publication and qualification status](PUBLICATION-STATUS.md); native/pretrained limits remain explicit.
 
 For the new common session/CLI interface, see [LIFECYCLE.md](LIFECYCLE.md).
+New sessions use `ema_decay=None` and RAW weights throughout; no EMA averaging,
+comparison or selection is part of current ParticleGAN guidance.
 
 The separate [strict native BF16/math-SDPA candidate](native-strict/README.md)
 preserves the released/default and historical HNDL routes. Its CPU readiness
