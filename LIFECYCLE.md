@@ -11,20 +11,25 @@ The prior core0.8.1/PG0.9.1 source is reproducible through
 `profiles/core081/requirements.txt` in its own environment.
 
 The registered image backend owns native loading/conditioning, geometry and
-sampler differences. Core owns session updates, EMA, resume, export and cleanup;
+sampler differences. Core owns session updates, resume, export and cleanup;
 ConditionalPG09 owns the unchanged GAN math. Krea remains an adapter GAN with
 `particles=None`, actual FP32 PEFT leaves, native `[1,C,1,H,W]` fields, full
 conditioning projections and balanced edit4:preserve1 cache rows. Native turbo
 policy stays eight steps, CFG=0, mu=1.15. All finite signed strengths remain
 supported as executable extrapolation, without a negative teacher.
 
+New ParticleGAN sessions explicitly set `ema_decay=None` and use RAW weights
+for training, evaluation, export and inference. Do not maintain or compare EMA
+weights, add checkpoint averaging, or select EMA exports. Historical source
+cohorts and their conformance receipts remain unchanged.
+
 ```python
 from particle_sliders.lifecycle import SessionConfig, open_session
-config = SessionConfig('krea2', 'new-krea-pg094', dummy=True, steps=4, ema_decay=.9)
+config = SessionConfig('krea2', 'fresh-krea-pg095-raw', dummy=True, steps=4, ema_decay=None)
 with open_session(config) as session:
     session.train()
     session.checkpoint('new-krea-run/training.pt')
-    session.export_inference('new-krea-run/native-ema.pt', selection='ema')
+    session.export_inference('new-krea-run/native-raw.pt', selection='raw')
 ```
 
 The dummy path constructs an actual random tiny Krea2/PEFT model and internal
@@ -35,7 +40,7 @@ capturing teacher responses or constructing a game:
 ```python
 import torch
 from particle_sliders.inference import open_inference
-with open_inference('new-krea-run/native-ema.pt', operation='response') as inference:
+with open_inference('new-krea-run/native-raw.pt', operation='response') as inference:
     response = inference.response(prompt='neutral', latent=torch.zeros(1, 4, 1, 4, 4),
                                   timestep=500., strength=-.5)
 ```
@@ -70,7 +75,7 @@ artifact, and only local runtime options:
 ```python
 runtime = dict(native_args=local_native_args, device='cuda:0',
                prompts=[new_grounded_prompt])
-with open_inference('native-ema.pt', options=runtime,
+with open_inference('native-raw.pt', options=runtime,
                     native_request={'prompt': new_grounded_prompt}) as inference:
     image = inference.render(prompt=new_grounded_prompt, strength=-.5, seed=7,
                              resolution=768)
