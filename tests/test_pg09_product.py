@@ -89,7 +89,7 @@ def test_native_shared_gan_updates_and_exact_resume(preset, tmp_path):
     from importlib.metadata import version
     assert full.backend.metadata()['diffusers_version'] == version('diffusers')
     assert full._signature['generator_arm'] == 'adapter_gan'
-    assert full._signature['pg_version'] == '0.9.4'
+    assert full._signature['pg_version'] == '0.9.5'
     assert full._signature['objective'] == 'g_adv+public_prior;d_adv+public_penalty'
     for _ in range(5):
         stats = full.step()

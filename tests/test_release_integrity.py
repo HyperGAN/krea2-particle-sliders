@@ -20,6 +20,7 @@ def release_runtime(tmp_path):
     runtime.model = Mock()
     runtime.pipe = Mock()
     runtime.active = 'previous'
+    runtime.conditioning_identity = {'fixture': 'release-conditioning'}
     runtime._release_frozen_identity = 'reviewed frozen base'
     runtime.frozen_identity = Mock(return_value=runtime._release_frozen_identity)
     return runtime, path, hashlib.sha256(path.read_bytes()).hexdigest()
@@ -60,7 +61,8 @@ def test_new_gan_sidecar_revalidated_before_loading(tmp_path, monkeypatch):
     runtime.load('candidate', path, expected_sha256=expected)
 
     validated.assert_called_once_with(tmp_path, dict(
-        contract, frozen_model_sha256=runtime._release_frozen_identity))
+        contract, frozen_model_sha256=runtime._release_frozen_identity,
+        conditioning_identity=runtime.conditioning_identity))
     assert events == ['validated', 'loaded']
     runtime.pipe.load_lora_weights.assert_called_once_with(str(path), adapter_name='candidate')
     runtime.pipe.set_adapters.assert_called_once_with('candidate', adapter_weights=1.)

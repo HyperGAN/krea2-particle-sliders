@@ -1,13 +1,13 @@
 """Installed modern profile only: real tiny Krea2/PEFT, shared PG and HNDL."""
 from copy import deepcopy
-from importlib.metadata import version
+from importlib.metadata import version, entry_points
 import os
 from pathlib import Path
 
 import pytest
 import torch
 
-if version('particle-sliders-core') != '0.12.0':
+if version('particle-sliders-core') != '0.13.0' or not entry_points(group='particle_sliders.image_backends', name='krea2-hndl'):
     pytest.skip('separate exact core0.12 HNDL candidate environment required', allow_module_level=True)
 
 from particle_sliders.inference import open_inference
@@ -23,7 +23,7 @@ def test_real_hndl_native_lifecycle_resume_and_inference(preset, tmp_path, monke
     rng = torch.get_rng_state().clone()
     with open_session(config) as full:
         assert isinstance(full.game.critic, Krea2HNDLFieldCritic)
-        assert full.game._signature['pg_version'] == '0.9.4'
+        assert full.game._signature['pg_version'] == '0.9.5'
         assert full.game.rows.response_shape == (1, 4, 1, 4, 4)
         assert full.game._signature['generator_arm'] == 'adapter_gan'
         native = full.game.backend.transformer

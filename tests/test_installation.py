@@ -22,13 +22,13 @@ def test_canonical_lock_and_immutable_legacy_profile():
     candidate = tomllib.loads((ROOT / 'profiles/hypergan-hndl/pyproject.toml').read_text())
     assert default['project']['version'] == '0.2.1'
     assert lock['schema'] == 'krea2-shared-api-v3'
-    assert lock['version'] == '0.12.0' and lock['particlegan'] == '0.9.4'
-    assert lock['commit'] == 'ddb41423bcefc1fe76cd94d0f9b367353b3ea137'
+    assert lock['version'] == '0.13.0' and lock['particlegan'] == '0.9.5'
+    assert lock['commit'] == '3dd672a7f9b8c169daef90fd63e4bb42b9ddc423'
     assert lock['commit'] in default['project']['dependencies'][0]
     assert 'particle_sliders/LICENSE' in lock['sources']
     assert any(name.endswith('.yaml') for name in lock['sources'])
     assert '91ae74b12c123a7241142f134cc4501c5288583a' in (ROOT / 'profiles/core081/requirements.txt').read_text()
-    assert 'a794e3b4a8813b012f2c4faa3da82b78d4a90214' in candidate['project']['dependencies'][0]
+    assert '3dd672a7f9b8c169daef90fd63e4bb42b9ddc423' in candidate['project']['dependencies'][0]
     assert 'hypergan-hndl' in candidate['project']['dependencies'][0]
 
 
@@ -37,8 +37,8 @@ def test_inspection_checks_installed_distribution(tmp_path):
         cwd=tmp_path, text=True, capture_output=True, check=True)
     report = json.loads(result.stdout)
     assert report['status'] == 'passed'
-    assert report['shared']['version'] == '0.12.0'
-    assert report['shared']['particlegan'] == '0.9.4'
+    assert report['shared']['version'] == '0.13.0'
+    assert report['shared']['particlegan'] == '0.9.5'
     assert report['cuda_initialized'] is False
     origin = Path(report['origins']['krea2']).resolve()
     if report['installation']['editable']:
