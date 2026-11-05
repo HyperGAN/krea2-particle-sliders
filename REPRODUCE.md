@@ -1,3 +1,5 @@
+> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; none establishes a PG0.9.5 native result.
+
 # Reproduction and new GAN training
 
 The finished Krea-2 slider releases on the Hub retain their historical MSE

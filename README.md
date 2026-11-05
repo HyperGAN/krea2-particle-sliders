@@ -1,3 +1,5 @@
+> **Current source: core0.13.0 / published ParticleGAN0.9.5.** This is a fresh cohort; older versioned evidence below remains historical. See [adoption and compatibility](docs/pg095-adoption.md). No native PG0.9.5 result is claimed.
+
 Common lifecycle draft: **43 selected CPU checks passed** on the tested runtime below. See [publication and qualification status](PUBLICATION-STATUS.md); native/pretrained limits remain explicit.
 
 For the new common session/CLI interface, see [LIFECYCLE.md](LIFECYCLE.md).

@@ -11,7 +11,7 @@ def validate_runtime():
     if lock['schema'] != 'krea2-hypergan-hndl-candidate-v2':
         raise RuntimeError('Krea2 HNDL requires its recursive source/data closure lock')
     if (version('particle-sliders-core'), version('particlegan')) != (lock['version'], lock['particlegan']):
-        raise RuntimeError('Krea2 HNDL requires its separate exact core 0.12 / PG 0.9.4 candidate environment')
+        raise RuntimeError('Krea2 HNDL requires its separate exact core 0.13 / PG 0.9.5 candidate environment')
     root = Path(particle_sliders.__file__).resolve().parent.parent
     actual = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
               for package in ('particle_sliders', 'concept_slider_core')

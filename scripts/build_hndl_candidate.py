@@ -58,7 +58,8 @@ def main():
             'include LIFECYCLE.md NOTICE\ninclude docs/modernization.md\n'
             'recursive-include scripts *.py\nrecursive-include profiles *.toml\n')
         shutil.copy2(root / 'profiles/hypergan-hndl/pyproject.toml', source / 'pyproject.toml')
-        restore_pre_lr_runtime(root, source)
+        # Fresh PG0.9.5 uses current source; ship the old archive without executing it.
+        shutil.copytree(root / 'cohorts/pre-lr-hndl', source / 'cohorts/pre-lr-hndl')
         with (source / 'MANIFEST.in').open('a') as manifest:
             manifest.write('\nrecursive-include cohorts/pre-lr-hndl *.py *.json\n')
         if args.sdist:

@@ -1,3 +1,5 @@
+> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; none establishes a PG0.9.5 native result.
+
 # Krea2 common lifecycle
 
 The canonical product now uses core **0.12.0**, official ParticleGAN **0.9.4**,

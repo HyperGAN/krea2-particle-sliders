@@ -1,3 +1,5 @@
+> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; none establishes a PG0.9.5 native result.
+
 # Current canonical PG 0.9.4 source upgrade
 
 The canonical source dependency now pins core0.12.0 / official PG0.9.4 at

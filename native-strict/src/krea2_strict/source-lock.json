@@ -1,5 +1,5 @@
 {
-  "base_commit": "9d3ad435daa230fe7746bc0888abad8fcf2a7913",
+  "base_commit": "fe5f8686b6ef0f3cbcffb9bb36ff61a9ca7efaf4",
   "base_sources": {
     "__init__.py": "e177c4977e146c23bee342779199095bbc7d1b7a63f1448dd0393340f419cc47",
     "attention.py": "1a350b22039204cdd9d8dec856cb22df58fa8daa45ab6a19b9c7f9720700bc89",
@@ -18,15 +18,15 @@
     "pg09.py": "22fc51c21da9aa24f756423facefd5ec3d639a34ef0b24284828c7a2c8739d1c",
     "prompts.py": "26433987ad4ba1a947d67e22892e31e96d79f1a7e67e5dfd4e9df5d5f64a6de8",
     "samples.py": "accfe47ca2aa75fd382701eb7988a80f2885b327b4e66864e9f4e477ab7ba3e6",
-    "shared.lock.json": "0d205564446bf07ea4e3185022e445252f41f65d6eb8c131c6bda427d15bfe39",
+    "shared.lock.json": "d5c37df8b5fc43ff51734743f5fb947d37328f701fb86e35a4425cd8320c09b1",
     "shared.py": "6dfe95c845f30e8bc682c100ab8d329159ccc542697fad0b0b4f67a9e59b0462",
     "synthetic.py": "70d4ef7b9eb19cb7e8bd6cb0f4324d4c47acbeba18a41fcebcc352ada6116336",
-    "train.py": "bbc5e31886125c596bf52179764751cf074338872394273e6aaebdd837b15bbe",
+    "train.py": "79d398ddb093055dda2384d50526c5016e062f231e2642b119f0e3a2e4d1dda7",
     "uni.py": "3852a98144b1c25e60ba2d746e3221563ddc3dcb9cca002eb13153fb15f59663"
   },
-  "core_commit": "ddb41423bcefc1fe76cd94d0f9b367353b3ea137",
+  "core_commit": "3dd672a7f9b8c169daef90fd63e4bb42b9ddc423",
   "product_sources": {
-    "__init__.py": "0e4bf52d78ea1357dbb0c623a198a3ea160e506bea59f23ce5ad2f8ae7f0f7fd",
+    "__init__.py": "05b67390a6000268197df7aeecb7c953abe977b2319faf233467e950ce02e7c6",
     "__main__.py": "6f7c9e7bd53028643bad05a99de6a6c10191907427d083a9e21cb8e04e7ebb2b",
     "assets.json": "dbcaee29caf0e8c0e4f98efa3a5d6b8dec71513dc61a3fe942112bbe9120cf57",
     "assets.py": "20740f169350ae77bf9ff3a5f7b1f5941d6ec9fb646f09568c5ea74122168534",
