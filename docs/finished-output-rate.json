@@ -1,0 +1,105 @@
+{
+  "schema": "documented-finished-output-LR-decision-v1",
+  "product_id": "krea2-particle-sliders",
+  "as_of": "2026-11-09",
+  "selection_metric": "Equal-case mean intended-effect intensity ON minus matched OFF in finished outputs",
+  "teacher_SSE_used_for_selection": false,
+  "preservation_beauty_confidence_or_completion_tiebreak": false,
+  "prospective_ema_decay": null,
+  "source_rate_pack_SHA256": "d06a3585ef9b3aaccfffe6352beb419b289c860c49c96a8df30c9459dda4a573",
+  "status": "scoped_model_effect_selection_and_fresh_confirmation_complete",
+  "rate_overrides": {
+    "lr": 0.036,
+    "d_lr_mult": 0.5000000000000001,
+    "ema_decay": null
+  },
+  "existing_historical_recipe": null,
+  "final_effect_confirmed": true,
+  "actual_rates": {
+    "G": 0.036,
+    "D": 0.018000000000000002,
+    "bank": null
+  },
+  "comparison_updates": 32,
+  "comparison_cases": 4,
+  "mean_effect_gain": 0.012435747931400934,
+  "result": {
+    "artifact_id": "result.json",
+    "bytes": 35594,
+    "sha256": "d4ebde33c20e6b7894c0caa56c70e3ac56dc1d6e9f48f5c0fc0e664ba34f0bfc"
+  },
+  "decision": {
+    "artifact_id": "root-existing-five-arm-RAW32-selection-v1.json",
+    "bytes": 1411,
+    "sha256": "b05e404ec855987523aaf58ab21205a384a197bdd5a206a007d6a2ee9ce67e9c"
+  },
+  "scope": "Best tested generator rate for this existing native Warm Amber RAW32 cohort at fixed D0.018000000000000002 and no particle bank. Selected among five saved matched-budget rates; confirmed on four separately frozen fresh finished-output prompts/seeds. Preserve original model/Source/RAW identities. No global/joint optimum, training-prompt membership, human/statistical validation or package-default claim.",
+  "confirmed_checkpoint_updates": 32,
+  "confirmation_mean_effect_gain": 0.011814538389444351,
+  "confirmation_per_case_gains": {
+    "fresh0-seed29101": 0.014998368918895721,
+    "fresh1-seed29103": 0.011903330683708191,
+    "fresh2-seed29107": 0.012790953119595846,
+    "fresh3-seed29109": 0.007565500835577647
+  },
+  "confirmation": {
+    "artifact_id": "result.json",
+    "bytes": 30912,
+    "sha256": "81c38ff05c736de312b60b0176062c300279275dafa1ef648da3ebe643e4f0e1"
+  },
+  "confirmation_Root_terminal": {
+    "artifact_id": "root-actual-terminal-reap-resource0-v1.json",
+    "bytes": 2588,
+    "sha256": "986b183a11fab5221a597c637908e4ac1066a3599c715b29465657f50242f840"
+  },
+  "recommendation": {
+    "artifact_id": "krea2-pg095-native512-raw32-effect-confirmed.json",
+    "bytes": 4276,
+    "sha256": "1c611720539f582e42c5aaeef446e548803ed1325dc2ba9a5ca453fbf94e16ac"
+  },
+  "measurement_kind": "FROZEN_MODEL_INSTRUMENT_NOT_HUMAN",
+  "selected_for_use": true,
+  "additional_fresh_confirmation_required": false,
+  "usage": "Documentation metadata and exact option literals only; not a complete training configuration, artifact loader, changed package default, or instruction to replay completed training.",
+  "portability": "Original model, captured native source, paired conditioning/cache, RAW checkpoint and media are separately managed and are not bundled by this documentation. Evidence artifacts are identified by basename, byte count and SHA256; these are not download locations.",
+  "concept": "Warm Amber",
+  "horizon": 128,
+  "native_render_profile": {
+    "width": 512,
+    "height": 512,
+    "steps": 8,
+    "guidance": 0.0,
+    "mu": 1.15
+  },
+  "case_scope": "Four new finished-output prompts and seeds distinct from examined bicycle/teapot/cat/bridge cases. Frozen after the G.036 selection was communicated and before any render/access/score of this group. Training/teacher prompt membership was not examined; no unused-membership claim.",
+  "all4cases_retained_at_equal_weight": true,
+  "final_case_monitoring_exception": {
+    "case_id": "fresh3-seed29109",
+    "Root_independent_live_recapture": false,
+    "Root_reviewed_owner_actual_live_capture": true,
+    "ordinary_peer_was_never_registered": true,
+    "ordinary_exact_peer_removed": null,
+    "entry_evidence": {
+      "artifact_id": "root-owner-live-entry-evidence-review-v1.json",
+      "bytes": 1711,
+      "sha256": "b4d0f306cd76e945f719e4877dd411dc6312e34cd1cdd8be674ffbf117c72d78"
+    },
+    "monitoring_note": "Root missed the live recapture window; owner actual six-FD/PID/birth/fullargv capture remains pinned. H3 dynamic30 and nativeguard caps/floors were active. No retrospective ordinary row, no rerender/retraining, no invented diagnostics.",
+    "full_case_weight_retained": true,
+    "rerender_retrain_filter_or_retroactive_peer_invented": false,
+    "no_separate_persisted_RNG_or_detach_flag_invented": true
+  },
+  "new_PG_updates": 0,
+  "completed_searches_training_and_native_outputs_reused": true,
+  "package_defaults_changed": false,
+  "api_scope": {
+    "strict_backend": "krea2-native-strict",
+    "config_factory": "krea2_strict.lifecycle.config",
+    "accepted_rate_keywords": [
+      "lr",
+      "d_lr_mult"
+    ],
+    "prior_lr_mult_supported": false,
+    "has_particle_bank": false
+  }
+}

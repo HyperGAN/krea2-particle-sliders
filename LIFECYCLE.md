@@ -1,4 +1,12 @@
-> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; none establishes a PG0.9.5 native result.
+> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope.
+
+The current [Warm Amber RAW32 rate record](docs/finished-output-learning-rates.md)
+is separate from these older CPU and PG0.9.4 receipts. It selects G=0.036 with
+`d_lr_mult=0.5000000000000001`, explicit `ema_decay=None`, and no bank/prior
+rate. The [strict native configuration factory](native-strict/src/krea2_strict/lifecycle.py)
+accepts these options directly. Local verified assets, cache, native arguments,
+numerical/source identity and resource-owner admission remain caller-owned;
+this documentation does not bundle them or make old packets compatible.
 
 # Krea2 common lifecycle
 

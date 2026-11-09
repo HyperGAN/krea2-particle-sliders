@@ -1,4 +1,12 @@
-> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; none establishes a PG0.9.5 native result.
+> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope.
+
+Current scoped native rate evidence is indexed in [Warm Amber RAW32 guidance](docs/finished-output-learning-rates.md):
+G=0.036, fixed D=0.018000000000000002, no particle bank; mean intended-effect
+ON−OFF gain 0.012435747931400934 over four examined selection cases and a
+separate completed fresh four-case mean 0.011814538389444351. No extra
+confirmation is required. The record preserves its captured source/model/RAW
+identity; it does not qualify arbitrary installs or change defaults, released
+Final Boss/Eldritch weights, or the historical receipts below.
 
 # Current canonical PG 0.9.4 source upgrade
 
