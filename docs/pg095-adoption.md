@@ -13,7 +13,14 @@ product source is `4a4d15aa0158e2c44d629ab0a9339bedbc33050d`; historical archive
 The current PG0.9.5 path refuses old packet source/config identities.
 
 CPU fixture/update/resume/export checks establish software integration only.
-Pretrained/native PG0.9.5 training and rate confirmation require fresh evidence.
-Use [the common learning-rate contract](https://github.com/HyperGAN/particle-sliders/blob/3dd672a7f9b8c169daef90fd63e4bb42b9ddc423/packages/particle-sliders-core/LEARNING-RATE-CONTRACT.md).
-Held-out RAW FP64 equal-example relative SSE is the sole ranking/confirmation
-metric; preservation and media diagnostics are optional and never veto a rate.
+The current [Warm Amber RAW32 recommendation](finished-output-learning-rates.md)
+uses existing captured native evidence: G=0.036 at fixed
+D=0.018000000000000002, no particle bank, selected among five saved rates.
+Its separate fresh four-case result is already complete; do not require another
+confirmation or relabel older CPU receipts as native evidence.
+
+Current selection uses one equal-case mean intended-effect intensity ON minus
+matched OFF in finished outputs. Historical teacher-response relative SSE,
+preservation and generic beauty are diagnostics only, never selectors or
+tiebreaks. Reuse completed searches, RAW checkpoints, outputs, first scores and
+mechanical receipts. Use RAW weights with explicit `ema_decay=None`; no weight EMA.

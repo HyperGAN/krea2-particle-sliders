@@ -1,13 +1,16 @@
-> Current source candidate: released PG0.9.5/core0.13.0, fresh cohort. Earlier PG0.9.4 native mechanics and resource measurements remain historical; no PG0.9.5 pretrained qualification is claimed.
+> Current source: released PG0.9.5/core0.13.0. Earlier PG0.9.4 mechanics and versioned readiness/resource receipts retain their original scope. The [current Warm Amber RAW32 finished-output record](../docs/finished-output-learning-rates.md) has its own captured native source/model/RAW identities; it does not relabel those receipts.
 
 # Krea2 strict native source candidate
 
 This separate package registers `krea2-native-strict`. The released `krea2`
 route and closed HNDL archives retain their original source bytes and commands.
-This candidate has no pretrained GPU update, exact-resume, render or LR
-qualification yet. Its rate remains the inherited G/base `5e-5`; D is derived
-from the shared recipe or `lr * d_lr_mult`. This adapter-only game has no bank
-or prior rate. EMA defaults to disabled; selection and export use raw weights.
+The inherited G/base default remains `5e-5`; D is derived from the shared recipe
+or `lr * d_lr_mult`. The scoped existing Warm Amber result instead uses explicit
+G=0.036 and `d_lr_mult=0.5000000000000001`, without changing that default.
+This adapter-only game has no bank or prior rate. EMA defaults to disabled;
+new configuration explicitly uses `ema_decay=None` and RAW weights throughout.
+The preparation details and historical readiness notes below retain their
+original source scope; they do not require replaying completed native work.
 
 Use Python3.12 in a fresh environment, actual Torch2.9.1+cu128 and
 TorchVision0.24.1+cu128, then install this subproject with dependencies. Its
@@ -82,10 +85,12 @@ expected_gpu_uuid=...)` produces the common SessionConfig. Use the core
 uses local prompts/args/UUID and refuses old source, numerical, asset or card
 identity before base allocation; it never constructs cache rows or a critic.
 Old MSE/PEFT folders and default/HNDL packets cannot be relabeled for this
-cohort. GPU two-update/resume/raw-response correctness must precede any native
-learning-rate recommendation. Selection and independent confirmation use only
-the held-out raw metric in [the LR protocol](../LEARNING-RATES.md).
-Matched preservation/render controls are optional diagnostics, never rate gates.
+cohort. Keep the existing source-bound update/resume/RAW-response receipts;
+do not repeat them for the already measured rate. Selection uses one equal-case
+mean intended-effect ON−OFF score in finished outputs as described in
+[the LR guide](../LEARNING-RATES.md). Reuse saved RAW checkpoints, completed
+outputs and first scores; no new confirmation is required. Teacher-response
+SSE, preservation and generic beauty are diagnostics, never selectors or tiebreaks.
 
 Version0.1.1 corrects the strict text encoder identity to the exact
 `transformers.Qwen3VLModel` declared by the pinned skeleton model index,
@@ -98,5 +103,7 @@ taps pass CPU checks without loading pretrained tensors or initializing CUDA.
 The first full native attempt using version0.1.0 loaded the DiT and encoder,
 then refused this correct native class before encoding, teacher capture or
 training. Its source, environment and failure/unload receipts are preserved.
-Version0.1.1 needs its own source/environment/cache and separately reviewed
-bounded proof; no old packet is relabeled and no retry is implicit.
+At that historical readiness stage, version0.1.1 needed its own
+source/environment/cache and bounded native evidence. The current scoped
+finished-output record is indexed separately above; no old packet is relabeled
+and no proof replay or retry is implied.

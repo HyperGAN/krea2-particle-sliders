@@ -1,4 +1,12 @@
-> **Current source: core0.13.0 / published ParticleGAN0.9.5.** This is a fresh cohort; older versioned evidence below remains historical. See [adoption and compatibility](docs/pg095-adoption.md). No native PG0.9.5 result is claimed.
+> **Current source: core0.13.0 / published ParticleGAN0.9.5.** Older versioned evidence below retains its original scope. See [adoption and compatibility](docs/pg095-adoption.md).
+
+Current [finished-output rate guidance](docs/finished-output-learning-rates.md):
+**Warm Amber G=0.036, RAW32**, best of five saved matched-budget rates on four
+examined cases (mean intended-effect ON−OFF gain 0.012435747931400934).
+A separately completed fresh four-case result is 0.011814538389444351; no new
+confirmation is required. This uses the original captured native source/model
+and RAW identities, with fixed D=0.018000000000000002 and no particle bank.
+It does not change defaults or the historical Final Boss/Eldritch weights.
 
 Common lifecycle draft: **43 selected CPU checks passed** on the tested runtime below. See [publication and qualification status](PUBLICATION-STATUS.md); native/pretrained limits remain explicit.
 
@@ -6,9 +14,10 @@ For the new common session/CLI interface, see [LIFECYCLE.md](LIFECYCLE.md).
 New sessions use `ema_decay=None` and RAW weights throughout; no EMA averaging,
 comparison or selection is part of current ParticleGAN guidance.
 
-The separate [strict native BF16/math-SDPA candidate](native-strict/README.md)
-preserves the released/default and historical HNDL routes. Its CPU readiness
-does not qualify pretrained GPU updates, native rendering or learning rates.
+The separate [strict native BF16/math-SDPA route](native-strict/README.md)
+preserves the released/default and historical HNDL routes. Its older CPU
+readiness receipts remain software evidence only; the current rate record
+has its own captured native source and finished-output scope.
 
 # Krea2 Turbo-BBox Particle Sliders
 
