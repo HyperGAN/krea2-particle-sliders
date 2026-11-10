@@ -1,0 +1,157 @@
+# Explicit fresh initialization for new Krea2 cohorts
+
+`krea2.fresh95` is an opt-in Python API for new cohorts using the original Krea2
+PEFT adapter, FieldCritic and ParticleGAN 0.9.5 game. The existing CLI, common
+backend, strict profile, historical HNDL profile and defaults are unchanged.
+Saved adapters, completed searches and published LR guidance keep their original
+identities; this new initialization recipe does not revalidate or reset them.
+
+Four new tiny software cases passed from a genuinely built and installed
+candidate, with one original software update total. The cases verified the
+original core577-file and PG0.9.5 guards, exact active PEFT Source, generated
+installation RECORDs, initialization ordering, Parameter identity, strict FULL
+restore, RAW inference without initialization and retryable cleanup. No
+pretrained weights, teacher capture, model download or native rendering was used.
+This establishes bounded software behavior. The new `local_components` loading
+path and real rendering through this opt-in API remain unqualified; no public
+binary release or new LR result is claimed by those software cases.
+
+## Preserve the actual host laws
+
+The active original loader creates PEFT LoRA using default `LoraConfig`
+initialization: A/down uses Kaiming `a=sqrt(5)`, B/UP is zero. Fresh95 uses the
+official `particlegan.init.deterministic_orthogonal_` with a complete private
+declaration on the same Parameter objects:
+
+- A/down: deterministic QR at the original Uniform RMS, with declared bound
+  `1/sqrt(fan_in)` and stable per-parameter seeds.
+- B/UP: KEEP, with zero required before initialization. The initial adapter
+  contribution remains zero.
+- FieldCritic: KEEP every original constructor value and Parameter.
+- Particle bank: none; this adapter GAN does not acquire a bank or prior.
+
+The separate shared `native_lora.LoRAModule` has an `a=1` constructor but is not
+the active Krea2 PEFT route. It is untouched. The new API never patches core
+guards, installs a later core helper, changes pretrained weights or replaces the
+native forward, sampler, precision or geometry.
+
+The receipt is produced before the game constructs optimizers and is included in
+its immutable signature. Fresh options explicitly reject weight EMA; selection,
+FULL/RAW exports and inference use raw current weights. Scalar optimizer
+statistics retain the original official formulas.
+
+## Use the exact dependency profile and an admitted owner
+
+Use the repository's original core0.13.0/ParticleGAN0.9.5 source profile and native
+dependencies. The full existing `validate_shared_runtime()` and original
+capability/PG gates remain active. A newer core or an approximate dependency
+environment is not an automatic substitute. The tested software job installed
+the exact original core and Krea candidate into an owned target and excluded old
+package owners/startup paths; it did not modify an existing environment or
+fabricate distribution metadata.
+
+The API requires a real external owner-admission callback before the native
+factory constructs components. Your application owns memory admission, device
+leases, process lifetime and cleanup. The package does not supply resource
+grants or guarantee that a model fits. Use staged local model/cache paths;
+`local_components` retains the original loader's refusal of implicit Hub access.
+
+```python
+from pathlib import Path
+from krea2.fresh95 import open_training, open_inference
+from krea2.fresh95.api import local_components
+
+# Implement this using your actual owner/resource policy. Return True only when
+# this specific operation, device and configuration have been admitted.
+def admit(request):
+    return owner.admit(request)
+
+# These are the ORIGINAL lifecycle options, not a new CLI or model format.
+options = {
+    "native_args": original_local_native_arguments,
+    "cache_file": original_frozen_teacher_cache,
+    "device": "cuda:0",
+    "base_precision": "bfloat16",
+    "steps": declared_horizon,
+    "batch": 2,
+    "seed": 7,
+    "preset": "bispf_optimized",
+    "lr": declared_generator_rate,
+    "d_lr_mult": declared_discriminator_multiplier,
+    "ema_decay": None,
+    "render_prompts": declared_prompts,
+}
+Path("new-output").mkdir(exist_ok=False)
+
+with open_training(options, mode="fresh", cohort_id="my-new-fresh95-cohort",
+                   owner_factory=local_components, owner_admission=admit) as run:
+    full0 = run.checkpoint("new-output/FULL0.pt")
+    run.step()  # Original core D/G update, with no teacher collection here.
+    full1 = run.checkpoint("new-output/FULL1.pt")
+    raw1 = run.export("new-output/RAW1.pt")
+```
+
+Declare mode and cohort before construction. Fresh mode rejects a saved FULL.
+The owner factory must return fresh added adapter Parameters, rather than a
+previously loaded or optimized adapter. No API can infer an arbitrary earlier
+load performed outside that factory contract. The existing teacher cache is
+validated and reused, not regenerated by this call.
+
+## Exact FULL resume skips initialization
+
+```python
+with open_training(options, mode="resume", cohort_id="my-new-fresh95-cohort",
+                   resume=full1, owner_factory=local_components,
+                   owner_admission=admit) as run:
+    run.step()  # Next missing update only, within the original fixed horizon.
+```
+
+`full1` is an explicit `Checkpoint(path, bytes, sha256)` whole-file pin returned
+by `checkpoint()`. Retain that pin alongside the artifact. Resume validates the
+new profile, original receipt, cohort, complete options and exact Source before
+construction. It calls the original production restore and requires whole typed
+FULL equality: model/critic values, both optimizers, streams, RNG, sampling
+orders/cursors/exposures, immutable manifest and last metrics. Tuple-bearing
+state is not round-tripped through JSON. The initializer is never called.
+
+Old-cohort FULL files remain with their original entrypoints. FULL/RAW writes
+are exclusive and do not overwrite an old artifact; parent directories must
+already exist.
+
+## Native-only RAW inference skips initialization and training
+
+```python
+loading_options = {
+    "native_args": original_local_native_arguments,
+    "device": "cuda:0",
+    "base_precision": "bfloat16",
+    "prompts": declared_prompts,
+}
+with open_inference(raw1, loading_options, mode="raw-inference",
+                    owner_factory=local_components, owner_admission=admit) as run:
+    image = run.render(prompt=declared_prompts[0], strength=1., seed=7,
+                       resolution=declared_resolution)
+```
+
+This uses the original native-only core export/loading format with a distinct
+fresh95 receipt and factory Source identity. It constructs no game, critic,
+training cache rows or optimizer and never invokes the initializer. Original
+request checks and native rendering/observation contexts are retained. The
+example describes the implemented API; real native execution through it remains
+unqualified. It does not imply compatibility with an old RAW artifact.
+
+## Borrowed ownership and cleanup
+
+An application can supply a custom `owner_factory(request)` returning
+`Components(native, cache, cache_sha256, release)` from
+`krea2.fresh95.ownership`. The factory cleans up any partial construction before
+it returns; a `release` callback transfers only the resources it actually owns.
+Without that callback, a borrowed model is not automatically unloaded.
+
+Close restores owned native modes, gradient flags and checkpoint callbacks
+before releasing a transferred runtime. On failure it retains pending handles
+and callbacks, marks cleanup pending and blocks training/inference. Retry
+`close()` to finish only pending operations. A foreign replacement callback or
+transformer is preserved and reported. Construction/cleanup exceptions expose
+`cleanup_owner` when an unfinished owner needs a retry. Failed cleanup never
+becomes a successful-close receipt.
