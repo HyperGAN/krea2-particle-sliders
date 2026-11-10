@@ -1,3 +1,5 @@
+**Opt-in fresh initialization:** [explicit fresh95 guide](docs/explicit-fresh-initialization.md). Four new installed-package software cases pass, including exact FULL resume and RAW skip-init. Native loading/rendering through this opt-in API remains unqualified; existing defaults and LR results are unchanged.
+
 > **Current source: core0.13.0 / published ParticleGAN0.9.5.** Older versioned evidence below retains its original scope. See [adoption and compatibility](docs/pg095-adoption.md).
 
 Current [finished-output rate guidance](docs/finished-output-learning-rates.md):
