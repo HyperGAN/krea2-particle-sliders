@@ -1,3 +1,5 @@
+> **Calculated memory planning:** training **60 GiB VRAM / 40 GiB host RAM** (512×512, B=2, BF16 frozen; FP32 LoRA/critic); sampling **44 GiB VRAM / 40 GiB host RAM** (1536×1536). See [MEMORY.md](MEMORY.md) for checkpointed/phase variants, attention fallback and exact limits. These are conservative calculated budgets, not measured peaks.
+
 **Opt-in fresh initialization:** [explicit fresh95 guide](docs/explicit-fresh-initialization.md). Four new installed-package software cases pass, including exact FULL resume and RAW skip-init. Native loading/rendering through this opt-in API remains unqualified; existing defaults and LR results are unchanged.
 
 > **Current source: core0.13.0 / published ParticleGAN0.9.5.** Older versioned evidence below retains its original scope. See [adoption and compatibility](docs/pg095-adoption.md).
