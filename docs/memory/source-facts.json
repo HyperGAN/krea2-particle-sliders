@@ -1,0 +1,594 @@
+{
+  "schema": "slider-memory-source-facts-v1",
+  "date": "2026-11-14",
+  "calculation_only": true,
+  "models_constructed": 0,
+  "framework_imports": 0,
+  "GPU_operations": 0,
+  "model": "jimmycarter/krea2-turbo-bbox",
+  "revision": "ec7aa643a4da7e56a08c1778e03e837a2e57a94b",
+  "frozen_weights": [
+    {
+      "component": "DiT index tensor bytes",
+      "bytes": 25640146072
+    },
+    {
+      "component": "skeleton text encoder serialized bound",
+      "bytes": 8875715136
+    },
+    {
+      "component": "VAE conservative BF16 bound",
+      "bytes": 507591892
+    }
+  ],
+  "parameter_derivation": "The turbo transformer index supplies25,640,146,072 tensor bytes. Main width6144 with48Q/12KV heads;28 main blocks. Four text-fusion blocks have width2560; a conservative32-block activation envelope uses the larger width throughout. The12 text layers are a tensor axis, not12 separately owned copies of each fusion block.",
+  "trainable": {
+    "parameters": 19402048,
+    "FP32_weights_bytes": 77608192,
+    "gradient_bytes": 77608192,
+    "persistent_momentum_or_Adam_tensor_bytes": 0,
+    "optimizer_transient_allowance_bytes": 964852736,
+    "optimizer_transient_formula": "48*A + 32MiB; FP32 protected normals/directions, FP64 promoted normals/displacements and small-matrix SVD/Gram workspace; conservative simultaneous allowance"
+  },
+  "trainable_derivation": "28×16×(6×6144+2×1536) +4×16×(8×2560) +≤200,000 field-critic parameters = ≤19,402,048; no particle bank",
+  "metadata": [
+    {
+      "repository": "jimmycarter/krea2-turbo-bbox",
+      "requested_revision": "ec7aa643a4da7e56a08c1778e03e837a2e57a94b",
+      "resolved_revision": "ec7aa643a4da7e56a08c1778e03e837a2e57a94b",
+      "repository_metadata_sha256": "d7c8321b94b0958e31e343e30c8a051ee358374be1fc1c983d285d9451875641",
+      "weight_files": [
+        {
+          "path": "epoch-1-step-5228/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "a92166547670fdd333a8d4a52d4afd98b90418fd51569abf3348df93a0301f5f"
+        },
+        {
+          "path": "epoch-1-step-5228/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "5b0704a0c700ccd60027aad27184e8bd898aa51e28b38d21bf4312ab7e270780"
+        },
+        {
+          "path": "epoch-1-step-5228/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "15619091b122f4d2ea4aa75a8299f50f85c505646bcdd120f58448bba5ac9628"
+        },
+        {
+          "path": "epoch-11-step-57502/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "c63b4abc50b338ebea8e1521d59fb6cf1121d3b8228547ca8fad9cd4402e710e"
+        },
+        {
+          "path": "epoch-11-step-57502/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "7ef13ba1998098d15bdeb9e1895407626897b700a208198902949e9c9b305d9e"
+        },
+        {
+          "path": "epoch-11-step-57502/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "c52ee14ac2cdb4373d5f39a6a3dcccb0fcb70fb4fb520b13a13ce346a07828b5"
+        },
+        {
+          "path": "epoch-12-step-62729/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "e9a0d0e89d8a716e1caa639feccd501f00a44b353a90914cb216f1212d1f4105"
+        },
+        {
+          "path": "epoch-12-step-62729/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "365ef2d984254ce6df17cf83c1f5a9c3634f25967694a926a8a34b31536c8227"
+        },
+        {
+          "path": "epoch-12-step-62729/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "d10e8b0686a162f5ef01759ba7a38b2e4b28e315fa9ed87fe957c709adfd1293"
+        },
+        {
+          "path": "epoch-13-step-67956/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "825df22304cc13f5bbf351422d147aed4c7383ba4acf7a82986496581695983b"
+        },
+        {
+          "path": "epoch-13-step-67956/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "f9616502b3c221d35c8a3a85cb1167f71b7dea5aad9ec388ac9ce15223a1dba8"
+        },
+        {
+          "path": "epoch-13-step-67956/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "58b9449a782b91fc07ed472fdf2fcbbcb2c4684a6644764095c0d3b09afdca49"
+        },
+        {
+          "path": "epoch-14-step-73184/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "b768599a5295d988448488fa09171fea4f2220c8a0d4dc490034435906615d96"
+        },
+        {
+          "path": "epoch-14-step-73184/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "ba77e969c80505d32f2b46ff8c8bfc2b30a637a18fbadef7ed3959b021d0d28a"
+        },
+        {
+          "path": "epoch-14-step-73184/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "232aba3b227bc546243e00f794d26043e6e8dee428b06fc57358e652aea85227"
+        },
+        {
+          "path": "epoch-2-step-10455/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "3c0c5ad2f393466b980ab1e25f04e8fe7a1cecd9c230fedcceb12e32017c920a"
+        },
+        {
+          "path": "epoch-2-step-10455/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "a3abf8170cdaf82109a83f91811acb8417c73484e9355ffadcb2bdbfd170bd41"
+        },
+        {
+          "path": "epoch-2-step-10455/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "c321c19b433f3c70c5a8e242494d57dc8e1ba71c8ce0cb5683cf774e2dfa5a16"
+        },
+        {
+          "path": "epoch-3-step-15683/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "cb916fed6af388ecf5e00e9a8009b5581b34945559d5933f217a218198ade6d7"
+        },
+        {
+          "path": "epoch-3-step-15683/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "67216a1f915c5786802d7c82163e9b687ca621a9f00111d0f6fe5c59fff8faa6"
+        },
+        {
+          "path": "epoch-3-step-15683/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "7fe26ba725626bba6e5776fbfe9b9097bb72de345599e06a101967cbb0127dac"
+        },
+        {
+          "path": "epoch-4-step-20910/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "8d5186d73ed87b45b233fe7e2893dd1593fc869b7fd33271b867c3101b205af2"
+        },
+        {
+          "path": "epoch-4-step-20910/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "36ec0a49fc9002224dce9b6530761857d10fc6c917dd9a38dd3bb08ed8a32d1f"
+        },
+        {
+          "path": "epoch-4-step-20910/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "4ef9ec189071d1ccc07324b7d343ea4d8e76e51e4dcbaf92a8c88e59577051f7"
+        },
+        {
+          "path": "epoch-5-step-26137/transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9808262504,
+          "lfs_sha256": "c4d3166854cf1999598ed2e03f074c4cce4617760e8d045a7c8fdb7280d1b332"
+        },
+        {
+          "path": "epoch-5-step-26137/transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9941703832,
+          "lfs_sha256": "9ad8be6bdeeb7e15fa403e40eb602825f3d5651be6345fe72fccd4741628a3cf"
+        },
+        {
+          "path": "epoch-5-step-26137/transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 5890228944,
+          "lfs_sha256": "9532edca2cbc65914722116f64d7197ec723787883f99ca2962c8b64d56451d4"
+        },
+        {
+          "path": "krea2-bbox-turbo-comfy-latest.safetensors",
+          "size": 26283332792,
+          "lfs_sha256": "5f92ebd0b62095f73274cebea8c5c8fb592bec9a0868ef63c2bc370edfb1d20b"
+        }
+      ],
+      "configs": {
+        "epoch-14-step-73184/transformer/config.json": {
+          "URL": "https://huggingface.co/jimmycarter/krea2-turbo-bbox/resolve/ec7aa643a4da7e56a08c1778e03e837a2e57a94b/epoch-14-step-73184/transformer/config.json",
+          "bytes": 588,
+          "sha256": "65b85015e515bbfc3ffe6c03e10537a47121bd3756e0d21a1a87126da60bc4a8",
+          "value": {
+            "_class_name": "Krea2Transformer2DModel",
+            "_diffusers_version": "0.39.0.dev0",
+            "attention_head_dim": 128,
+            "axes_dims_rope": [
+              32,
+              48,
+              48
+            ],
+            "in_channels": 64,
+            "intermediate_size": 16384,
+            "norm_eps": 1e-05,
+            "num_attention_heads": 48,
+            "num_key_value_heads": 12,
+            "num_layers": 28,
+            "num_layerwise_text_blocks": 2,
+            "num_refiner_text_blocks": 2,
+            "num_text_layers": 12,
+            "rope_theta": 1000.0,
+            "text_hidden_dim": 2560,
+            "text_intermediate_size": 6912,
+            "text_num_attention_heads": 20,
+            "text_num_key_value_heads": 20,
+            "timestep_embed_dim": 256
+          }
+        }
+      },
+      "indexes": {
+        "epoch-14-step-73184/transformer/diffusion_pytorch_model.safetensors.index.json": {
+          "URL": "https://huggingface.co/jimmycarter/krea2-turbo-bbox/resolve/ec7aa643a4da7e56a08c1778e03e837a2e57a94b/epoch-14-step-73184/transformer/diffusion_pytorch_model.safetensors.index.json",
+          "bytes": 42906,
+          "sha256": "fb2aeff58974f1f4a3afe2414854f1fe5831d848874c24c7001e67882029c956",
+          "metadata": {
+            "total_size": 25640146072
+          }
+        }
+      }
+    },
+    {
+      "repository": "krea/Krea-2-Raw",
+      "requested_revision": "6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603",
+      "resolved_revision": "6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603",
+      "repository_metadata_sha256": "82f0bb0c0952fa4b467f8bb7103389c29dce484e8cd458a6010fbc7057de976f",
+      "weight_files": [
+        {
+          "path": "raw.safetensors",
+          "size": 26283332608,
+          "lfs_sha256": "f99bb0ff8e362b77342bc4994e0c50906fe7ef7074864b181b7d48d2fa6d03d7"
+        },
+        {
+          "path": "text_encoder/model.safetensors",
+          "size": 8875715136,
+          "lfs_sha256": "8434db05292f95e0041589a7c82abeb39385be59c85b54ae11caa7b45e9f4f13"
+        },
+        {
+          "path": "transformer/diffusion_pytorch_model-00001-of-00003.safetensors",
+          "size": 9970652128,
+          "lfs_sha256": "aeed04b3fd933ff35ffb898548a585a32f2146ee6681700e2b50e4478d52d58a"
+        },
+        {
+          "path": "transformer/diffusion_pytorch_model-00002-of-00003.safetensors",
+          "size": 9829444456,
+          "lfs_sha256": "e606797c9fbfeb820b9a0222823915ac1459d11a27caa84d53aba150c85f2b26"
+        },
+        {
+          "path": "transformer/diffusion_pytorch_model-00003-of-00003.safetensors",
+          "size": 6483240784,
+          "lfs_sha256": "9300cac5c4cdbc33bbccadf176c0e5a8314b6a4aabefae7a2781782d50d78e7d"
+        },
+        {
+          "path": "vae/diffusion_pytorch_model.safetensors",
+          "size": 507591892,
+          "lfs_sha256": "ab1b61103959913d6c7e628cf793dbb2ca4726a40a3b3ae206c52b8e75bf6f08"
+        }
+      ],
+      "configs": {
+        "transformer/config.json": {
+          "URL": "https://huggingface.co/krea/Krea-2-Raw/resolve/6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603/transformer/config.json",
+          "bytes": 588,
+          "sha256": "65b85015e515bbfc3ffe6c03e10537a47121bd3756e0d21a1a87126da60bc4a8",
+          "value": {
+            "_class_name": "Krea2Transformer2DModel",
+            "_diffusers_version": "0.39.0.dev0",
+            "attention_head_dim": 128,
+            "axes_dims_rope": [
+              32,
+              48,
+              48
+            ],
+            "in_channels": 64,
+            "intermediate_size": 16384,
+            "norm_eps": 1e-05,
+            "num_attention_heads": 48,
+            "num_key_value_heads": 12,
+            "num_layers": 28,
+            "num_layerwise_text_blocks": 2,
+            "num_refiner_text_blocks": 2,
+            "num_text_layers": 12,
+            "rope_theta": 1000.0,
+            "text_hidden_dim": 2560,
+            "text_intermediate_size": 6912,
+            "text_num_attention_heads": 20,
+            "text_num_key_value_heads": 20,
+            "timestep_embed_dim": 256
+          }
+        },
+        "text_encoder/config.json": {
+          "URL": "https://huggingface.co/krea/Krea-2-Raw/resolve/6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603/text_encoder/config.json",
+          "bytes": 1559,
+          "sha256": "1a1006851200920f53ab7e17ca14a8b3d1b91075dfbbff493307ba894cab0abb",
+          "value": {
+            "architectures": [
+              "Qwen3VLModel"
+            ],
+            "dtype": "bfloat16",
+            "image_token_id": 151655,
+            "model_type": "qwen3_vl",
+            "text_config": {
+              "attention_bias": false,
+              "attention_dropout": 0.0,
+              "bos_token_id": 151643,
+              "dtype": "bfloat16",
+              "eos_token_id": 151645,
+              "head_dim": 128,
+              "hidden_act": "silu",
+              "hidden_size": 2560,
+              "initializer_range": 0.02,
+              "intermediate_size": 9728,
+              "max_position_embeddings": 262144,
+              "model_type": "qwen3_vl_text",
+              "num_attention_heads": 32,
+              "num_hidden_layers": 36,
+              "num_key_value_heads": 8,
+              "pad_token_id": null,
+              "rms_norm_eps": 1e-06,
+              "rope_parameters": {
+                "mrope_interleaved": true,
+                "mrope_section": [
+                  24,
+                  20,
+                  20
+                ],
+                "rope_theta": 5000000,
+                "rope_type": "default"
+              },
+              "tie_word_embeddings": true,
+              "use_cache": true,
+              "vocab_size": 151936
+            },
+            "tie_word_embeddings": true,
+            "transformers_version": "5.2.0",
+            "video_token_id": 151656,
+            "vision_config": {
+              "deepstack_visual_indexes": [
+                5,
+                11,
+                17
+              ],
+              "depth": 24,
+              "dtype": "bfloat16",
+              "hidden_act": "gelu_pytorch_tanh",
+              "hidden_size": 1024,
+              "in_channels": 3,
+              "initializer_range": 0.02,
+              "intermediate_size": 4096,
+              "model_type": "qwen3_vl",
+              "num_heads": 16,
+              "num_position_embeddings": 2304,
+              "out_hidden_size": 2560,
+              "patch_size": 16,
+              "spatial_merge_size": 2,
+              "temporal_patch_size": 2
+            },
+            "vision_end_token_id": 151653,
+            "vision_start_token_id": 151652
+          }
+        },
+        "vae/config.json": {
+          "URL": "https://huggingface.co/krea/Krea-2-Raw/resolve/6b0ece7fffb640c5e3bcbe0a7f10f66b8e60a603/vae/config.json",
+          "bytes": 791,
+          "sha256": "54949c79def0d1060353c3fbfd4d2d2c4815ae241da6d6d28c99634c4eac6e6e",
+          "value": {
+            "_class_name": "AutoencoderKLQwenImage",
+            "_diffusers_version": "0.39.0.dev0",
+            "_name_or_path": "Qwen/Qwen-Image",
+            "attn_scales": [],
+            "base_dim": 96,
+            "dim_mult": [
+              1,
+              2,
+              4,
+              4
+            ],
+            "dropout": 0.0,
+            "input_channels": 3,
+            "latents_mean": [
+              -0.7571,
+              -0.7089,
+              -0.9113,
+              0.1075,
+              -0.1745,
+              0.9653,
+              -0.1517,
+              1.5508,
+              0.4134,
+              -0.0715,
+              0.5517,
+              -0.3632,
+              -0.1922,
+              -0.9497,
+              0.2503,
+              -0.2921
+            ],
+            "latents_std": [
+              2.8184,
+              1.4541,
+              2.3275,
+              2.6558,
+              1.2196,
+              1.7708,
+              2.6052,
+              2.0743,
+              3.2687,
+              2.1526,
+              2.8652,
+              1.5579,
+              1.6382,
+              1.1253,
+              2.8251,
+              1.916
+            ],
+            "num_res_blocks": 2,
+            "temperal_downsample": [
+              false,
+              true,
+              true
+            ],
+            "z_dim": 16
+          }
+        }
+      },
+      "indexes": {}
+    }
+  ],
+  "source_citations": [
+    "configs/krea2/config-final-boss.yaml",
+    "configs/krea2/model.lock.json",
+    "krea2/live.py",
+    "krea2/cuda_train.py",
+    "krea2/attention.py",
+    "krea2/pg09.py"
+  ],
+  "profiles": [
+    {
+      "operation": "Prepare cached conditioning",
+      "gpu_count": 1,
+      "calculated_VRAM_per_GPU_GiB": 44,
+      "calculated_host_RAM_GiB": 40,
+      "geometry": "512px training;≤32 prompts",
+      "batch_graphs": 1,
+      "text_token_bound": 512,
+      "checkpointing": false,
+      "attention": "memory-efficient SDPA (flash/efficient; no dense fallback)",
+      "resident_frozen_bytes": 34515861208,
+      "activation_allowance_bytes": 266338304,
+      "trainable_and_optimizer_peak_bytes": 1120069120,
+      "other_GPU_allowance_bytes": 0,
+      "GPU_subtotal_bytes": 35902268632,
+      "host_loading_and_cache_subtotal_bytes": 30855801536,
+      "runtime_headroom": "GPU: 25% subtotal +2GiB; host:25% subtotal +4GiB; final ceil4GiB",
+      "notes": "DiT and encoder overlap; one encoder forward at a time. Caches include12 selected hidden layers.",
+      "activation_envelope_inputs": {
+        "D": 2560,
+        "I": 9728,
+        "H": 32,
+        "L": 36,
+        "N": 512,
+        "B": 1,
+        "scalar_bytes": 4,
+        "checkpointed": false,
+        "dense_fallback": false
+      },
+      "precision": "BF16 frozen; FP32 LoRA/critic",
+      "quantization_metadata_bytes": 0,
+      "activation_allowance_model": "Conservative planning envelope; linear transformer terms plus explicit dense fallback, text/KV or decode/pixel allowance as recorded in profile notes. Not measured or a formal peak guarantee."
+    },
+    {
+      "operation": "Train default512px",
+      "gpu_count": 1,
+      "calculated_VRAM_per_GPU_GiB": 60,
+      "calculated_host_RAM_GiB": 40,
+      "geometry": "512×512",
+      "batch_graphs": 2,
+      "text_token_bound": 512,
+      "checkpointing": true,
+      "attention": "dense math fallback",
+      "resident_frozen_bytes": 25640146072,
+      "activation_allowance_bytes": 21743271936,
+      "trainable_and_optimizer_peak_bytes": 1120069120,
+      "other_GPU_allowance_bytes": 0,
+      "GPU_subtotal_bytes": 48503487128,
+      "host_loading_and_cache_subtotal_bytes": 30855801536,
+      "runtime_headroom": "GPU: 25% subtotal +2GiB; host:25% subtotal +4GiB; final ceil4GiB",
+      "notes": "Rank16; native2×2 packed latent grid. Dense fallback included at≤4096 tokens.",
+      "activation_envelope_inputs": {
+        "D": 6144,
+        "I": 16384,
+        "H": 48,
+        "L": 32,
+        "N": 1536,
+        "B": 2,
+        "scalar_bytes": 4,
+        "checkpointed": true,
+        "dense_fallback": true
+      },
+      "precision": "BF16 frozen; FP32 LoRA/critic",
+      "quantization_metadata_bytes": 0,
+      "activation_allowance_model": "Conservative planning envelope; linear transformer terms plus explicit dense fallback, text/KV or decode/pixel allowance as recorded in profile notes. Not measured or a formal peak guarantee."
+    },
+    {
+      "operation": "Render1536px tiled VAE",
+      "gpu_count": 1,
+      "calculated_VRAM_per_GPU_GiB": 44,
+      "calculated_host_RAM_GiB": 40,
+      "geometry": "1536×1536",
+      "batch_graphs": 1,
+      "text_token_bound": 512,
+      "checkpointing": false,
+      "attention": "memory-efficient SDPA (flash/efficient; no dense fallback)",
+      "resident_frozen_bytes": 26147737964,
+      "activation_allowance_bytes": 7650410496,
+      "trainable_and_optimizer_peak_bytes": 77608192,
+      "other_GPU_allowance_bytes": 0,
+      "GPU_subtotal_bytes": 33875756652,
+      "host_loading_and_cache_subtotal_bytes": 30855801536,
+      "runtime_headroom": "GPU: 25% subtotal +2GiB; host:25% subtotal +4GiB; final ceil4GiB",
+      "notes": "8 steps, guidance0. Efficient attention forced above4096 tokens. VAE source tile is256px; full output/assembly buffers are included.",
+      "activation_envelope_inputs": {
+        "D": 6144,
+        "I": 16384,
+        "H": 48,
+        "L": 32,
+        "N": 9728,
+        "B": 1,
+        "scalar_bytes": 4,
+        "checkpointed": false,
+        "dense_fallback": false
+      },
+      "precision": "BF16 frozen; FP32 LoRA/critic",
+      "quantization_metadata_bytes": 0,
+      "activation_allowance_model": "Conservative planning envelope; linear transformer terms plus explicit dense fallback, text/KV or decode/pixel allowance as recorded in profile notes. Not measured or a formal peak guarantee."
+    }
+  ],
+  "repository": "krea2-particle-sliders",
+  "optimizer_source_facts": [
+    {
+      "version": "0.9.5",
+      "source_file": "recipes.py",
+      "bytes": 104250,
+      "sha256": "4f86c1a5c029916e73c834ebea4aae3bd5502dde8f10628e5a99a23f7e60242c"
+    },
+    {
+      "version": "0.9.5",
+      "source_file": "optim/dualnorm.py",
+      "bytes": 56768,
+      "sha256": "8e57be915dc8be44aaff2ac2f7ad39fbb2a7c610d77340e9f13e895974bf173c"
+    },
+    {
+      "version": "0.9.5",
+      "source_file": "optim/direction_blend.py",
+      "bytes": 4011,
+      "sha256": "84982277f0559e68aceea6d1c5ee60129c1e1972bebf61ca47dfa38b8611a1fb"
+    },
+    {
+      "version": "0.9.5",
+      "source_file": "optim/constraint_geometry.py",
+      "bytes": 9142,
+      "sha256": "e51a90df05857bd986ff097a6d266bd22cefa93a0d545a6fb25d58b42775ce4c"
+    }
+  ],
+  "KV_or_recurrent_state": {
+    "type": "bounded Qwen3VL text KV",
+    "bytes": 75497472,
+    "formula": "2*36*8*512*128*2; within conditioning phase allowance"
+  },
+  "cache_limits": {
+    "max_rows": 128,
+    "max_cached_prompts": 32,
+    "field_shape": [
+      1,
+      16,
+      1,
+      64,
+      64
+    ],
+    "FP32_fields_per_row": 3,
+    "prompt_hidden": [
+      1,
+      512,
+      12,
+      2560
+    ],
+    "prompt_bytes_per_element": 2,
+    "FP32_row_tensor_bytes": 100663296,
+    "prompt_embedding_bytes": 1006632960,
+    "host_cache_formula": "max_rows*3*product(field_shape)*4 +max_cached_prompts*product(prompt_hidden)*prompt_bytes_per_element; native masks/indices included in loader/cache reserve"
+  }
+}
