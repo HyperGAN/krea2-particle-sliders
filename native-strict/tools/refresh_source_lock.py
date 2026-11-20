@@ -3,9 +3,10 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+from runpy import run_path
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = "fe5f8686b6ef0f3cbcffb9bb36ff61a9ca7efaf4"
+BASE = run_path(str(ROOT / "src/krea2_strict/__init__.py"))["BASE"]
 
 
 def sha(data):
@@ -23,7 +24,7 @@ def main():
     lock = dict(schema="krea2-strict-native-source-lock-v1", base_commit=BASE,
                 core_commit="c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78", base_sources=base, product_sources=own)
     (root / "source-lock.json").write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n")
-    print(json.dumps(dict(base_files=len(base), product_files=len(own), core_files=577)))
+    print(json.dumps(dict(base_files=len(base), product_files=len(own))))
 
 
 if __name__ == "__main__":
