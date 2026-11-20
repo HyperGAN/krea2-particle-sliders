@@ -17,34 +17,35 @@ from particle_sliders.inference import (
     InferenceBackend, InferenceBinding, export_inference, native_identity,
     open_inference as core_open_inference,
 )
-from particle_sliders.pg09 import ConditionalPG09
-from particle_sliders.pg09_images import ImageResponseAdapter, image_lora_parameters
+from particle_sliders.engine import ConditionalParticleGAN
+from krea2.image_bindings import ImageResponseAdapter, image_lora_parameters
 from particle_sliders.field_critic import FieldCritic
 from krea2 import lifecycle as original
 from krea2 import native_inference as original_inference
 from krea2.native_runtime import configuration, observation, render_callback
-from krea2.pg09 import Krea2Rows, file_digest
+from krea2.engine import Krea2Rows, file_digest
 from krea2.shared import validate_shared_runtime
 
 from . import PROFILE, policy
 from .ownership import Components, NativeOwner
 
-NAME = 'krea2-explicit-fresh95-v1'
-PROTOCOL = 'krea2-explicit-fresh95-RAW-native-v1'
+NAME = 'krea2-explicit-scoped-v1'
+PROTOCOL = 'krea2-explicit-scoped-RAW-native-v1'
 
 
 def source_identity():
     from . import ownership
-    from krea2 import pg09, cuda_train, native_runtime, native_inference, learning_rates
-    from particle_sliders import field_critic, pg09_images
+    from krea2 import engine, cuda_train, native_runtime, native_inference, learning_rates
+    from particle_sliders import field_critic
+    from krea2 import image_bindings
     from particlegan import init
     return {name: policy.source_record(module.__file__) for name, module in (
         ('fresh_factory', __import__(__name__, fromlist=['__file__'])),
         ('fresh_policy', policy), ('fresh_ownership', ownership),
-        ('original_factory', original), ('original_rows', pg09),
+        ('original_factory', original), ('original_rows', engine),
         ('original_native_loader', cuda_train), ('original_native_runtime', native_runtime),
         ('original_inference', native_inference), ('original_rates', learning_rates),
-        ('field_critic', field_critic), ('original_image_adapter', pg09_images), ('PG095_init', init))}
+        ('field_critic', field_critic), ('original_image_adapter', image_bindings), ('engine_init', init))}
 
 
 @dataclass(frozen=True)
@@ -297,7 +298,7 @@ def open_training(options, *, mode, cohort_id, owner_factory, owner_admission,
     capabilities = original.capabilities(options)
     capabilities.check('train', strength=1., references=False,
                        precision=options.get('base_precision'), output_type='pil')
-    original.validate(options)  # Exact core0.13/PG0.9.5 Source lock unchanged.
+    original.validate(options)  # Exact core0.13/PG0.11.0 Source lock unchanged.
     original.BACKEND._check_pg(options, capabilities)  # Original profile/domain gate too.
     config, sources = SessionConfig(NAME, cohort_id, **options), source_identity()
     packet = _read(resume) if mode == 'resume' else None
@@ -337,7 +338,7 @@ def open_training(options, *, mode, cohort_id, owner_factory, owner_admission,
         backend = ReceiptBackend(adapter, receipt, sources)
         # First optimizer construction, only after receipt and component init.
         from krea2.learning_rates import recipe_overrides
-        game = ConditionalPG09(backend, rows, critic, particles=None,
+        game = ConditionalParticleGAN(backend, rows, critic, particles=None,
             response_domain='continuous_field', response_scale=rows.response_scale,
             preset=options.get('preset', 'bispf_optimized'), batch_size=options.get('batch', 2),
             seed=options.get('seed', 7), total_steps=options.get('steps', 4), sampling='balanced',

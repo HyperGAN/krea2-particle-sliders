@@ -56,7 +56,7 @@ def main():
         completed_updates=len(records), finite_logged_losses=True,
         finite_logged_gradient_norms=(not gan),
         gradients_independently_inspected=False,
-        gradient_check_contract=('shared ConditionalPG09 finite-gradient gate' if gan
+        gradient_check_contract=('shared ConditionalParticleGAN finite-gradient gate' if gan
                                  else 'historical clipped-gradient norm log'),
         adapter_tensors=len(exported), adapter_parameters=sum(v.numel() for v in exported.values()),
         adapter_finite=True, diffusers_export_matches_peft=True,

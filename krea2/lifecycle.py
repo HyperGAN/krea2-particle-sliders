@@ -104,7 +104,7 @@ def _cache_identity(cache, args):
 def _product_identity(identity):
     """Bind callbacks/helpers as well as the common factory and PG sources."""
     from importlib.metadata import version
-    from .pg09 import file_digest
+    from .engine import file_digest
     return dict(identity, lifecycle_product=dict(
         sources={p.name: file_digest(p) for p in sorted(Path(__file__).parent.iterdir())
                  if p.suffix in ('.py', '.json')},
@@ -120,7 +120,7 @@ def preflight(options, request, staged):
 def prepare(options, *, native=None, cache=None, before_update=None,
             game_builder=None, specification_factory=None, native_factory=None):
     import torch
-    from .pg09 import build_game, file_digest
+    from .engine import build_game, file_digest
     if options.get('dummy'):
         from .synthetic import staged_fixture
         native, cache = staged_fixture()

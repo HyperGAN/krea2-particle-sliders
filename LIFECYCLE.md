@@ -1,4 +1,4 @@
-> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope.
+> Current source uses ParticleGAN 0.11.0 and core 0.15.1. See the [earlier adoption record](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope.
 
 The current [Warm Amber RAW32 rate record](docs/finished-output-learning-rates.md)
 is separate from these older CPU and PG0.9.4 receipts. It selects G=0.036 with
@@ -33,7 +33,7 @@ cohorts and their conformance receipts remain unchanged.
 
 ```python
 from particle_sliders.lifecycle import SessionConfig, open_session
-config = SessionConfig('krea2', 'fresh-krea-pg095-raw', dummy=True, steps=4, ema_decay=None)
+config = SessionConfig('krea2', 'fresh-krea-raw', dummy=True, steps=4, ema_decay=None)
 with open_session(config) as session:
     session.train()
     session.checkpoint('new-krea-run/training.pt')

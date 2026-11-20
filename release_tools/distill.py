@@ -59,7 +59,7 @@ class Runtime(CudaUNI):
 
     @contextmanager
     def scale(self, value):
-        from particle_sliders.pg09_backends import lora_scale_context
+        from particle_sliders.backends import lora_scale_context
         if getattr(self, '_scale_active', None) != self.active:
             self.pipe.set_adapters(self.active, adapter_weights=1.)
             self._release_scale_context = lora_scale_context([('transformer', self.model)])

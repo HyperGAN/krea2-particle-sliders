@@ -11,7 +11,7 @@ from diffusers import Krea2Pipeline, Krea2Transformer2DModel, FlowMatchEulerDisc
 from peft import LoraConfig, get_peft_model
 
 from krea2.cuda_train import CudaUNI, run_contract, validate_args
-from krea2.pg09 import build_game
+from krea2.engine import build_game
 from krea2.train import parse_args
 
 
@@ -89,7 +89,7 @@ def test_native_shared_gan_updates_and_exact_resume(preset, tmp_path):
     from importlib.metadata import version
     assert full.backend.metadata()['diffusers_version'] == version('diffusers')
     assert full._signature['generator_arm'] == 'adapter_gan'
-    assert full._signature['pg_version'] == '0.9.5'
+    assert full._signature['pg_version'] == '0.11.0'
     assert full._signature['objective'] == 'g_adv+public_prior;d_adv+public_penalty'
     for _ in range(5):
         stats = full.step()
@@ -170,8 +170,8 @@ def test_full_live_dispatch_crash_and_new_directory_resume_on_cpu(tmp_path, monk
     import krea2.cuda_train as live
     from krea2.train import train
 
-    from krea2.pg09 import build_game as actual_builder
-    import krea2.pg09 as bridge
+    from krea2.engine import build_game as actual_builder
+    import krea2.engine as bridge
     built = []
     def cpu_native(args, texts, out):
         native, _, _ = fixture()
@@ -237,7 +237,7 @@ def test_full_live_dispatch_crash_and_new_directory_resume_on_cpu(tmp_path, monk
 
 
 def test_shared_features_and_frozen_model_content_identity():
-    from particle_sliders.pg09_images import image_condition_features
+    from krea2.image_bindings import image_condition_features
     native, _, game = fixture()
     actual = image_condition_features([game.rows[i] for i in range(len(game.rows))])
     assert torch.equal(actual, game.rows.conditions(range(len(game.rows))))
@@ -251,7 +251,7 @@ def test_shared_features_and_frozen_model_content_identity():
 def test_new_adapter_identity_rejects_wrong_base_and_modified_files(tmp_path):
     import json
     from krea2.cuda_train import validate_adapter_identity
-    from krea2.pg09 import file_digest
+    from krea2.engine import file_digest
     adapter = tmp_path / 'adapter'
     adapter.mkdir()
     weights = adapter / 'adapter_model.safetensors'

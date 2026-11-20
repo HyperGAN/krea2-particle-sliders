@@ -164,7 +164,7 @@ class CudaUNI:
     @contextlib.contextmanager
     def scale(self, value):
         # Shared context keeps alpha/rank and heterogeneous layer scales intact.
-        from particle_sliders.pg09_backends import lora_scale_context
+        from particle_sliders.backends import lora_scale_context
         if not hasattr(self, '_scale_context'):
             self._scale_context = lora_scale_context([('transformer', self.model)])
         with self._scale_context(value):
@@ -257,7 +257,7 @@ class CudaUNI:
                                     transformer_lora_adapter_metadata=json.loads((dest / 'adapter_config.json').read_text()))
         atomic_save(dest / 'training_state.pt', game_state)
         atomic_save(dest / 'gan_adapter.pt', exported)
-        from krea2.pg09 import file_digest
+        from krea2.engine import file_digest
         write_json(dest / 'adapter_identity.json', dict(
             schema='krea2-gan-adapter-v1', completed_steps=step,
             native_weights=f'{self.args.name}.safetensors',
@@ -317,7 +317,7 @@ def validate_args(args):
 
 
 def validate_adapter_identity(path, current_contract):
-    from krea2.pg09 import file_digest
+    from krea2.engine import file_digest
     path = Path(path)
     sidecar = path / 'adapter_identity.json'
     if not sidecar.exists():
@@ -353,8 +353,8 @@ def validate_adapter_identity(path, current_contract):
 
 
 def run_contract(args, prompts):
-    from krea2.pg09 import file_digest
-    from particle_sliders.pg09 import PG_VERSION
+    from krea2.engine import file_digest
+    from particle_sliders.engine import PG_VERSION
     from krea2.card import resolve_source
     plan = resolve_source(args.model_id, subfolder=args.transformer_subfolder,
                           transformer=args.transformer, skeleton=args.skeleton_model)
@@ -409,7 +409,7 @@ def train_cuda(args, prompts, meta, formulation):
         if previous.get('training_contract') != contract:
             raise ValueError('resume source/model/prompt/objective contract differs; use a new cohort')
         state = torch.load(checkpoint / 'training_state.pt', map_location='cpu', weights_only=True)
-        if state.get('schema') != 'conditional-pg09-v1':
+        if state.get('schema') != 'conditional-engine-v1':
             raise ValueError('legacy MSE checkpoints cannot resume the GAN objective')
         if type(state.get('completed_steps')) is not int or not 0 <= state['completed_steps'] <= args.steps:
             raise ValueError('invalid GAN checkpoint step')
@@ -450,7 +450,7 @@ def train_cuda(args, prompts, meta, formulation):
         cuda_visible_devices=os.environ.get('CUDA_VISIBLE_DEVICES'),
         versions={n: importlib.metadata.version(n) for n in
                   ('torch', 'diffusers', 'transformers', 'peft', 'safetensors')},
-        objective='shared ConditionalPG09 adapter GAN: frozen positive velocity targets',
+        objective='shared ConditionalParticleGAN adapter GAN: frozen positive velocity targets',
         optimized_mse=False, particles=None, preservation_sampling='4:1 balanced edit:preserve',
         teacher_trajectories='alternating neutral and positive, frozen, 8 steps, mu=1.15',
         preservation=list(PRESERVE), fruit_is_verify_only=True,
@@ -521,7 +521,7 @@ def train_cuda(args, prompts, meta, formulation):
                 cache = dict(edit=edit, preserve=preserve, key=cache_contract)
                 torch.save(cache, cache_path)
             print(f'Teacher cache ready: {len(cache["edit"])} edit states, {len(cache["preserve"])} preservation states', flush=True)
-            from krea2.pg09 import build_game, file_digest
+            from krea2.engine import build_game, file_digest
             game = build_game(backend, cache, cache_sha256=file_digest(cache_path),
                 model_identity=cache_contract, total_steps=args.steps, seed=args.seed,
                 batch_size=args.gan_batch_size, preset=args.gan_preset, lr=args.lr, d_lr_mult=getattr(args, 'd_lr_mult', None))

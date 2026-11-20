@@ -43,7 +43,7 @@ def game(native, cache, *, lr=5e-5):
 
 
 def test_actual_shared_game_exact_resume_rates_and_raw_response(tiny, monkeypatch):
-    from particle_sliders.pg09 import _hash
+    from particle_sliders.engine import _hash
     native, cache = tiny
     monkeypatch.setattr(torch, "manual_seed", lambda *_: pytest.fail("CUDA-wide seed"))
     before = torch.get_rng_state().clone()
@@ -145,7 +145,7 @@ def test_actual_tiny_native_only_inference_factory_has_no_game_or_rows(tiny, mon
     import krea2_strict.native as loader
     import krea2_strict.game as training
     import krea2_strict.cache as teachers
-    from particle_sliders.pg09 import _hash
+    from particle_sliders.engine import _hash
     native, cache = tiny
     closes = []
     native.strict_close = lambda **kwargs: closes.append(True)

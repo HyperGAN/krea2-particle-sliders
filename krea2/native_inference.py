@@ -58,7 +58,7 @@ def model_identity(native, *, dummy):
         # Tiny fixture construction is deterministic and independently creates no
         # teacher rows. Hash its actual frozen tensors, excluding trained leaves.
         import hashlib
-        from .pg09 import tensor_identity
+        from .engine import tensor_identity
         import json
         frozen = {name: tensor_identity(value) for name, value in
                   list(native.model.named_parameters()) + list(native.model.named_buffers())
@@ -96,7 +96,7 @@ def _response_callback(native, adapter):
 
 def prepare(options, spec, *, native_factory=None, protocol=PROTOCOL, identity_factory=None):
     from .lifecycle import _native_arguments
-    from particle_sliders.pg09_images import ImageResponseAdapter, image_lora_parameters
+    from krea2.image_bindings import ImageResponseAdapter, image_lora_parameters
     dummy = spec.configuration['dummy']
     if dummy:
         from .synthetic import staged_native

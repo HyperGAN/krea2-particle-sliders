@@ -23,8 +23,8 @@ def validate_shared_runtime():
     if actual != lock['sources']:
         raise RuntimeError('imported shared API source differs from krea2/shared.lock.json')
     # Official PG admission owns source/profile checks, beyond version strings.
-    from particle_sliders.pg09 import validate_pg09_domain
-    pg = validate_pg09_domain((1, 1, 1, 1, 1), response_domain='continuous_field')
+    from particle_sliders.engine import validate_engine_domain
+    pg = validate_engine_domain((1, 1, 1, 1, 1), response_domain='continuous_field')
     return dict(distribution=lock['distribution'], version=lock['version'],
                 commit=lock['commit'], particlegan=lock['particlegan'],
                 pg_sources_sha256=pg['pg_sources_sha256'],

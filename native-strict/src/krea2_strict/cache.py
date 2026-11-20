@@ -2,7 +2,7 @@
 from copy import deepcopy
 
 from krea2.lifecycle import _cache_identity
-from krea2.pg09 import tensor_identity
+from krea2.engine import tensor_identity
 
 from .execution import require_policy
 from .native import check_cache_geometry, observation
@@ -57,8 +57,8 @@ def capture(native, edit_pairs, preserve_prompts, seeds):
 def verify_native_parity(native, cache):
     """Measure all current rows under the actual shared adapter, before updates."""
     import torch
-    from particle_sliders.pg09_images import ImageResponseAdapter, image_lora_parameters
-    from krea2.pg09 import Krea2Rows
+    from krea2.image_bindings import ImageResponseAdapter, image_lora_parameters
+    from krea2.engine import Krea2Rows
     require_policy(native.strict_execution["numerical"])
     check_cache_geometry(native, cache)
     rows = Krea2Rows(native, cache, cache_sha256="fresh-in-memory-parity")

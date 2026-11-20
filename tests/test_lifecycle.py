@@ -2,12 +2,12 @@
 import torch
 import pytest
 from particle_sliders.lifecycle import SessionConfig, open_session, backend, UnsupportedOperation
-from particle_sliders.pg09 import _hash
+from particle_sliders.engine import _hash
 
 
 def test_common_factory_roundtrip(tmp_path):
     torch.set_num_threads(1)
-    config = SessionConfig('krea2', 'lifecycle-cpu-new-v1', **dict(dummy=True, steps=4, ema_decay=.9))
+    config = SessionConfig('krea2', 'lifecycle-cpu-new-v1', **dict(dummy=True, steps=4, ema_decay=None))
     before = torch.get_rng_state().clone()
     with open_session(config) as full:
         assert torch.equal(before, torch.get_rng_state())
@@ -23,10 +23,10 @@ def test_common_factory_roundtrip(tmp_path):
     with open_session(config, resume=tmp_path / 'training.pt') as resumed:
         resumed.train()
         assert resumed.checkpoint()['sha256'] == expected['sha256']
-        resumed.export(tmp_path / 'adapter.pt', selection='ema')
-        ema = resumed.ema.values
+        resumed.export(tmp_path / 'adapter.pt', selection='raw')
+        raw = resumed.game.network.state_dict()
     with open_session(config, artifact=tmp_path / 'adapter.pt', operation='evaluate') as inference:
-        assert _hash(inference.game.network.state_dict()) == _hash(ema)
+        assert _hash(inference.game.network.state_dict()) == _hash(raw)
         assert torch.isfinite(inference.evaluate()).all()
     assert torch.equal(before, torch.get_rng_state())
     assert not torch.cuda.is_initialized()
@@ -42,7 +42,7 @@ def _staged_binding(monkeypatch, *, frozen='frozen', generate=None):
     """Exercise ownership/callback wiring without allocating a native model."""
     from types import SimpleNamespace
     import krea2.lifecycle as product
-    import krea2.pg09 as binding
+    import krea2.engine as binding
 
     args = SimpleNamespace(model_id='bbox', transformer_subfolder='transformer',
         revision='r', skeleton_model='raw', skeleton_revision='s', rank=2,
