@@ -5,7 +5,8 @@ import torch
 def test_exact_installed_public_base_core_and_candidate_closure():
     from krea2_strict.provenance import verify_sources
     actual = verify_sources()
-    assert actual["base_commit"] == "43d956b758060167bdd6b87116aec81bb0732ca6"
+    from krea2_strict import BASE
+    assert actual["base_commit"] == BASE
     assert actual["core"]["commit"] == "c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78"
     assert not torch.cuda.is_initialized()
 

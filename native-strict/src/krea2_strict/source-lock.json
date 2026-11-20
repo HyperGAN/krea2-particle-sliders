@@ -1,5 +1,5 @@
 {
-  "base_commit": "43d956b758060167bdd6b87116aec81bb0732ca6",
+  "base_commit": "b02411665aca6d78985b052e937c9ba0310eb118",
   "base_sources": {
     "__init__.py": "e177c4977e146c23bee342779199095bbc7d1b7a63f1448dd0393340f419cc47",
     "attention.py": "1a350b22039204cdd9d8dec856cb22df58fa8daa45ab6a19b9c7f9720700bc89",
@@ -19,10 +19,10 @@
     "native_runtime.py": "58aca02bdde3f8ec7e4671260a33ff07b7662772ce07d7a2b0550a9d95005fb5",
     "prompts.py": "26433987ad4ba1a947d67e22892e31e96d79f1a7e67e5dfd4e9df5d5f64a6de8",
     "samples.py": "accfe47ca2aa75fd382701eb7988a80f2885b327b4e66864e9f4e477ab7ba3e6",
-    "scoped/__init__.py": "d11a2f2809dfe76cb7388f9fa95d9774afa2436e9a30b18b017c15d9b7974ce8",
+    "scoped/__init__.py": "83539c71e401860e10a73e2edde68ee133006f21b592afae9cd23d4120fa0159",
     "scoped/api.py": "7823a0d6f6641c454c88b80a1bf8d227536541cee3c8280d6ea6927f900b170d",
     "scoped/ownership.py": "0e809972e92f2a54ae2b8c7a86fdd1521b3b6b41805cbacb91aec414fefec5c4",
-    "scoped/policy.py": "dc1a72f34c747e3e0faace70ba98d236ad75cd11ae2b0f9c764c398f90f6006c",
+    "scoped/policy.py": "61ecbc5b0c7123ec1e217ead8f1c14f0469d237241580d7cc784798f5cef6383",
     "shared.lock.json": "ca341a97e7167bdb5af5dc27c74b957979850742bbad094d5f6d88b11691620e",
     "shared.py": "3abb1ceb8216db0281ee7f553c596a755986cbff4d3ad0fe139f4b16bd31ea35",
     "synthetic.py": "70d4ef7b9eb19cb7e8bd6cb0f4324d4c47acbeba18a41fcebcc352ada6116336",
@@ -31,7 +31,7 @@
   },
   "core_commit": "c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78",
   "product_sources": {
-    "__init__.py": "628abfcd3d56ede03b6affecad500fe45c601710437cc6bcb9715cec32a9da79",
+    "__init__.py": "ede06db41ee073a621c66042963f5d210cf67a59f7fd5ff1674a0a0bab881be4",
     "__main__.py": "6f7c9e7bd53028643bad05a99de6a6c10191907427d083a9e21cb8e04e7ebb2b",
     "assets.json": "dbcaee29caf0e8c0e4f98efa3a5d6b8dec71513dc61a3fe942112bbe9120cf57",
     "assets.py": "20740f169350ae77bf9ff3a5f7b1f5941d6ec9fb646f09568c5ea74122168534",

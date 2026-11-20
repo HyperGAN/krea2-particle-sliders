@@ -1,5 +1,5 @@
 """Explicit new-cohort API. Historical Krea2 entrypoints remain unchanged."""
-PROFILE = "krea2-active-PEFT-PG095-downQR-sqrt5-FieldCriticKEEP-no-bank-v1"
+PROFILE = "krea2-active-PEFT-engine-downQR-sqrt5-FieldCriticKEEP-no-bank-v1"
 
 
 def open_training(*args, **kwargs):
