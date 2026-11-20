@@ -1,6 +1,6 @@
 """Explicit opt-in fresh-components policy; Source-only, not executed.
 
-Use the already admitted public PG0.9.5 API, not a runtime/core upgrade.
+Use the already admitted public PG0.11.0 API, not a runtime/core upgrade.
 Only active PEFT down matrices receive original a=sqrt(5) host-scale QR; no bank.
 Every other owned parameter is explicitly KEEP.  Original model modules,
 Parameter objects, forward methods and optimizer ownership remain untouched.
@@ -20,7 +20,7 @@ from particlegan import init as pg_init
 
 INIT_SHA256 = "3534ff23efa413cdf8b4125b91e0d30671d873b3e2958547d4e744b750454b9b"
 SCHEMA = "Krea2-active-PEFT-PG095-downQR-FieldCriticKEEP-fresh-initialization-v1"
-MARKER = "_fresh_PG095_initialization_receipt_sha256"
+MARKER = "_fresh_engine_initialization_receipt_sha256"
 POLICIES = {"krea2": "krea2-active-PEFT-fresh-downQR-sqrt5-FieldCriticKEEP-no-bank-v1"}
 
 
@@ -86,7 +86,7 @@ def policies(product, adapter, critic, *, model, particles=None):
     separate a=1 constructor is NOT used by this active route.
     """
     from particle_sliders.field_critic import FieldCritic
-    from particle_sliders.pg09_backends import AdapterParameters
+    from particle_sliders.backends import AdapterParameters
     from peft.tuners.lora.layer import Linear as PeftLinear
     if product != "krea2" or particles is not None or type(critic) is not FieldCritic or type(adapter) is not AdapterParameters:
         raise ValueError("actual Krea2 PEFT container/FieldCritic and no bank required")
@@ -148,8 +148,8 @@ def initialize(product, adapter, critic, *, construction, options, seed, source_
             or not isinstance(optimizers, (tuple, list)) or len(optimizers) != 0 or type(seed) is not int or not 0 <= seed < 2**63
             or not isinstance(source_identity, dict) or not source_identity):
         raise ValueError("truthful fresh construction before optimizers required; resume/inference never initialize")
-    if metadata.version("particlegan") != "0.9.5" or source_record(pg_init.__file__)["sha256"] != INIT_SHA256:
-        raise ValueError("exact already admitted PG0.9.5 initializer Source required")
+    if metadata.version("particlegan") != "0.11.0" or source_record(pg_init.__file__)["sha256"] != INIT_SHA256:
+        raise ValueError("exact already admitted PG0.11.0 initializer Source required")
     rows = policies(product, adapter, critic, model=model, particles=particles)
     policy = POLICIES[product]
     before = [tensor_sha(row["parameter"]) for row in rows]

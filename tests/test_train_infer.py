@@ -46,8 +46,8 @@ def test_help_names_product_and_shared_game():
     assert TRANSFORMER_SUBFOLDER in text
     assert "krea/Krea-2-Raw" in text
     assert "--dummy" in text
-    assert "ConditionalPG09" in text
-    assert "0.9.5" in text
+    assert "ConditionalParticleGAN" in text
+    assert "0.11.0" in text
     assert "adapter GAN" in text
     infer_proc = _run("infer_krea2.py", ["--help"])
     assert infer_proc.returncode == 0, infer_proc.stderr
@@ -61,7 +61,7 @@ def test_help_names_product_and_shared_game():
     infer_src = (ROOT / "scripts" / "infer_krea2.py").read_text(encoding="utf-8")
     assert "formulation_record" in train_src
     assert "cpu_gan_step" in train_src
-    assert "ConditionalPG09" in script_src
+    assert "ConditionalParticleGAN" in script_src
     assert "conceptmod.textsliders" not in train_src
     assert "conceptmod.textsliders" not in infer_src
 
@@ -76,8 +76,8 @@ def test_print_card_is_the_inrepo_cli():
     assert card["mu"] == 1.15
     assert card["not_raw_card"]["raw_cfg"] == 4.5
     formulation = card["formulation"]
-    assert formulation['api'] == 'particle_sliders.pg09.ConditionalPG09'
-    assert formulation['particlegan'] == '0.9.5'
+    assert formulation['api'] == 'particle_sliders.engine.ConditionalParticleGAN'
+    assert formulation['particlegan'] == '0.11.0'
     assert formulation['particles'] is None
     assert formulation['optimized_mse'] is False
     assert "particle-sliders checkout" not in card["non_goals"]
@@ -198,11 +198,11 @@ rows:
     assert payload["dummy"] is True
     assert payload["allow_hub"] is False
     formulation = payload["formulation"]
-    assert formulation['api'] == 'particle_sliders.pg09.ConditionalPG09'
+    assert formulation['api'] == 'particle_sliders.engine.ConditionalParticleGAN'
     assert formulation['particles'] is None
     smoke = payload['gan_smoke']
-    assert smoke['common_api'] == 'particle_sliders.pg09.ConditionalPG09'
-    assert smoke['particlegan'] == '0.9.5'
+    assert smoke['common_api'] == 'particle_sliders.engine.ConditionalParticleGAN'
+    assert smoke['particlegan'] == '0.11.0'
     assert smoke['diagnostic_only'] is True
     assert smoke['trained_product_weights'] is False
     assert smoke['optimized_mse'] is False

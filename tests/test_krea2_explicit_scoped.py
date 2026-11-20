@@ -11,9 +11,9 @@ import pytest
 import torch
 
 from krea2.synthetic import staged_native
-from krea2.fresh95 import open_training, open_inference
-from krea2.fresh95 import api, policy
-from krea2.fresh95.ownership import Components, NativeOwner
+from krea2.scoped import open_training, open_inference
+from krea2.scoped import api, policy
+from krea2.scoped.ownership import Components, NativeOwner
 
 
 OPTIONS = dict(dummy=True, device='cpu', base_precision='float32',
@@ -27,7 +27,7 @@ def factory_fixture(record=None, *, cache=True, release=None):
             record.append(native)
         rows = None
         if cache:
-            rows = dict(edit=[], preserve=[], key={'fixture': 'NEW synthetic fresh95 software fields'})
+            rows = dict(edit=[], preserve=[], key={'fixture': 'NEW synthetic scoped software fields'})
             for holding, name in ((False, 'edit'), (True, 'preserve')):
                 for index in range(2):
                     z = torch.randn(1, 4, 16, generator=torch.Generator().manual_seed(41 + index))
@@ -52,7 +52,7 @@ def frozen_values(native):
 
 def test_new_fresh_before_optimizers_PEFT_QR_FieldCritic_KEEP_and_Parameter_identity(monkeypatch):
     observed = {}
-    original_init, original_game = policy.initialize, api.ConditionalPG09
+    original_init, original_game = policy.initialize, api.ConditionalParticleGAN
     def initialize(product, adapter, critic, **kwargs):
         rows = policy.policies(product, adapter, critic, model=kwargs['model'])
         observed['ids'] = [id(row['parameter']) for row in rows]
@@ -86,7 +86,7 @@ def test_new_fresh_before_optimizers_PEFT_QR_FieldCritic_KEEP_and_Parameter_iden
         observed['optimizer_seen'] = True
         return result
     monkeypatch.setattr(policy, 'initialize', initialize)
-    monkeypatch.setattr(api, 'ConditionalPG09', game)
+    monkeypatch.setattr(api, 'ConditionalParticleGAN', game)
     natives = []
     args = arguments()
     args['owner_factory'] = factory_fixture(natives)
@@ -135,7 +135,7 @@ def test_new_strict_whole_FULL_resume_and_RAW_native_inference_skip_initializer(
         latent, timestep = row.latent.clone(), row.timestep.clone()
     def no_training(*args, **kwargs):
         raise AssertionError('RAW route constructed game, critic or cache rows')
-    monkeypatch.setattr(api, 'ConditionalPG09', no_training)
+    monkeypatch.setattr(api, 'ConditionalParticleGAN', no_training)
     monkeypatch.setattr(api, 'FieldCritic', no_training)
     monkeypatch.setattr(api, 'Krea2Rows', no_training)
     with open_inference(raw, dict(device='cpu', base_precision='float32'), mode='raw-inference',

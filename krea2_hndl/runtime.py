@@ -11,7 +11,7 @@ def validate_runtime():
     if lock['schema'] != 'krea2-hypergan-hndl-candidate-v2':
         raise RuntimeError('Krea2 HNDL requires its recursive source/data closure lock')
     if (version('particle-sliders-core'), version('particlegan')) != (lock['version'], lock['particlegan']):
-        raise RuntimeError('Krea2 HNDL requires its separate exact core 0.13 / PG 0.9.5 candidate environment')
+        raise RuntimeError('Krea2 HNDL requires its separate exact core 0.13 / PG 0.11.0 candidate environment')
     root = Path(particle_sliders.__file__).resolve().parent.parent
     actual = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
               for package in ('particle_sliders', 'concept_slider_core')
@@ -21,9 +21,9 @@ def validate_runtime():
         raise RuntimeError('shared source differs from the exact Krea2 HNDL candidate lock')
     # Delegate official PG byte/profile admission to the verified shared API.
     # A version match alone is insufficient; this host-only probe constructs no model.
-    from particle_sliders.pg09 import validate_pg09_domain
-    pg = validate_pg09_domain((1, 1, 1, 1, 1), response_domain='continuous_field')
-    from particle_sliders.fibo_hndl import verified_builder
+    from particle_sliders.engine import validate_engine_domain
+    pg = validate_engine_domain((1, 1, 1, 1, 1), response_domain='continuous_field')
+    from krea2_hndl.fibo_hndl import verified_builder
     _, identity = verified_builder()
     return dict(core_commit=lock['commit'], core_version=lock['version'],
                 particlegan=lock['particlegan'], pg_sources_sha256=pg['pg_sources_sha256'],

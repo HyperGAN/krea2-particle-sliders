@@ -88,8 +88,8 @@ def build_parser() -> argparse.ArgumentParser:
             f"({TRANSFORMER_SUBFOLDER}). Distilled card: {TURBO_STEPS} steps, "
             f"guidance {TURBO_GUIDANCE:g}, mu={TURBO_MU:g}. "
             "VAE and text encoder come from krea/Krea-2-Raw. "
-            "The live game is particle_sliders.pg09.ConditionalPG09 "
-            "using released ParticleGAN 0.9.5 (adapter GAN, no particle bank). "
+            "The live game is particle_sliders.engine.ConditionalParticleGAN "
+            "using released ParticleGAN 0.11.0 (adapter GAN, no particle bank). "
             "--dummy never downloads Hub weights."
         )
     )

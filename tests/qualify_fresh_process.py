@@ -31,13 +31,13 @@ def main():
     torch.save(game.state_dict(), args.output / (args.preset + '-' + args.phase + '.pt'))
     if args.phase == 'resume':
         from krea2.shared import validate_shared_runtime
-        from particle_sliders.pg09 import ConditionalPG09
+        from particle_sliders.engine import ConditionalParticleGAN
         import krea2
         equal(torch.load(args.output / (args.preset + '-full.pt'), weights_only=True), game.state_dict())
         assert not torch.cuda.is_initialized()
         result = dict(preset=args.preset, exact_fresh_process_resume=True,
             completed_steps=game.completed_steps, cuda_initialized=False,
-            product_source=krea2.__file__, game_source=inspect.getfile(ConditionalPG09),
+            product_source=krea2.__file__, game_source=inspect.getfile(ConditionalParticleGAN),
             runtime=validate_shared_runtime())
         (args.output / (args.preset + '-receipt.json')).write_text(json.dumps(result, indent=2) + '\n')
         print(json.dumps(result))

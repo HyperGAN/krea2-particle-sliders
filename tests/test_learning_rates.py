@@ -22,7 +22,7 @@ def test_adapter_only_rejects_prior_rate():
 def test_cli_default_matches_game_and_common_api():
     from krea2.train import build_parser
     from inspect import signature
-    from krea2.pg09 import build_game
+    from krea2.engine import build_game
     assert build_parser().get_default('lr') == signature(build_game).parameters['lr'].default == 5e-5
 
 

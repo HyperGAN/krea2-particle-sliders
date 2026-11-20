@@ -11,9 +11,9 @@ from pathlib import Path
 
 import torch
 
-from particle_sliders.pg09 import ConditionalPG09, validate_pg09_domain
-from particle_sliders.pg09_backends import PreparedResponse, ResponseRow
-from particle_sliders.pg09_images import (
+from particle_sliders.engine import ConditionalParticleGAN, validate_engine_domain
+from particle_sliders.backends import PreparedResponse, ResponseRow
+from krea2.image_bindings import (
     ImageResponseAdapter, image_condition_features, image_lora_parameters,
 )
 from particle_sliders.field_critic import FieldCritic
@@ -63,7 +63,7 @@ class Krea2Rows:
                                 native.args.resolution // (native.pipe.vae_scale_factor * native.pipe.patch_size),
                                 'cpu'))
         self.response_shape = tuple(self._unpack(self.edit[0]['z']).shape)
-        validate_pg09_domain(self.response_shape, response_domain='continuous_field')
+        validate_engine_domain(self.response_shape, response_domain='continuous_field')
         self.edit_slots = math.lcm(len(self.edit), 4 * len(self.preserve))
         self.preserve_slots = self.edit_slots // 4
         # Project each immutable context pair once. Native 4B encoder outputs can
@@ -165,7 +165,7 @@ def build_game(native, cache, *, cache_sha256, model_identity, total_steps, seed
     with torch.random.fork_rng(devices=[native.device.index or 0] if native.device.type == 'cuda' else []):
         torch.manual_seed(seed)
         critic = FieldCritic(rows.response_shape[1], rows.condition_width).to(native.device)
-    game = ConditionalPG09(adapter, rows, critic, particles=None,
+    game = ConditionalParticleGAN(adapter, rows, critic, particles=None,
         response_domain='continuous_field', response_scale=rows.response_scale,
         preset=preset, batch_size=batch_size, seed=seed, total_steps=total_steps,
         recipe_overrides=rates, sampling='balanced')

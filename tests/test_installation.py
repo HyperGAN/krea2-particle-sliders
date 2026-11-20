@@ -22,14 +22,15 @@ def test_canonical_lock_and_immutable_legacy_profile():
     candidate = tomllib.loads((ROOT / 'profiles/hypergan-hndl/pyproject.toml').read_text())
     assert default['project']['version'] == '0.2.1'
     assert lock['schema'] == 'krea2-shared-api-v3'
-    assert lock['version'] == '0.13.0' and lock['particlegan'] == '0.9.5'
-    assert lock['commit'] == '3dd672a7f9b8c169daef90fd63e4bb42b9ddc423'
+    assert lock['version'] == '0.15.1' and lock['particlegan'] == '0.11.0'
+    assert lock['commit'] == 'c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78'
     assert lock['commit'] in default['project']['dependencies'][0]
     assert 'particle_sliders/LICENSE' in lock['sources']
-    assert any(name.endswith('.yaml') for name in lock['sources'])
+    assert 'particle_sliders/engine_release.json' in lock['sources']
     assert '91ae74b12c123a7241142f134cc4501c5288583a' in (ROOT / 'profiles/core081/requirements.txt').read_text()
-    assert '3dd672a7f9b8c169daef90fd63e4bb42b9ddc423' in candidate['project']['dependencies'][0]
-    assert 'hypergan-hndl' in candidate['project']['dependencies'][0]
+    assert 'c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78' in candidate['project']['dependencies'][0]
+    assert 'hndl==0.10.0' in candidate['project']['dependencies']
+    assert any(dep.startswith('hypergan @ git+') for dep in candidate['project']['dependencies'])
 
 
 def test_inspection_checks_installed_distribution(tmp_path):
@@ -37,8 +38,8 @@ def test_inspection_checks_installed_distribution(tmp_path):
         cwd=tmp_path, text=True, capture_output=True, check=True)
     report = json.loads(result.stdout)
     assert report['status'] == 'passed'
-    assert report['shared']['version'] == '0.13.0'
-    assert report['shared']['particlegan'] == '0.9.5'
+    assert report['shared']['version'] == '0.15.1'
+    assert report['shared']['particlegan'] == '0.11.0'
     assert report['cuda_initialized'] is False
     origin = Path(report['origins']['krea2']).resolve()
     if report['installation']['editable']:
@@ -56,9 +57,9 @@ def test_unknown_native_profile_rejected_before_loading():
 
 def test_canonical_admission_checks_data_and_official_pg(monkeypatch):
     import particle_sliders
-    import particle_sliders.pg09 as pg
+    import particle_sliders.engine as pg
     from krea2.shared import validate_shared_runtime
-    data = next(Path(particle_sliders.__file__).parent.rglob('*.yaml')).resolve()
+    data = Path(particle_sliders.__file__).with_name('engine_release.json').resolve()
     original = Path.read_bytes
     with monkeypatch.context() as changed:
         changed.setattr(Path, 'read_bytes', lambda path: b'drift' if path.resolve() == data else original(path))
@@ -66,7 +67,7 @@ def test_canonical_admission_checks_data_and_official_pg(monkeypatch):
             validate_shared_runtime()
     def reject(*args, **kwargs):
         raise RuntimeError('official PG source drift')
-    monkeypatch.setattr(pg, 'validate_pg09_domain', reject)
+    monkeypatch.setattr(pg, 'validate_engine_domain', reject)
     with pytest.raises(RuntimeError, match='official PG source drift'):
         validate_shared_runtime()
 

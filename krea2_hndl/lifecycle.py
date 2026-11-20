@@ -2,12 +2,12 @@
 import json
 import torch
 
-from particle_sliders.fibo_hndl import HNDLFieldCritic
+from krea2_hndl.fibo_hndl import HNDLFieldCritic
 from particle_sliders.lifecycle import Backend
-from particle_sliders.pg09 import ConditionalPG09
-from particle_sliders.pg09_images import ImageResponseAdapter, image_lora_parameters
+from particle_sliders.engine import ConditionalParticleGAN
+from krea2.image_bindings import ImageResponseAdapter, image_lora_parameters
 from krea2 import lifecycle as product
-from krea2.pg09 import Krea2Rows
+from krea2.engine import Krea2Rows
 from .runtime import native_factory, validate_runtime
 
 
@@ -48,7 +48,7 @@ def build_game(native, cache, *, cache_sha256, model_identity, total_steps, seed
         torch.manual_seed(seed)
         critic = Krea2HNDLFieldCritic(rows.response_shape[1], rows.condition_width,
                                     rows.response_shape[3:]).to(native.device)
-    return ConditionalPG09(adapter, rows, critic, particles=None,
+    return ConditionalParticleGAN(adapter, rows, critic, particles=None,
         response_domain='continuous_field', response_scale=rows.response_scale,
         preset=preset, batch_size=batch_size, seed=seed, total_steps=total_steps,
         recipe_overrides=rates, sampling='balanced')

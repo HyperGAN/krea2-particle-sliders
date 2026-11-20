@@ -10,11 +10,12 @@ from krea2.native_inference import BACKEND as INFERENCE
 
 def test_v2_load_without_training_construction(monkeypatch):
     torch.set_num_threads(1)
-    config = SessionConfig('krea2', 'new-krea-native-v2', dummy=True, steps=4, ema_decay=.9)
+    config = SessionConfig('krea2', 'new-krea-native-v2', dummy=True, steps=4, ema_decay=None)
     with TRAINING.open(config) as training:
         training.train(stop_after=2)
         raw = training.export_inference()
-        ema = training.export_inference(selection='ema')
+        with pytest.raises(ValueError, match='raw current weights'):
+            training.export_inference(selection='ema')
         prepared = training.game.rows[0]
         request = dict(prompt='neutral', latent=prepared.row.latent.clone(),
                        timestep=prepared.row.timestep.clone())
@@ -23,9 +24,9 @@ def test_v2_load_without_training_construction(monkeypatch):
         training.export_inference()
         assert training.checkpoint()['sha256'] == state
     assert raw['schema'] == 'particle-sliders-native-inference-v2'
-    assert raw['selection'] == 'raw' and ema['selection'] == 'ema'
+    assert raw['selection'] == 'raw'
     assert set(raw) == {'schema', 'specification', 'origin', 'selection', 'network', 'sha256'}
-    import krea2.pg09 as product
+    import krea2.engine as product
     import krea2.synthetic as synthetic
     from particle_sliders.field_critic import FieldCritic
     def forbidden(*args, **kwargs):
@@ -35,7 +36,7 @@ def test_v2_load_without_training_construction(monkeypatch):
     monkeypatch.setattr(FieldCritic, '__init__', forbidden)
     monkeypatch.setattr(torch.optim.Optimizer, '__init__', forbidden)
     before = torch.get_rng_state().clone()
-    for packet in (raw, ema):
+    for packet in (raw,):
         with open_inference(packet, backend=INFERENCE, operation='response') as inference:
             assert not any(hasattr(inference, name) for name in ('game', 'rows', 'critic', 'optimizer'))
             assert inference.selection == packet['selection']
@@ -63,7 +64,7 @@ def test_explicit_cuda_device_preflight_needs_no_cuda(monkeypatch):
 
 
 def test_native_admission_refusal_preserves_session():
-    config = SessionConfig('krea2', 'new-krea-admission-v2', dummy=True, steps=4, ema_decay=.9)
+    config = SessionConfig('krea2', 'new-krea-admission-v2', dummy=True, steps=4, ema_decay=None)
     def reject(request):
         assert request['completed_steps'] == 0
         return False
