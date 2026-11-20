@@ -19,7 +19,7 @@ from torch import nn
 from particlegan import init as pg_init
 
 INIT_SHA256 = "3534ff23efa413cdf8b4125b91e0d30671d873b3e2958547d4e744b750454b9b"
-SCHEMA = "Krea2-active-PEFT-PG095-downQR-FieldCriticKEEP-fresh-initialization-v1"
+SCHEMA = "Krea2-active-PEFT-engine-downQR-FieldCriticKEEP-fresh-initialization-v1"
 MARKER = "_fresh_engine_initialization_receipt_sha256"
 POLICIES = {"krea2": "krea2-active-PEFT-fresh-downQR-sqrt5-FieldCriticKEEP-no-bank-v1"}
 
