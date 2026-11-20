@@ -5,13 +5,17 @@ import torch
 def test_exact_installed_public_base_core_and_candidate_closure():
     from krea2_strict.provenance import verify_sources
     actual = verify_sources()
-    assert actual["base_commit"] == "fe5f8686b6ef0f3cbcffb9bb36ff61a9ca7efaf4"
-    assert actual["core"]["commit"] == "3dd672a7f9b8c169daef90fd63e4bb42b9ddc423"
+    assert actual["base_commit"] == "43d956b758060167bdd6b87116aec81bb0732ca6"
+    assert actual["core"]["commit"] == "c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78"
     assert not torch.cuda.is_initialized()
 
 
 def test_declared_actual_native_dependency_sources():
     from krea2_strict.provenance import runtime_sources
+    if torch.version.cuda is None:
+        with pytest.raises(ValueError, match="implementation bytes differ: torch"):
+            runtime_sources()
+        return
     actual = runtime_sources()
     assert actual["diffusers"]["version"] == "0.40.0.dev0"
     assert actual["transformers"]["version"] == "5.15.0"

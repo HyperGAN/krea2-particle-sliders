@@ -59,7 +59,7 @@ def preflight(options, request, spec):
 
 
 def prepare(options, spec):
-    from particle_sliders.pg09_images import ImageResponseAdapter, image_lora_parameters
+    from krea2.image_bindings import ImageResponseAdapter, image_lora_parameters
     from .native import StrictCudaUNI, observation
     args = arguments(options)
     native = StrictCudaUNI(args, options["prompts"], Path(args.save_dir), expected_gpu_uuid=options["expected_gpu_uuid"])

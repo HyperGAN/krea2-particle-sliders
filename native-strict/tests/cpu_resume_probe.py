@@ -30,7 +30,7 @@ from krea2_strict.execution import policy, forward_guards
 from krea2_strict.game import build_game
 from krea2_strict.cache import verify_native_parity
 from krea2_strict.provenance import verify_sources
-from particle_sliders.pg09 import _hash
+from particle_sliders.engine import _hash
 
 with torch.random.fork_rng(devices=[]), patch.object(torch, "manual_seed", torch.random.default_generator.manual_seed):
     native, cache = staged_fixture()

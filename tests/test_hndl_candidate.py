@@ -8,10 +8,10 @@ import pytest
 import torch
 
 if version('particle-sliders-core') != '0.15.1' or not entry_points(group='particle_sliders.image_backends', name='krea2-hndl'):
-    pytest.skip('separate exact core0.12 HNDL candidate environment required', allow_module_level=True)
+    pytest.skip('separate current HNDL candidate environment required', allow_module_level=True)
 
 from particle_sliders.inference import open_inference
-from particle_sliders.lifecycle import CheckpointError, SessionConfig, open_session
+from particle_sliders.lifecycle import CheckpointError, LifecycleError, SessionConfig, open_session
 from krea2_hndl.lifecycle import Krea2HNDLFieldCritic
 
 
@@ -19,7 +19,7 @@ from krea2_hndl.lifecycle import Krea2HNDLFieldCritic
 def test_real_hndl_native_lifecycle_resume_and_inference(preset, tmp_path, monkeypatch):
     torch.set_num_threads(1)
     config = SessionConfig('krea2-hndl', 'krea2-hndl-cpu-v1', dummy=True,
-                           steps=4, preset=preset, ema_decay=.9)
+                           steps=4, preset=preset, ema_decay=None)
     rng = torch.get_rng_state().clone()
     with open_session(config) as full:
         assert isinstance(full.game.critic, Krea2HNDLFieldCritic)
@@ -59,20 +59,12 @@ def test_real_hndl_native_lifecycle_resume_and_inference(preset, tmp_path, monke
         resumed.train()
         assert resumed.checkpoint()['sha256'] == expected
         raw = resumed.export_inference()
-        ema = resumed.export_inference(selection='ema')
+        with pytest.raises(ValueError, match='RAW|raw'):
+            resumed.export_inference(selection='ema')
         row = resumed.game.rows[0].row
         request = dict(prompt='neutral', latent=row.latent.clone(), timestep=row.timestep.clone())
         response = resumed.evaluate(strength=-.5)
         raw_weights = deepcopy(resumed.game.network.state_dict())
-        ema_weights = deepcopy(resumed.ema.values)
-        assert any(not torch.equal(value, ema_weights[name]) for name, value in raw_weights.items())
-        before = resumed.checkpoint()['sha256']
-        try:
-            resumed.game.network.load_state_dict(ema_weights)
-            ema_response = resumed.evaluate(strength=-.5)
-        finally:
-            resumed.game.network.load_state_dict(raw_weights)
-        assert resumed.checkpoint()['sha256'] == before
     import krea2_hndl.lifecycle as product
     import krea2.synthetic as synthetic
     def forbidden(*args, **kwargs):
@@ -81,16 +73,12 @@ def test_real_hndl_native_lifecycle_resume_and_inference(preset, tmp_path, monke
     monkeypatch.setattr(synthetic, 'staged_fixture', forbidden)
     monkeypatch.setattr(Krea2HNDLFieldCritic, '__init__', forbidden)
     monkeypatch.setattr(torch.optim.Optimizer, '__init__', forbidden)
-    for artifact in (raw, ema):
-        with open_inference(artifact, operation='response') as inference:
-            assert not any(hasattr(inference, name) for name in ('game', 'rows', 'critic', 'optimizer'))
-            for strength in (-1., 0., .5, 1.):
-                assert torch.isfinite(inference.response(strength=strength, **request)).all()
-            if artifact is raw:
-                assert torch.equal(inference.response(strength=-.5, **request), response)
-            else:
-                assert torch.equal(inference.response(strength=-.5, **request), ema_response)
-                assert all(torch.equal(value, ema_weights[name]) for name, value in artifact['network'].items())
+    with open_inference(raw, operation='response') as inference:
+        assert not any(hasattr(inference, name) for name in ('game', 'rows', 'critic', 'optimizer'))
+        for strength in (-1., 0., .5, 1.):
+            assert torch.isfinite(inference.response(strength=strength, **request)).all()
+        assert torch.equal(inference.response(strength=-.5, **request), response)
+    assert all(torch.equal(value, raw_weights[name]) for name, value in raw['network'].items())
     assert torch.equal(rng, torch.get_rng_state())
     assert not torch.cuda.is_initialized()
 
@@ -179,8 +167,8 @@ def test_training_critic_has_fixed_spatial_contract(height, width):
 
 def test_rejected_geometry_preserves_complete_training_state():
     with open_session(SessionConfig('krea2-hndl', 'geometry-rejection', dummy=True,
-                                    steps=4, ema_decay=.9)) as session:
-        session.train(stop_after=2)  # Include initialized optimizers, EMA and sampler state.
+                                    steps=4, ema_decay=None)) as session:
+        session.train(stop_after=2)  # Include initialized optimizers and sampler state.
         before = session.checkpoint()['sha256']
         _, channels, temporal, height, width = session.game.rows.response_shape
         with pytest.raises(ValueError, match='fixed training H/W'):
@@ -220,7 +208,7 @@ def test_old_modern_preview_packets_refused_without_rebinding(monkeypatch):
     directory = Path(filename)
     packet = torch.load(directory / 'training.pt', map_location='cpu', weights_only=True)
     with open_session(SessionConfig('krea2-hndl', 'krea2-hndl-cpu-v1', dummy=True,
-                                    steps=4, ema_decay=.9)) as session:
+                                    steps=4, ema_decay=None)) as session:
         before = session.checkpoint()['sha256']
         with pytest.raises(CheckpointError):
             session.restore(packet)
@@ -244,12 +232,13 @@ def test_old_modern_preview_packets_refused_without_rebinding(monkeypatch):
         assert all(torch.equal(value, values[name]) for name, value in network.state_dict().items())
 
 
-def test_observation_failure_restores_state_and_allows_retry():
+def test_observation_cleanup_failure_restores_rng_and_blocks_reuse():
     from contextlib import contextmanager
     with open_session(SessionConfig('krea2-hndl', 'observation-retry', dummy=True,
-                                    steps=4, ema_decay=.9)) as session:
+                                    steps=4, ema_decay=None)) as session:
         session.train(stop_after=2)
-        before = session.checkpoint()['sha256']
+        from particle_sliders.engine import _hash
+        game_before = _hash(session.game.state_dict())
         rng = torch.get_rng_state().clone()
         original = session.binding.observation
         attempts = 0
@@ -265,10 +254,12 @@ def test_observation_failure_restores_state_and_allows_retry():
         session.binding.observation = fail_once
         with pytest.raises(RuntimeError, match='observation cleanup fixture'):
             session.evaluate()
-        assert session.checkpoint()['sha256'] == before
         assert torch.equal(rng, torch.get_rng_state())
-        assert torch.isfinite(session.evaluate()).all()
-        assert session.checkpoint()['sha256'] == before
+        with pytest.raises(LifecycleError, match='requires cleanup'):
+            session.checkpoint()
+        with pytest.raises(LifecycleError, match='requires cleanup'):
+            session.step()
+        assert _hash(session.game.state_dict()) == game_before
 
 
 def test_close_failure_before_product_cleanup_allows_retry():
@@ -283,10 +274,11 @@ def test_close_failure_before_product_cleanup_allows_retry():
         original()
     session.binding.close = fail_once
     try:
-        before = session.checkpoint()['sha256']
         with pytest.raises(RuntimeError, match='before product cleanup fixture'):
             session.close()
-        assert not session.closed and session.checkpoint()['sha256'] == before
+        assert not session.closed
+        with pytest.raises(LifecycleError, match='requires cleanup'):
+            session.checkpoint()
         session.close()
         session.close()
         assert session.closed and attempts == 2
@@ -312,7 +304,7 @@ def test_lock_file_digest_tamper_rejected(monkeypatch):
 
 
 def test_current_hndl_rates_use_common_resolved_recipe():
-    config = SessionConfig('krea2-hndl', 'krea2-hndl-pg095-rates', dummy=True,
+    config = SessionConfig('krea2-hndl', 'krea2-hndl-current-rates', dummy=True,
                            steps=2, lr=2e-5, d_lr_mult=3.)
     with open_session(config) as session:
         assert all(g['lr'] == 2e-5 for g in session.game.opt_g.param_groups)
