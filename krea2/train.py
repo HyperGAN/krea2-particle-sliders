@@ -89,7 +89,7 @@ def build_parser() -> argparse.ArgumentParser:
             f"guidance {TURBO_GUIDANCE:g}, mu={TURBO_MU:g}. "
             "VAE and text encoder come from krea/Krea-2-Raw. "
             "The live game is particle_sliders.engine.ConditionalParticleGAN "
-            "using released ParticleGAN 0.11.0 (adapter GAN, no particle bank). "
+            "using released ParticleGAN 0.11.1 (adapter GAN, no particle bank). "
             "--dummy never downloads Hub weights."
         )
     )

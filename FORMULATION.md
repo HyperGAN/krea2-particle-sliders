@@ -1,9 +1,9 @@
-> Current adoption: [published PG0.9.5 / core0.13.0](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; none establishes a PG0.9.5 native result.
+> Historical adoption: [archived release notes](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; new source has separate qualification.
 
 # Krea2 training formulation
 
 Current `krea2-particle-sliders` live training executes the installed
-`particle_sliders.pg09.ConditionalPG09` API with released ParticleGAN **0.9.4**.
+`particle_sliders.engine.ConditionalParticleGAN` API with released ParticleGAN **0.11.1**.
 The exact shared source pin is in pyproject.toml; requirements.txt installs that package. This product does not vendor ParticleGAN. There is no vendored ParticleGAN,
 local GAN loss, product optimizer, or copied shared backend.
 

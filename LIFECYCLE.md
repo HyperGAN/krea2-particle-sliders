@@ -1,7 +1,7 @@
-> Current source uses ParticleGAN 0.11.0 and core 0.15.1. See the [earlier adoption record](docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope.
+> Current source uses ParticleGAN 0.11.1 and core 0.15.2. See the [earlier adoption record](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope.
 
 The current [Warm Amber RAW32 rate record](docs/finished-output-learning-rates.md)
-is separate from these older CPU and PG0.9.4 receipts. It selects G=0.036 with
+is separate from these older CPU and the archived ParticleGAN release receipts. It selects G=0.036 with
 `d_lr_mult=0.5000000000000001`, explicit `ema_decay=None`, and no bank/prior
 rate. The [strict native configuration factory](native-strict/src/krea2_strict/lifecycle.py)
 accepts these options directly. Local verified assets, cache, native arguments,
@@ -10,17 +10,13 @@ this documentation does not bundle them or make old packets compatible.
 
 # Krea2 common lifecycle
 
-The canonical product now uses core **0.12.0**, official ParticleGAN **0.9.4**,
-source `ddb41423bcefc1fe76cd94d0f9b367353b3ea137`.
-The complete installed package source/data closure and official PG bytes are
-validated before training/loading. See [PG 0.9.4 adoption](docs/pg094-adoption.md).
-The separate HNDL preview retains its original core pin and qualification gates.
-The prior core0.8.1/PG0.9.1 source is reproducible through
-`profiles/core081/requirements.txt` in its own environment.
+The canonical and separate HNDL builds use the exact core 0.15.2 and
+ParticleGAN 0.11.1 source pins. Both verify installed source bytes before
+training or loading. Earlier profile installers are in the [archived checkout](https://github.com/HyperGAN/krea2-particle-sliders/tree/cf8a452bd55588598a2d538aadc5dc13aa654656).
 
 The registered image backend owns native loading/conditioning, geometry and
 sampler differences. Core owns session updates, resume, export and cleanup;
-ConditionalPG09 owns the unchanged GAN math. Krea remains an adapter GAN with
+The shared ConditionalParticleGAN owns the GAN math. Krea remains an adapter GAN with
 `particles=None`, actual FP32 PEFT leaves, native `[1,C,1,H,W]` fields, full
 conditioning projections and balanced edit4:preserve1 cache rows. Native turbo
 policy stays eight steps, CFG=0, mu=1.15. All finite signed strengths remain

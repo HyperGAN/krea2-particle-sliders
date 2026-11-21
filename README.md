@@ -2,7 +2,7 @@
 
 **Opt-in fresh initialization:** [explicit scoped guide](docs/explicit-fresh-initialization.md). Four new installed-package software cases pass, including exact FULL resume and RAW skip-init. Native loading/rendering through this opt-in API remains unqualified; existing defaults and LR results are unchanged.
 
-> **Current source: core 0.15.1 / ParticleGAN 0.11.0.** Older versioned evidence below retains its original scope. See [adoption and compatibility](docs/pg095-adoption.md).
+> **Current source: core 0.15.2 / ParticleGAN 0.11.1.** Older versioned evidence below retains its original scope. See [adoption and compatibility](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/docs/pg095-adoption.md).
 
 Current [finished-output rate guidance](docs/finished-output-learning-rates.md):
 **Warm Amber G=0.036, RAW32**, best of five saved matched-budget rates on four
@@ -413,7 +413,7 @@ six paired captions, two cached trajectory seeds per pair, and preservation weig
 every fifth update. The base and text encoder stayed frozen. Source, configurations,
 validation and reproduction belong to [krea2-particle-sliders](https://github.com/HyperGAN/krea2-particle-sliders), following
 the release layout of [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
-The published Final Boss and Eldritch originals are linear LoRAs trained with the historical velocity MSE loop. Its `winning_formulation()` / `particle-gmix-1600-v2` metadata did not execute a GAN update. New live runs now call the installed `particle_sliders.engine.ConditionalParticleGAN` with released ParticleGAN **0.11.0**, genuine native spatial responses, actual PEFT trainables, calibrated training contrast, balanced edit/preservation sampling, and strict full-state resume. This is an adapter GAN with no routed particle bank. Existing weights retain their historical provenance; CPU qualification of the new path does not establish full model GPU or visual quality. See [the formulation](FORMULATION.md) and [new cohort instructions](REPRODUCE.md).
+The published Final Boss and Eldritch originals are linear LoRAs trained with the historical velocity MSE loop. Its `winning_formulation()` / `particle-gmix-1600-v2` metadata did not execute a GAN update. New live runs now call the installed `particle_sliders.engine.ConditionalParticleGAN` with released ParticleGAN **0.11.1**, genuine native spatial responses, actual PEFT trainables, calibrated training contrast, balanced edit/preservation sampling, and strict full-state resume. This is an adapter GAN with no routed particle bank. Existing weights retain their historical provenance; CPU qualification of the new path does not establish full model GPU or visual quality. See [the formulation](FORMULATION.md) and [new cohort instructions](REPRODUCE.md).
 
 The GitHub repository does not ship slider weights or logs. Download weights from this Hub release.
 [Reproduction](https://github.com/HyperGAN/krea2-particle-sliders/blob/main/REPRODUCE.md) · [Training formulation](https://github.com/HyperGAN/krea2-particle-sliders/blob/main/docs/final-boss.md) ·
@@ -440,3 +440,5 @@ This is an independent ntc-ai release, not an official or endorsed Krea product.
 Independently authored source code is [MIT](https://huggingface.co/ntc-ai/krea2-particle-sliders/resolve/main/LICENSE); that does not relicense the weights.
 
 Learning-rate controls and preserved defaults: [LEARNING-RATES.md](LEARNING-RATES.md).
+
+Earlier training environments, packaging checks and qualification evidence remain available in the [archived source](https://github.com/HyperGAN/krea2-particle-sliders/tree/cf8a452bd55588598a2d538aadc5dc13aa654656).
