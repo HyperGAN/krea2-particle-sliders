@@ -26,10 +26,11 @@ def test_canonical_and_candidate_runtime_locks():
     assert default['project']['version'] == '0.2.1'
     assert lock['schema'] == 'krea2-shared-api-v3'
     assert lock['version'] == '0.15.2' and lock['particlegan'] == '0.11.1'
-    assert lock['commit'] == 'ec1161f5d74481be3540cb0dfa63d0e8f8b54e90'
+    assert lock['commit'] == 'b1f780decc516808cfd3019d5e5b674457161f86'
     assert lock['commit'] in default['project']['dependencies'][0]
     assert 'particle_sliders/LICENSE' in lock['sources']
     assert 'particle_sliders/engine_release.json' in lock['sources']
+    assert 'particle_sliders/adaptive_steering.py' in lock['sources']
     assert 'ec1161f5d74481be3540cb0dfa63d0e8f8b54e90' in candidate['project']['dependencies'][0]
     assert 'hndl==0.10.0' in candidate['project']['dependencies']
     assert any(dep.startswith('hypergan @ git+') for dep in candidate['project']['dependencies'])

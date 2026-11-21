@@ -62,3 +62,46 @@ image, receipt = render(owner, prompt=prompt, seed=seed, strength=0.5,
 ```
 
 [Exact schedule, checkpoint and per-case evidence](../evidence/warm-amber-raw8-scheduled-strength.json)
+
+## Activation-dependent allocation
+
+`krea2.adaptive.render` uses the shared CFP threshold or CLABS feedback gate
+from *Right Token, Right Time*. Here the generation event is a guidance-zero
+Euler interval. Each decision reads the current packed image latents and
+normalized timestep before any LoRA applies in that interval. An on decision
+applies the selected strength to the existing Krea2 PEFT LoRA. The paper edits
+along a fixed residual direction, while Krea2 uses its saved RAW adapter as
+that intervention. [Shared equations and calibration](https://github.com/HyperGAN/particle-sliders/blob/b1f780decc516808cfd3019d5e5b674457161f86/docs/strength-schedules.md#activation-dependent-steering)
+
+```python
+from krea2.adaptive import render
+from particle_sliders.adaptive_steering import ActivationGate
+
+gate = ActivationGate("cfp", calibrated_threshold)
+image, receipt = render(
+    owner, prompt=prompt, seed=seed, resolution=resolution,
+    strength=selected_strength, gate=gate, alignment=calibrated_alignment,
+)
+```
+
+Fit or select the alignment readout on a separate calibration split. The
+callback receives packed `[1, positions, channels]` latents and the native
+normalized timestep tensor. It returns one finite signed score for the
+interval. Record the readout fitting data, parameter values and the rule that
+maps spatial activations to one score. With the readout and RAW fixed, run
+`calibrate_gate_budget` with active steering and a fresh gate per calibration
+image. Each rollout aggregates the receipt's fired and eligible intervals.
+For CLABS, supply measured projection statistics and the selected controller
+parameters, then calibrate its bias. For the matched random control, use
+`ActivationGate("random", target_rate, seed=gate_seed)` and omit the readout.
+
+The adaptive receipt carries the actual sigma endpoints, alignment, fire
+probability and effective strength per interval. Compare its realized gate
+rate and `sigma_weighted_dose` with the controls, then score matched finished
+outputs using the frozen intended-effect measure and a separate integrity
+check. Keep the Warm Amber RAW8 fixed-schedule cases for evaluation and use
+separate cases to fit signals and tune budgets. That panel supplies saved
+images and denoiser settings. A Krea2 activation probe and active-rollout
+calibration still need to be measured. The fixed-schedule results above are
+from the archived runtime. Keep source-bound checkpoints with the exact
+runtime that produced them when reopening archived RAW or FULL packets.
