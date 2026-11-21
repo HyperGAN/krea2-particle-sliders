@@ -1,13 +1,13 @@
 # Preserved HNDL preview and prior-core adoption record
 
 This record describes the separate HNDL preview and the prior core0.8.1
-canonical product. The current canonical product is core0.12.0/PG0.9.4; see
-[its adoption record](pg094-adoption.md). Historical measurements below apply
+canonical product. The current canonical product is core0.12.0 / archived ParticleGAN; see
+[its adoption record](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/docs/pg094-adoption.md). Historical measurements below apply
 to their recorded commits, not the new canonical package.
 
 The HNDL candidate pins immutable core
 `a794e3b4a8813b012f2c4faa3da82b78d4a90214`, the coordinated transactional
-lifecycle fix. Core remains at 0.12 with official PG 0.9.4. HyperGAN develop
+lifecycle fix. Core remains at 0.12 with the archived ParticleGAN release. HyperGAN develop
 remains at `5f368a3770cf5bdae0448995c9f76e29af8049f7`, and HNDL remains at 0.10.0.
 The recursive lock is generated from a wheel whose entire source/data closure
 is checked against that exact Git tree. Maintainers can verify the lock with:
@@ -25,7 +25,7 @@ automatic conversion is supported. Keep the old environment to consume them.
 The HNDL candidate lock remains unchanged; the canonical package has since advanced.
 
 The prior supported Krea2 cohort used core 0.8.1 at
-`32f6830f6402e85aa77b6631db64fcbbb2131f6b` with official ParticleGAN 0.9.1.
+`32f6830f6402e85aa77b6631db64fcbbb2131f6b` with the archived ParticleGAN release.
 `pyproject.toml` owns this dependency and `krea2/shared.lock.json` verifies its
 complete source map. The default requirements installer now installs the product
 itself, including backend entry points and console commands. The old file is
@@ -95,7 +95,7 @@ This creates version `0.3.0.dev0` with its own exact modern dependency metadata
 from `profiles/hypergan-hndl/pyproject.toml`. It never installs or publishes the
 wheel and leaves the default `pyproject.toml`/requirements/core081 lock intact.
 Use a **separate** environment containing the exact reviewed local core wheel,
-official PG 0.9.4, HyperGAN commit and HNDL 0.10.0, and compatible native extras.
+the archived ParticleGAN release, HyperGAN commit and HNDL 0.10.0, and compatible native extras.
 The supported and candidate wheels intentionally share distribution name
 `krea2-particle-sliders` and top-level module `krea2`: they are mutually exclusive
 alternative builds and cannot be coinstalled. `pip --pre` or `--upgrade` in the
@@ -118,7 +118,7 @@ must not be used to replace the supported profile. Build-only commands remain
 safe in an existing environment because they install nothing.
 
 For a clean CPU base installation, constrain `torch==2.6.0+cpu`,
-`setuptools==84.2.1`, `particlegan==0.9.4` and `hndl==0.10.0` in a separate
+`setuptools==84.2.1`, the captured ParticleGAN wheel and `hndl==0.10.0` in a separate
 constraints file. Run the guarded installer with `PIP_CONSTRAINT` pointing to
 that file and `PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cpu` (or use
 `PIP_FIND_LINKS` pointing to the verified official CPU wheel). Use the normal
@@ -167,7 +167,7 @@ from collecting the repository's unrelated ComfyUI root initializer.
 
 ## Adoption gates still open
 
-The coordinated local candidate is core 0.12 / PG 0.9.4 / HyperGAN develop
+The coordinated local candidate is core 0.12 / the archived ParticleGAN release / HyperGAN develop
 `5f368a3770cf5bdae0448995c9f76e29af8049f7`, joint commit
 `a794e3b4a8813b012f2c4faa3da82b78d4a90214`. It is now publicly reachable; its
 shared CPU results do not qualify this Krea2 product. Installing it into the

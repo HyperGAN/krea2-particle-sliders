@@ -1,5 +1,6 @@
 """Regenerate/check the active candidate lock from an exact Git-verified core wheel."""
 import argparse
+import ast
 from email.parser import Parser
 import hashlib
 import json
@@ -18,7 +19,7 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     project = tomllib.loads((root / 'profiles/hypergan-hndl/pyproject.toml').read_text())
-    dependency = next(x for x in project['project']['dependencies'] if x.startswith('particle-sliders-core['))
+    dependency = next(x for x in project['project']['dependencies'] if x.startswith('particle-sliders-core @'))
     commit = re.search(r'@([0-9a-f]{40})#subdirectory=', dependency).group(1)
     def source(path):
         return subprocess.check_output(['git', '-C', str(args.core_repo), 'show', commit + ':' + path])
@@ -43,8 +44,28 @@ def main():
     prefix = 'packages/particle-sliders-core/src/'
     tracked = subprocess.check_output(['git', '-C', str(args.core_repo), 'ls-tree', '-r',
         '--name-only', commit, '--', prefix], text=True).splitlines()
-    expected = {name.removeprefix(prefix) for name in tracked
-                if name.removeprefix(prefix).split('/')[0] in ('particle_sliders', 'concept_slider_core')}
+    # The core worktree also contains research products deliberately excluded
+    # by its wheel build. Derive the package boundary from reviewed Git source.
+    setuptools = manifest['tool']['setuptools']
+    packages = set(setuptools['packages']['find']['include'])
+    package_data = setuptools.get('package-data', {})
+    build = ast.parse(source('packages/particle-sliders-core/_core_build.py'))
+    module_assignment = next(node for node in build.body if isinstance(node, ast.Assign)
+                             and any(isinstance(target, ast.Name) and target.id == 'CORE_MODULES'
+                                     for target in node.targets))
+    core_modules = set(ast.literal_eval(module_assignment.value.args[0]))
+    expected = set()
+    for name in tracked:
+        relative = PurePosixPath(name.removeprefix(prefix))
+        package = '.'.join(relative.parent.parts)
+        if (package in packages and relative.suffix == '.py'
+                and (package != 'particle_sliders' or relative.stem in core_modules)):
+            expected.add(relative.as_posix())
+        for package, patterns in package_data.items():
+            folder = PurePosixPath(package.replace('.', '/'))
+            if relative.is_relative_to(folder) and any(relative.relative_to(folder).match(pattern)
+                                                         for pattern in patterns):
+                expected.add(relative.as_posix())
     if set(sources) != expected:
         parser.error('core wheel omits or adds files relative to the exact recursive Git closure')
     pg = next(x.split('==', 1)[1] for x in manifest['project']['dependencies'] if x.startswith('particlegan=='))

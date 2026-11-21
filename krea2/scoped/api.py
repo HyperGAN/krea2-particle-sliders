@@ -298,7 +298,7 @@ def open_training(options, *, mode, cohort_id, owner_factory, owner_admission,
     capabilities = original.capabilities(options)
     capabilities.check('train', strength=1., references=False,
                        precision=options.get('base_precision'), output_type='pil')
-    original.validate(options)  # Exact core0.13/PG0.11.0 Source lock unchanged.
+    original.validate(options)  # Exact core0.13/PG0.11.1 Source lock unchanged.
     original.BACKEND._check_pg(options, capabilities)  # Original profile/domain gate too.
     config, sources = SessionConfig(NAME, cohort_id, **options), source_identity()
     packet = _read(resume) if mode == 'resume' else None

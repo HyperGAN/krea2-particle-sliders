@@ -47,7 +47,7 @@ def test_help_names_product_and_shared_game():
     assert "krea/Krea-2-Raw" in text
     assert "--dummy" in text
     assert "ConditionalParticleGAN" in text
-    assert "0.11.0" in text
+    assert "0.11.1" in text
     assert "adapter GAN" in text
     infer_proc = _run("infer_krea2.py", ["--help"])
     assert infer_proc.returncode == 0, infer_proc.stderr
@@ -77,7 +77,7 @@ def test_print_card_is_the_inrepo_cli():
     assert card["not_raw_card"]["raw_cfg"] == 4.5
     formulation = card["formulation"]
     assert formulation['api'] == 'particle_sliders.engine.ConditionalParticleGAN'
-    assert formulation['particlegan'] == '0.11.0'
+    assert formulation['particlegan'] == '0.11.1'
     assert formulation['particles'] is None
     assert formulation['optimized_mse'] is False
     assert "particle-sliders checkout" not in card["non_goals"]
@@ -202,7 +202,7 @@ rows:
     assert formulation['particles'] is None
     smoke = payload['gan_smoke']
     assert smoke['common_api'] == 'particle_sliders.engine.ConditionalParticleGAN'
-    assert smoke['particlegan'] == '0.11.0'
+    assert smoke['particlegan'] == '0.11.1'
     assert smoke['diagnostic_only'] is True
     assert smoke['trained_product_weights'] is False
     assert smoke['optimized_mse'] is False

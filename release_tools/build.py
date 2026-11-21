@@ -183,7 +183,7 @@ six paired captions, two cached trajectory seeds per pair, and preservation weig
 every fifth update. The base and text encoder stayed frozen. Source, configurations,
 validation and reproduction belong to [krea2-particle-sliders]({GITHUB}), following
 the release layout of [anima-particle-sliders](https://github.com/HyperGAN/anima-particle-sliders).
-The published Final Boss and Eldritch originals are linear LoRAs trained with the historical velocity MSE loop. Its `winning_formulation()` / `particle-gmix-1600-v2` stamp did not execute a GAN update. Current source runs the installed `particle_sliders.engine.ConditionalParticleGAN` with ParticleGAN 0.9.1 as a new adapter GAN cohort, with no routed particle bank. Historical releases retain their original provenance. See FORMULATION.md and REPRODUCE.md; CPU tests do not qualify full model GPU rendering or image quality.
+The published Final Boss and Eldritch originals are linear LoRAs trained with the historical velocity MSE loop. Its `winning_formulation()` / `particle-gmix-1600-v2` stamp did not execute a GAN update. Current source runs the installed `particle_sliders.engine.ConditionalParticleGAN` with ParticleGAN 0.11.1 as a new adapter GAN cohort, with no routed particle bank. Historical releases retain their original provenance. See FORMULATION.md and REPRODUCE.md; CPU tests do not qualify full model GPU rendering or image quality.
 
 The GitHub repository does not ship slider weights or logs. Download weights from this Hub release.
 [Reproduction]({GITHUB}/blob/main/REPRODUCE.md) · [Training formulation]({GITHUB}/blob/main/docs/final-boss.md) ·

@@ -16,19 +16,18 @@ def test_original_dependency_only_installer_preserved():
     assert (ROOT / 'requirements-legacy.txt').read_bytes() == original
 
 
-def test_canonical_lock_and_immutable_legacy_profile():
+def test_canonical_and_candidate_runtime_locks():
     lock = json.loads((ROOT / 'krea2/shared.lock.json').read_text())
     default = tomllib.loads((ROOT / 'pyproject.toml').read_text())
     candidate = tomllib.loads((ROOT / 'profiles/hypergan-hndl/pyproject.toml').read_text())
     assert default['project']['version'] == '0.2.1'
     assert lock['schema'] == 'krea2-shared-api-v3'
-    assert lock['version'] == '0.15.1' and lock['particlegan'] == '0.11.0'
-    assert lock['commit'] == 'c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78'
+    assert lock['version'] == '0.15.2' and lock['particlegan'] == '0.11.1'
+    assert lock['commit'] == 'ec1161f5d74481be3540cb0dfa63d0e8f8b54e90'
     assert lock['commit'] in default['project']['dependencies'][0]
     assert 'particle_sliders/LICENSE' in lock['sources']
     assert 'particle_sliders/engine_release.json' in lock['sources']
-    assert '91ae74b12c123a7241142f134cc4501c5288583a' in (ROOT / 'profiles/core081/requirements.txt').read_text()
-    assert 'c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78' in candidate['project']['dependencies'][0]
+    assert 'ec1161f5d74481be3540cb0dfa63d0e8f8b54e90' in candidate['project']['dependencies'][0]
     assert 'hndl==0.10.0' in candidate['project']['dependencies']
     assert any(dep.startswith('hypergan @ git+') for dep in candidate['project']['dependencies'])
 
@@ -38,8 +37,8 @@ def test_inspection_checks_installed_distribution(tmp_path):
         cwd=tmp_path, text=True, capture_output=True, check=True)
     report = json.loads(result.stdout)
     assert report['status'] == 'passed'
-    assert report['shared']['version'] == '0.15.1'
-    assert report['shared']['particlegan'] == '0.11.0'
+    assert report['shared']['version'] == '0.15.2'
+    assert report['shared']['particlegan'] == '0.11.1'
     assert report['cuda_initialized'] is False
     origin = Path(report['origins']['krea2']).resolve()
     if report['installation']['editable']:

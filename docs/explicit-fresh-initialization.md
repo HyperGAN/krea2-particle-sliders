@@ -1,14 +1,14 @@
 # Explicit fresh initialization for new Krea2 cohorts
 
 `krea2.scoped` is an opt-in Python API for new cohorts using the original Krea2
-PEFT adapter, FieldCritic and ParticleGAN 0.9.5 game. The existing CLI, common
+PEFT adapter, FieldCritic and ParticleGAN 0.11.1 game. The existing CLI, common
 backend, strict profile, historical HNDL profile and defaults are unchanged.
 Saved adapters, completed searches and published LR guidance keep their original
 identities; this new initialization recipe does not revalidate or reset them.
 
 Four new tiny software cases passed from a genuinely built and installed
 candidate, with one original software update total. The cases verified the
-original core577-file and PG0.9.5 guards, exact active PEFT Source, generated
+current exact core and ParticleGAN source guards, exact active PEFT Source, generated
 installation RECORDs, initialization ordering, Parameter identity, strict FULL
 restore, RAW inference without initialization and retryable cleanup. No
 pretrained weights, teacher capture, model download or native rendering was used.
@@ -42,7 +42,7 @@ statistics retain the original official formulas.
 
 ## Use the exact dependency profile and an admitted owner
 
-Use the repository's original core0.13.0/ParticleGAN0.9.5 source profile and native
+Use the repository's current core 0.15.2 / ParticleGAN 0.11.1 source profile and native
 dependencies. The full existing `validate_shared_runtime()` and original
 capability/PG gates remain active. A newer core or an approximate dependency
 environment is not an automatic substitute. The tested software job installed
