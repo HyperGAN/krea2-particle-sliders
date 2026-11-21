@@ -15,6 +15,8 @@ It does not change defaults or the historical Final Boss/Eldritch weights.
 Common lifecycle draft: **43 selected CPU checks passed** on the tested runtime below. See [publication and qualification status](PUBLICATION-STATUS.md); native/pretrained limits remain explicit.
 
 For the new common session/CLI interface, see [LIFECYCLE.md](LIFECYCLE.md).
+For timed inference with a scoped RAW owner, see
+[Krea2 scheduled strength](docs/scheduled-strength.md).
 New sessions use `ema_decay=None` and RAW weights throughout; no EMA averaging,
 comparison or selection is part of current ParticleGAN guidance.
 
