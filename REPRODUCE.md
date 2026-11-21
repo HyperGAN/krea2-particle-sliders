@@ -18,8 +18,8 @@ python scripts/train_krea2.py --dummy --save_dir /tmp/krea2-diagnostic
 python scripts/infer_krea2.py --help
 ```
 
-The exact installed API is `particle_sliders.pg09.ConditionalPG09`, from
-`subdirectory=packages/particle-sliders-core`, using the archived ParticleGAN release.
+The exact installed API is `particle_sliders.engine.ConditionalParticleGAN`, from
+`subdirectory=packages/particle-sliders-core`, using ParticleGAN 0.11.1.
 The diagnostic downloads no weights and trains no Krea2 slider. Tests execute
 both public presets through actual tiny Krea2 models on CPU.
 

@@ -13,7 +13,7 @@ import sys
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from test_pg09_product import fixture, equal
+from test_engine_product import fixture, equal
 
 
 def main():

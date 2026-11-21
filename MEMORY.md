@@ -61,7 +61,7 @@ This profile's text-state allowance is **75,497,472 bytes** (0.070 GiB): bounded
 - [krea2/live.py](krea2/live.py)
 - [krea2/cuda_train.py](krea2/cuda_train.py)
 - [krea2/attention.py](krea2/attention.py)
-- [krea2/pg09.py](krea2/pg09.py)
+- [krea2/engine.py](krea2/engine.py)
 - [Captured architecture, published file/index sizes and arithmetic](docs/memory/source-facts.json) retains exact model revisions, metadata SHA256s and direct Hugging Face config URLs. No weights were downloaded or opened for this calculation.
 - Optimizer facts: the archived ParticleGAN release `recipes.py` (`bcap`/`bispf_optimized`, lines1435–1451), `optim/dualnorm.py` momentum/state branch, and `optim/direction_blend.py` FP64 normals. These are part of the dependency selected by the repository's existing core lock; their source facts are recorded in the combined calculation report.
 
