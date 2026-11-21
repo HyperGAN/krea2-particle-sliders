@@ -185,5 +185,62 @@
   "reused_OFF_images": 4,
   "weights": "raw",
   "ema_decay": null,
-  "new_optimizer_updates": 0
+  "new_optimizer_updates": 0,
+  "archived_constant_one": {
+    "nominal_strength": 1.0,
+    "effective_strengths": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "matched_cases": 4,
+    "reused_finished_images": 4,
+    "integrity_passes": 4,
+    "mean_effect_gain": -0.0005654144721726577,
+    "late_change_vs_constant_one": 0.0005729328840970993,
+    "late_cases_better": 3,
+    "per_case": [
+      {
+        "case": "dev0-seed29001",
+        "image_sha256": "eacbe78df44cdf6a78bf1d09e1b5d404cdef15d769eb00da72c2c58b08fb919d",
+        "off_sha256": "6d04fe688ac943aba831e01217ac046dcb2eb5beeb2b4c0bb662cbda6d6f0485",
+        "independent_integrity": "pass",
+        "gain": -0.0018616293867429086,
+        "late_gain": -0.0005655164519945775,
+        "late_change_vs_constant_one": 0.0012961129347483311
+      },
+      {
+        "case": "dev1-seed29002",
+        "image_sha256": "f16540fa5aa9e92ce6d0b32d1be51dea140bca54342ace94eafd769a58633426",
+        "off_sha256": "079ddbc97065e0a098ba2d1c998055fc8215ede5f3096591196e7d1127c4b42a",
+        "independent_integrity": "pass",
+        "gain": -0.001466042051712673,
+        "late_gain": -0.00015194838245709795,
+        "late_change_vs_constant_one": 0.0013140936692555751
+      },
+      {
+        "case": "dev2-seed29005",
+        "image_sha256": "f280a78b88179ab11843498cb5e5d4e7a57e87cd166775d6f786323995cc0f56",
+        "off_sha256": "2b0070819d7379c19a813509247a85241fef5dedfa2e7315041071767a3c55b4",
+        "independent_integrity": "pass",
+        "gain": -0.0017273593693971634,
+        "late_gain": -0.00013297982513904572,
+        "late_change_vs_constant_one": 0.0015943795442581177
+      },
+      {
+        "case": "dev3-seed29004",
+        "image_sha256": "4aa0bda479c5ac86c7677d6e13f09962e13d37e62c533dd747fd6bc8a9ac8356",
+        "off_sha256": "224e4921cc57e611bf6a417dbd53c9614cf3c0aa80120bd128b7e5f4b26c2298",
+        "independent_integrity": "pass",
+        "gain": 0.002793372919162114,
+        "late_gain": 0.0008805183072884875,
+        "late_change_vs_constant_one": -0.0019128546118736267
+      }
+    ]
+  }
 }
