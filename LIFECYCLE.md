@@ -1,7 +1,7 @@
-> Current source uses ParticleGAN 0.11.1 and core 0.15.2. See the [earlier adoption record](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope.
+> Current source uses ParticleGAN 0.11.1 and core 0.15.2. Earlier release records are in the [archived checkout](https://github.com/HyperGAN/krea2-particle-sliders/tree/cf8a452bd55588598a2d538aadc5dc13aa654656).
 
 The current [Warm Amber RAW32 rate record](docs/finished-output-learning-rates.md)
-is separate from these older CPU and the archived ParticleGAN release receipts. It selects G=0.036 with
+records a native image comparison. It selects G=0.036 with
 `d_lr_mult=0.5000000000000001`, explicit `ema_decay=None`, and no bank/prior
 rate. The [strict native configuration factory](native-strict/src/krea2_strict/lifecycle.py)
 accepts these options directly. Local verified assets, cache, native arguments,
@@ -52,10 +52,11 @@ with open_inference('new-krea-run/native-raw.pt', operation='response') as infer
 Historical core0.8.1 qualification passed on exact runtime source `c5bf060`: **43 pytest
 cases passed**, zero failures/skips, plus fresh-process raw/EMA and CLI probes.
 All 35 packaged Python/JSON/YAML files match source and installed bytes, with the
-canonical 30-file core map verified. See `evidence/core081-installed/summary.json`.
-This qualifies bounded CPU fixtures, not pretrained/native GPU behavior. The
-prior 26-test pass remains scoped to its original 0.7.0 cohort in
-`evidence/core070/`.
+canonical 30-file core map verified. This run qualified bounded CPU fixtures.
+[Original qualification summary](https://github.com/HyperGAN/krea2-particle-sliders/blob/b1f42f17f028cab70d3b4517e8f51aa3b5396355/evidence/core081-installed/summary.json)
+
+The earlier 26-test run qualified the core 0.7.0 cohort.
+[Original CPU evidence](https://github.com/HyperGAN/krea2-particle-sliders/tree/f737a5cfbf48a01907125ebc3b5164b1f44291c5/evidence/core070)
 
 For staged native training, supply a local `cache_file`, existing native CLI
 `native_args`, and explicit `device='cuda:N'` matching `--device N`. Core can then

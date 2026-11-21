@@ -1,4 +1,4 @@
-> Historical adoption: [archived release notes](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; new source has separate qualification.
+> The [archived checkout](https://github.com/HyperGAN/krea2-particle-sliders/tree/cf8a452bd55588598a2d538aadc5dc13aa654656) records the scope and qualification of earlier releases.
 
 # Krea2 training formulation
 

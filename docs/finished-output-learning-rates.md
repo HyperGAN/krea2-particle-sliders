@@ -37,7 +37,7 @@ validation, training-prompt membership claim or new package default. The four
 fresh prompts/seeds differ from the examined selection cases; their training
 or teacher membership was not audited.
 
-The [portable metadata](finished-output-rate.json) retains the two result
+The [original portable metadata](https://github.com/HyperGAN/krea2-particle-sliders/blob/f737a5cfbf48a01907125ebc3b5164b1f44291c5/docs/finished-output-rate.json) retains the two result
 records separately, exact options, fresh per-case gains and evidence hashes.
 It also retains the fresh3 monitoring exception: the owner recorded actual
 entry identities, but Root missed independent live recapture and an ordinary

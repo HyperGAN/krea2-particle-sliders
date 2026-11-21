@@ -1,4 +1,5 @@
-> Historical adoption: [archived release notes](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/docs/pg095-adoption.md). Versioned earlier receipts below retain their original source scope; none establishes an archived ParticleGAN release native result.
+> The [archived checkout](https://github.com/HyperGAN/krea2-particle-sliders/tree/cf8a452bd55588598a2d538aadc5dc13aa654656) records the original environment and qualification scope for earlier releases.
+> The [original dependency-only installer](https://github.com/HyperGAN/krea2-particle-sliders/blob/f737a5cfbf48a01907125ebc3b5164b1f44291c5/requirements-legacy.txt) is also available from its archived checkout.
 
 # Reproduction and new GAN training
 
@@ -25,8 +26,9 @@ both public presets through actual tiny Krea2 models on CPU.
 
 The installer registers this product and its commands. Native tiny-model tests
 and live loading additionally require `python -m pip install '.[native,test]'`
-in a compatible isolated Torch/Torchvision environment. See
-[installation checks and modern-core adoption gates](docs/modernization.md).
+in a compatible isolated Torch/Torchvision environment. The
+[installation check](scripts/check_install.py) verifies the installed distribution,
+backend registrations, and pinned runtime.
 
 A resource owner must admit full model GPU work. After admission, use a new
 cohort directory:

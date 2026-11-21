@@ -3,4 +3,4 @@
 -e .[test]
 
 # Native model fixtures/loading additionally need .[native]; see REPRODUCE.md.
-# The original dependency-only installer is preserved in requirements-legacy.txt.
+# For historical installations, see the archive link in REPRODUCE.md.
