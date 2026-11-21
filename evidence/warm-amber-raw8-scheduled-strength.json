@@ -1,0 +1,189 @@
+{
+  "profile": "Warm Amber PG0.10.1 G-half RAW8",
+  "raw_sha256": "47dabb83bad2026c0e254639fd5a4609725c54252f79d6cb3ad145fbbe3bb2e3",
+  "matched_cases": 4,
+  "resolution": [
+    512,
+    512
+  ],
+  "native_Euler_steps": 8,
+  "native_guidance": 0,
+  "actual_sigmas": [
+    1.0,
+    0.956723690032959,
+    0.9045307636260986,
+    0.8403487801551819,
+    0.7595109343528748,
+    0.654566764831543,
+    0.5128441452980042,
+    0.31090107560157776,
+    0.0
+  ],
+  "nominal_strength": 0.5,
+  "nominal_sigma_weighted_dose": 0.5,
+  "measure": "mean of three frozen normalized SigLIP2 positive-minus-neutral cosine margins; equal-case finished-image ON minus matched OFF",
+  "best_observed_mean": "late",
+  "arms": {
+    "constant": {
+      "effective_strengths": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "step_gains": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "mean_effect_gain": -0.00016947230324149132,
+      "change_vs_constant": 0.0,
+      "cases_better_than_constant": 0,
+      "integrity_passes": 4,
+      "per_case": [
+        {
+          "case": "dev0-seed29001",
+          "effect_gain": -7.085315883159637e-05,
+          "change_vs_constant": 0.0,
+          "output_sha256": "40b168f541d1e8701b6e92c139387a7093e6ecfbffa9405c45a78959120b7b41"
+        },
+        {
+          "case": "dev1-seed29002",
+          "effect_gain": -0.002982565512259802,
+          "change_vs_constant": 0.0,
+          "output_sha256": "eddbbd8c4a1b846f1dab4149b037a8a8a83f78424d80783304d7c45496dda9d2"
+        },
+        {
+          "case": "dev2-seed29005",
+          "effect_gain": -9.202460447947126e-05,
+          "change_vs_constant": 0.0,
+          "output_sha256": "8e3c990c283ba0de8af2a92c2f31aa7328d51ee23376be243bf856ddf8110da9"
+        },
+        {
+          "case": "dev3-seed29004",
+          "effect_gain": 0.002467554062604904,
+          "change_vs_constant": 0.0,
+          "output_sha256": "96b9179da8657bf851b1485ca94ef7a6fa8e9b5259201e242629b3bf75a98330"
+        }
+      ]
+    },
+    "early": {
+      "effective_strengths": [
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.28180140154676336,
+        0.25
+      ],
+      "step_gains": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        0.5636028030935267,
+        0.5
+      ],
+      "mean_effect_gain": -0.00040331886460383704,
+      "change_vs_constant": -0.00023384656136234572,
+      "cases_better_than_constant": 1,
+      "integrity_passes": 4,
+      "per_case": [
+        {
+          "case": "dev0-seed29001",
+          "effect_gain": -0.00017548662920792782,
+          "change_vs_constant": -0.00010463347037633144,
+          "output_sha256": "f2050bd14d287fb1528198d692df2344f3470fc219d733a2c4b8fd6b4c78f856"
+        },
+        {
+          "case": "dev1-seed29002",
+          "effect_gain": -0.0019367784261703491,
+          "change_vs_constant": 0.0010457870860894527,
+          "output_sha256": "1abf869dc34e50d31af61fccbe5465ee466e88ba669a7a433fa5ea9a64853de3"
+        },
+        {
+          "case": "dev2-seed29005",
+          "effect_gain": -0.0015986692160367966,
+          "change_vs_constant": -0.0015066446115573253,
+          "output_sha256": "4c3806afb5b16eb391bad14da0c4c35e70e39abbb12e91a68e402a43fe2399c4"
+        },
+        {
+          "case": "dev3-seed29004",
+          "effect_gain": 0.0020976588129997253,
+          "change_vs_constant": -0.00036989524960517883,
+          "output_sha256": "6bd94113913b2b146f4f29d561a1cad26c7586f7b0d6fb08e90df4a61e59197d"
+        }
+      ]
+    },
+    "late": {
+      "effective_strengths": [
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.7181985984532366,
+        0.75
+      ],
+      "step_gains": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1.4363971969064733,
+        1.5
+      ],
+      "mean_effect_gain": 7.518411924441583e-06,
+      "change_vs_constant": 0.0001769907151659329,
+      "cases_better_than_constant": 1,
+      "integrity_passes": 4,
+      "per_case": [
+        {
+          "case": "dev0-seed29001",
+          "effect_gain": -0.0005655164519945775,
+          "change_vs_constant": -0.0004946632931629811,
+          "output_sha256": "fad1eb2260911f789bafbd7a5df39ec2c60694c7eb0939af4f08a3c48298f4ed"
+        },
+        {
+          "case": "dev1-seed29002",
+          "effect_gain": -0.00015194838245709795,
+          "change_vs_constant": 0.002830617129802704,
+          "output_sha256": "43a40fbf7ec8dd5dc435b54b2abe6d1491d364fa84d7c51a019c30f1207898d9"
+        },
+        {
+          "case": "dev2-seed29005",
+          "effect_gain": -0.00013297982513904572,
+          "change_vs_constant": -4.095522065957445e-05,
+          "output_sha256": "10c63f232db73cf2bff5660ccf740207a6ed53f6efddf1d29456bf1d76120e44"
+        },
+        {
+          "case": "dev3-seed29004",
+          "effect_gain": 0.0008805183072884875,
+          "change_vs_constant": -0.0015870357553164167,
+          "output_sha256": "fe170e29211e1c9eb63bd7f1499884bfde5042bc831cbaa74315febb7d8ff5e4"
+        }
+      ]
+    }
+  },
+  "new_images": 12,
+  "reused_OFF_images": 4,
+  "weights": "raw",
+  "ema_decay": null,
+  "new_optimizer_updates": 0
+}
