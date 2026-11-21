@@ -1,5 +1,5 @@
 {
-  "base_commit": "b02411665aca6d78985b052e937c9ba0310eb118",
+  "base_commit": "a47c9a6b8352e2b07e41c4e074cb9886c4548b08",
   "base_sources": {
     "__init__.py": "e177c4977e146c23bee342779199095bbc7d1b7a63f1448dd0393340f419cc47",
     "attention.py": "1a350b22039204cdd9d8dec856cb22df58fa8daa45ab6a19b9c7f9720700bc89",
@@ -20,18 +20,18 @@
     "prompts.py": "26433987ad4ba1a947d67e22892e31e96d79f1a7e67e5dfd4e9df5d5f64a6de8",
     "samples.py": "accfe47ca2aa75fd382701eb7988a80f2885b327b4e66864e9f4e477ab7ba3e6",
     "scoped/__init__.py": "83539c71e401860e10a73e2edde68ee133006f21b592afae9cd23d4120fa0159",
-    "scoped/api.py": "7823a0d6f6641c454c88b80a1bf8d227536541cee3c8280d6ea6927f900b170d",
+    "scoped/api.py": "ba29dedfd3b4ccba3c7d712d673d6423578135695efaf1c9ce6dee6f01105bd4",
     "scoped/ownership.py": "0e809972e92f2a54ae2b8c7a86fdd1521b3b6b41805cbacb91aec414fefec5c4",
-    "scoped/policy.py": "61ecbc5b0c7123ec1e217ead8f1c14f0469d237241580d7cc784798f5cef6383",
-    "shared.lock.json": "ca341a97e7167bdb5af5dc27c74b957979850742bbad094d5f6d88b11691620e",
+    "scoped/policy.py": "8297ac624d3cd48c159a3f198b753204089f33ff69b2f8abb41e3e7ecc3906c7",
+    "shared.lock.json": "351d1261ece0b6c4f4b76b4c5912f1e27fe5b3d4e9348a106ac891be77a13afb",
     "shared.py": "3abb1ceb8216db0281ee7f553c596a755986cbff4d3ad0fe139f4b16bd31ea35",
     "synthetic.py": "70d4ef7b9eb19cb7e8bd6cb0f4324d4c47acbeba18a41fcebcc352ada6116336",
-    "train.py": "f7acd4906e90947d8ec706b23265f75c105a22272f85b7ae75596e34fd7f6d11",
+    "train.py": "34dd8023e9e18c94c12ac7bca338b4f0943ecd06ba9a4aa9a46f4c822786e1fa",
     "uni.py": "3852a98144b1c25e60ba2d746e3221563ddc3dcb9cca002eb13153fb15f59663"
   },
-  "core_commit": "c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78",
+  "core_commit": "ec1161f5d74481be3540cb0dfa63d0e8f8b54e90",
   "product_sources": {
-    "__init__.py": "ede06db41ee073a621c66042963f5d210cf67a59f7fd5ff1674a0a0bab881be4",
+    "__init__.py": "f4b10e2b5ed5c404584d0a20fd9e97f0053b188482bd4df93aae6f55f4c968ea",
     "__main__.py": "6f7c9e7bd53028643bad05a99de6a6c10191907427d083a9e21cb8e04e7ebb2b",
     "assets.json": "dbcaee29caf0e8c0e4f98efa3a5d6b8dec71513dc61a3fe942112bbe9120cf57",
     "assets.py": "20740f169350ae77bf9ff3a5f7b1f5941d6ec9fb646f09568c5ea74122168534",

@@ -2,5 +2,5 @@
 BACKEND_NAME = "krea2-native-strict"
 COHORT = "krea2-native-engine-bf16-math-v1"
 EXECUTION = "krea2-native-bf16-math-sdpa-strict-v1"
-BASE = "b02411665aca6d78985b052e937c9ba0310eb118"
-CORE = "c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78"
+BASE = "a47c9a6b8352e2b07e41c4e074cb9886c4548b08"
+CORE = "ec1161f5d74481be3540cb0dfa63d0e8f8b54e90"

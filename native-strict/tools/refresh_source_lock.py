@@ -22,7 +22,7 @@ def main():
     own = {str(p.relative_to(root)): sha(p.read_bytes()) for p in root.rglob("*")
            if p.is_file() and "__pycache__" not in p.parts and p.suffix != ".pyc" and p.name != "source-lock.json"}
     lock = dict(schema="krea2-strict-native-source-lock-v1", base_commit=BASE,
-                core_commit="c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78", base_sources=base, product_sources=own)
+                core_commit="ec1161f5d74481be3540cb0dfa63d0e8f8b54e90", base_sources=base, product_sources=own)
     (root / "source-lock.json").write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n")
     print(json.dumps(dict(base_files=len(base), product_files=len(own))))
 

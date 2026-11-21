@@ -1,4 +1,4 @@
-> Current source: released PG0.9.5/core0.13.0. Earlier PG0.9.4 mechanics and versioned readiness/resource receipts retain their original scope. The [current Warm Amber RAW32 finished-output record](../docs/finished-output-learning-rates.md) has its own captured native source/model/RAW identities; it does not relabel those receipts.
+> Current source uses ParticleGAN 0.11.1 and the core 0.15.2 pin in the root package. Earlier readiness records use their original source.
 
 # Krea2 strict native source candidate
 
@@ -14,19 +14,18 @@ original source scope; they do not require replaying completed native work.
 
 Use Python3.12 in a fresh environment, actual Torch2.9.1+cu128 and
 TorchVision0.24.1+cu128, then install this subproject with dependencies. Its
-manifest pins base `fe5f8686b6ef0f3cbcffb9bb36ff61a9ca7efaf4`, core
-`3dd672a7f9b8c169daef90fd63e4bb42b9ddc423`, official ParticleGAN0.9.5, Diffusersd5baa4,
+manifest pins base `a47c9a6b8352e2b07e41c4e074cb9886c4548b08`, core
+from the root package, ParticleGAN 0.11.1, Diffusersd5baa4,
 Transformers5.15.0 and PEFT0.20.0. Source/origin/runtime locks must pass before
 model construction. Candidate PG801 and the old fixture profiles are separate
 environments, not interchangeable dependency substitutions.
 
 ```sh
 python -m pip install torch==2.9.1 torchvision==0.24.1 --index-url https://download.pytorch.org/whl/cu128
-# From a checkout of this PG0.9.5 source revision:
 python -m pip install ./native-strict
 ```
 
-The [CPU readiness receipt](docs/cpu-readiness-v2.json) records the tested source,
+The [CPU readiness receipt](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/native-strict/docs/cpu-readiness-v2.json) records the tested source,
 package parity and limits, including the separate inherited-suite failures.
 
 The metadata command imports no ML framework and allocates no model:
