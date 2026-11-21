@@ -21,6 +21,13 @@
   ],
   "nominal_strength": 0.5,
   "nominal_sigma_weighted_dose": 0.5,
+  "preset_design": {
+    "coordinate": "absolute native sigma interval width",
+    "split_fraction": 0.5,
+    "late_profile_gains": [0.5, 1.5],
+    "early_profile_gains": [1.5, 0.5],
+    "crossing_interval": "width-weighted mean of the gains on each side"
+  },
   "measure": "mean of three frozen normalized SigLIP2 positive-minus-neutral cosine margins; equal-case finished-image ON minus matched OFF",
   "best_observed_mean": "late",
   "arms": {
