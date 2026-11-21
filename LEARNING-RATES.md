@@ -6,7 +6,7 @@ saved matched-budget rates and four examined finished-output cases; mean
 intended-effect ON−OFF gain was 0.012435747931400934. A separately completed
 fresh four-case mean is 0.011814538389444351. Keep these groups separate;
 no further confirmation is required. See the [scope and actual option placement](docs/finished-output-learning-rates.md)
-and [portable metadata](docs/finished-output-rate.json). Defaults below are unchanged.
+and [original portable metadata](https://github.com/HyperGAN/krea2-particle-sliders/blob/f737a5cfbf48a01907125ebc3b5164b1f44291c5/docs/finished-output-rate.json). Defaults below are unchanged.
 
 Current training accepts optional `lr` (generator/base rate), `d_lr_mult` (critic multiplier). Omitted values retain the existing recipe defaults. Inputs must be finite positive numbers; booleans are rejected. The shared ParticleGAN recipe constructs every optimizer: D = `lr * d_lr_mult`.
 
@@ -14,7 +14,7 @@ For the default `bispf_optimized` preset, this product keeps G = **5e-5**, D mul
 
 Common interface: put the same keys in session `options`, for example `"lr": 0.00002, "d_lr_mult": 1.5`. The product training CLI accepts `--lr` and `--d-lr-mult`. 
 
-Rates become part of the exact shared recipe and checkpoint configuration. Start a fresh cohort/output for a changed rate; resume requires the original rate recipe. Do not relabel a historical packet. The separate closed HNDL build retains its pre-LR borrowed modules through checksum-verified `cohorts/pre-lr-hndl` archival build routing; this change does not retune that cohort or rewrite its source hashes.
+Rates become part of the exact shared recipe and checkpoint configuration. Start a fresh cohort/output for a changed rate; resume requires the original rate recipe. Do not relabel a historical packet. Use the [archived HNDL build](https://github.com/HyperGAN/krea2-particle-sliders/tree/cf8a452bd55588598a2d538aadc5dc13aa654656/cohorts/pre-lr-hndl) to recover the earlier borrowed modules and their source hashes.
 
 Select using one value: intended-effect intensity ON minus matched OFF in
 finished outputs, averaged equally across the declared cases. Compare matched

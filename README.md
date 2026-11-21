@@ -2,7 +2,7 @@
 
 **Opt-in fresh initialization:** [explicit scoped guide](docs/explicit-fresh-initialization.md). Four new installed-package software cases pass, including exact FULL resume and RAW skip-init. Native loading/rendering through this opt-in API remains unqualified; existing defaults and LR results are unchanged.
 
-> **Current source: core 0.15.2 / ParticleGAN 0.11.1.** Older versioned evidence below retains its original scope. See [adoption and compatibility](https://github.com/HyperGAN/krea2-particle-sliders/blob/cf8a452bd55588598a2d538aadc5dc13aa654656/docs/pg095-adoption.md).
+> **Current source: core 0.15.2 / ParticleGAN 0.11.1.** See [the runtime and checkpoint guide](LIFECYCLE.md).
 
 Current [finished-output rate guidance](docs/finished-output-learning-rates.md):
 **Warm Amber G=0.036, RAW32**, best of five saved matched-budget rates on four
@@ -443,4 +443,4 @@ Independently authored source code is [MIT](https://huggingface.co/ntc-ai/krea2-
 
 Learning-rate controls and preserved defaults: [LEARNING-RATES.md](LEARNING-RATES.md).
 
-Earlier training environments, packaging checks and qualification evidence remain available in the [archived source](https://github.com/HyperGAN/krea2-particle-sliders/tree/cf8a452bd55588598a2d538aadc5dc13aa654656).
+Earlier training environments and install instructions are in the [archived source](https://github.com/HyperGAN/krea2-particle-sliders/tree/cf8a452bd55588598a2d538aadc5dc13aa654656). Packaging and CPU qualification receipts are in the [archived evidence tree](https://github.com/HyperGAN/krea2-particle-sliders/tree/f737a5cfbf48a01907125ebc3b5164b1f44291c5/evidence).

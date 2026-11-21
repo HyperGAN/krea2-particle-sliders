@@ -13,7 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 def test_original_dependency_only_installer_preserved():
     original = subprocess.check_output(['git', 'show',
         'afc226f4710db5e4fe9379f22606cd5ccb8ee917:requirements.txt'], cwd=ROOT)
-    assert (ROOT / 'requirements-legacy.txt').read_bytes() == original
+    archived = subprocess.check_output(['git', 'show',
+        'f737a5cfbf48a01907125ebc3b5164b1f44291c5:requirements-legacy.txt'], cwd=ROOT)
+    assert archived == original
+    assert not (ROOT / 'requirements-legacy.txt').exists()
 
 
 def test_canonical_and_candidate_runtime_locks():
