@@ -1,0 +1,563 @@
+{
+  "schema": "krea2-warm-amber-raw8-cfp-heldout-v1",
+  "profile": "Warm Amber PG0.10.1 G-half RAW8",
+  "qualification": "opt-in experiment for this checkpoint and sampler",
+  "recommended_default_change": false,
+  "method_status": {
+    "CFP": "measured",
+    "CLABS": "unmeasured",
+    "random": "unmeasured"
+  },
+  "cohort": {
+    "weights": "raw",
+    "ema_decay": null,
+    "regularizer_updates": 8,
+    "evaluation_optimizer_updates": 0,
+    "raw": {
+      "sha256": "47dabb83bad2026c0e254639fd5a4609725c54252f79d6cb3ad145fbbe3bb2e3",
+      "bytes": 77730047
+    },
+    "krea2_product_commit": "da5bb91ec7081a7bc058bfa337b914b6d7b57bf9",
+    "base": {
+      "model_id": "jimmycarter/krea2-turbo-bbox",
+      "revision": "ec7aa643a4da7e56a08c1778e03e837a2e57a94b",
+      "frozen_model_sha256": "c9f9e5949b53e383c101d11a87341e96c364d0cf0b50d85dc52630dacbae35a5"
+    }
+  },
+  "native_sampler": {
+    "event": "one guidance-zero Euler interval",
+    "steps": 8,
+    "guidance": 0,
+    "mu": 1.15,
+    "resolution": [
+      512,
+      512
+    ],
+    "actual_sigmas": [
+      1.0,
+      0.956723690032959,
+      0.9045307636260986,
+      0.8403487801551819,
+      0.7595109343528748,
+      0.654566764831543,
+      0.5128441452980042,
+      0.31090107560157776,
+      0.0
+    ],
+    "nominal_strength": 0.5,
+    "nominal_strength_source": {
+      "sha256": "02fc7a8d96b45a7368ca0e5dc41272de449947bf90d56b39a068e6b05de74095",
+      "bytes": 25597
+    },
+    "strength_when_gate_is_off": 0.0
+  },
+  "calibration": {
+    "source_paper": {
+      "title": "Right Token, Right Time",
+      "url": "https://arxiv.org/html/2611.18274v1#A2",
+      "protocol": "Appendix B active-steering budget calibration"
+    },
+    "procedure": "Bisect the CFP threshold on disjoint active native trajectories with a fresh gate per case; fire when the pre-intervention signed projection falls below the threshold.",
+    "published_package": "particle-sliders-core==0.15.2",
+    "core_commit": "7b26e5b06f5db91e8d3f51a1602d4e459f0f6a22",
+    "exact_wheel_sha256": "4e760d2b2a7110e6e5ce8164853302b785ed5e99d57bcc1390028f62305fb139",
+    "solver": {
+      "sha256": "059191ba679460d99e40ffe50d44e87f0dbeddd7b9cca8c0d8b060fbf16f00fb",
+      "bytes": 10640
+    },
+    "feature_fit": {
+      "method": "tied one-sparse native autoencoder adaptation",
+      "cases": [
+        {
+          "id": "train-0",
+          "seed": 101
+        },
+        {
+          "id": "train-1",
+          "seed": 101
+        },
+        {
+          "id": "train-2",
+          "seed": 101
+        },
+        {
+          "id": "train-3",
+          "seed": 101
+        }
+      ],
+      "packed_BF16_shape": [
+        1,
+        1024,
+        64
+      ],
+      "projection_input": "mean packed BF16 positions with FP64 accumulation, cast to FP32",
+      "dictionary_width": 128,
+      "top_k": 10,
+      "selected_indices": [
+        92,
+        46,
+        18,
+        20,
+        102,
+        19,
+        110,
+        32,
+        33,
+        0
+      ],
+      "direction": [
+        0.19139167452325587,
+        -0.038252139044813324,
+        -0.03471299628040564,
+        -0.03790959641283484,
+        0.08732636115563129,
+        0.07597618421034641,
+        0.081591988917107,
+        0.08383692636750896,
+        0.0699816453937477,
+        0.07628345931675456,
+        0.0777388910349214,
+        0.08127453411074126,
+        -0.08069164937368142,
+        -0.07523969162941833,
+        -0.07656058294002406,
+        -0.07361934598513073,
+        0.20786045581117266,
+        0.20573341185815316,
+        0.20110246204489798,
+        0.21317156145789845,
+        0.17178337481943476,
+        0.16496735556510264,
+        0.15969769696008854,
+        0.15813627703064864,
+        0.040338290194735595,
+        0.03675466297013743,
+        0.04549986867668892,
+        0.048251833963214044,
+        -0.16957831821572983,
+        -0.1673777508305077,
+        -0.16067005202614346,
+        -0.16878133491495578,
+        0.14209453550533183,
+        0.14103168491221527,
+        0.14243113694241483,
+        0.13987839003704075,
+        -0.16202577969721826,
+        -0.169826621109071,
+        -0.16927373304526072,
+        -0.1692366192078308,
+        -0.14679160839591718,
+        -0.14586386030493195,
+        -0.14778002456469064,
+        -0.15091940397961745,
+        -0.02804779380478269,
+        -0.03130880649456788,
+        -0.02631708473110075,
+        -0.027145174551156673,
+        -0.15887560142583246,
+        -0.15881557614003858,
+        -0.15503111101958184,
+        -0.14740063185154612,
+        0.09471711934553917,
+        0.09758412637221886,
+        0.08882592547803979,
+        0.0973408799403026,
+        -0.11798904024740471,
+        -0.11993278330626839,
+        -0.11450646597782345,
+        -0.11591475223790762,
+        -0.07116316304033778,
+        -0.0696307257454945,
+        -0.06728522418676884,
+        -0.0626417112925899
+      ]
+    },
+    "transfer_cases": [
+      {
+        "family": "dining-room-still-life",
+        "seed": 923501
+      },
+      {
+        "family": "bookshop",
+        "seed": 923502
+      },
+      {
+        "family": "pottery-workshop",
+        "seed": 923503
+      },
+      {
+        "family": "tailoring-workshop",
+        "seed": 923504
+      }
+    ],
+    "target_rate": 0.5,
+    "one_interval_tolerance": 0.03125,
+    "accepted": {
+      "threshold": -0.03601886751130224,
+      "fired": 17,
+      "eligible": 32
+    },
+    "trials": [
+      {
+        "parameter": -0.16005998849868777,
+        "fired": 0,
+        "eligible": 32,
+        "receipt": {
+          "sha256": "574aa4708a35f86f1f06b9130650d70c885a0b2d477bffb61ef719323416f6be",
+          "bytes": 10258
+        }
+      },
+      {
+        "parameter": 0.005328172817826271,
+        "fired": 32,
+        "eligible": 32,
+        "receipt": {
+          "sha256": "6c264c046bc6dcf8ba2e2b8f8bc4b886d0ac7ea0c3c8d070a46ba9ae324433bd",
+          "bytes": 10227
+        }
+      },
+      {
+        "parameter": -0.07736590784043075,
+        "fired": 10,
+        "eligible": 32,
+        "receipt": {
+          "sha256": "d33c8b659257f240429946641695010cb7b3310159bc32a59e43762189af9316",
+          "bytes": 10265
+        }
+      },
+      {
+        "parameter": -0.03601886751130224,
+        "fired": 17,
+        "eligible": 32,
+        "receipt": {
+          "sha256": "771d4c9899e06cff37633f9a211216cf65ab6b4fac86a4db3fed1c3b50c20c9c",
+          "bytes": 10262
+        }
+      }
+    ]
+  },
+  "comparison": {
+    "measure": "Mean of three frozen SigLIP2 positive-minus-neutral cosine margins, comparing finished-image ON minus a shared OFF for each case.",
+    "constant_control": "Match each case\u2019s sum of native sigma interval width times actual CFP strength.",
+    "equal_weight_cases": 4,
+    "CFP_mean_ON_minus_OFF": 0.00014194287359714486,
+    "constant_mean_ON_minus_OFF": 9.071811412771536e-05,
+    "CFP_minus_constant": 5.122475946942951e-05,
+    "CFP_ahead_cases": 1,
+    "CFP_fired_intervals": 23,
+    "CFP_eligible_intervals": 32,
+    "integrity_passes": 8
+  },
+  "cases": [
+    {
+      "case": "dev0-seed29001",
+      "seed": 29001,
+      "OFF": {
+        "sha256": "6d04fe688ac943aba831e01217ac046dcb2eb5beeb2b4c0bb662cbda6d6f0485",
+        "bytes": 578599
+      },
+      "common_sigma_weighted_dose": 0.4783618450164795,
+      "cfp": {
+        "output": {
+          "sha256": "b47b3b01b5b500ba89f5e05be9f9afe636af186eabdae4e87aa8f12064663b61",
+          "bytes": 583003
+        },
+        "ON_minus_OFF": 0.00042152901490529436,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "6003ff6f13d6f52173ffccda85e8c551137745b15b5e54a5381aeecba103f94d",
+          "bytes": 3500
+        },
+        "firings": 7,
+        "gate_seed": 818611880725711035,
+        "fired_mask": [
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "alignment_scores": [
+          -0.015474418178200722,
+          -0.03822476416826248,
+          -0.07871583104133606,
+          -0.1446608453989029,
+          -0.23268917202949524,
+          -0.3341134190559387,
+          -0.46732306480407715,
+          -0.6308996677398682
+        ],
+        "effective_interval_strengths": [
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "constant": {
+        "output": {
+          "sha256": "ff79f5255240630cda6a14e0c33954854e33678f491ce30734164f9632b4fc2a",
+          "bytes": 583538
+        },
+        "ON_minus_OFF": -0.001411031310757,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "dd492a817fc1b61881297a3217060da2e6a973840587c7aafc3e1415836c3520",
+          "bytes": 3439
+        },
+        "effective_strength": 0.4783618450164795
+      },
+      "CFP_minus_constant": 0.0018325603256622944
+    },
+    {
+      "case": "dev1-seed29002",
+      "seed": 29002,
+      "OFF": {
+        "sha256": "079ddbc97065e0a098ba2d1c998055fc8215ede5f3096591196e7d1127c4b42a",
+        "bytes": 238119
+      },
+      "common_sigma_weighted_dose": 0.3797554671764374,
+      "cfp": {
+        "output": {
+          "sha256": "2e8a76438dd8a6b6883541583d64ee40f99f158f377a633c0791c9784f45f1c9",
+          "bytes": 238258
+        },
+        "ON_minus_OFF": -0.0004440291474262885,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "0052220cd8d31134ea27b62bb7572e192897973b2c62c6141dd724e67e910d6d",
+          "bytes": 3552
+        },
+        "firings": 4,
+        "gate_seed": 11575022788720468518,
+        "fired_mask": [
+          false,
+          false,
+          false,
+          false,
+          true,
+          true,
+          true,
+          true
+        ],
+        "alignment_scores": [
+          0.036944374442100525,
+          0.0097686517983675,
+          0.0029505882412195206,
+          -0.03415362536907196,
+          -0.06769472360610962,
+          -0.09005489200353622,
+          -0.1264875829219818,
+          -0.1763734221458435
+        ],
+        "effective_interval_strengths": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "constant": {
+        "output": {
+          "sha256": "e72b4bb489b2b37c3818a5896b33539a41b78d23988ea21fbb3948412b4c216b",
+          "bytes": 238135
+        },
+        "ON_minus_OFF": -3.021272520224369e-05,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "fda24f181f1a7e5bb2539eac33aae74d6010aab4db929d58f7c3e2c01801e10e",
+          "bytes": 3603
+        },
+        "effective_strength": 0.3797554671764374
+      },
+      "CFP_minus_constant": -0.0004138164222240448
+    },
+    {
+      "case": "dev2-seed29005",
+      "seed": 29005,
+      "OFF": {
+        "sha256": "2b0070819d7379c19a813509247a85241fef5dedfa2e7315041071767a3c55b4",
+        "bytes": 400549
+      },
+      "common_sigma_weighted_dose": 0.4522653818130493,
+      "cfp": {
+        "output": {
+          "sha256": "884e517837c57decd61aad2ebb4fbd0fe20c84854df17f4b18aea9dcb7243b79",
+          "bytes": 400026
+        },
+        "ON_minus_OFF": -5.3709372878074646e-05,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "01902226121dc3b8e08dc0496554ebe00d0e202a930e2d33028607967b6f76d0",
+          "bytes": 3404
+        },
+        "firings": 6,
+        "gate_seed": 14048432624233867394,
+        "fired_mask": [
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "alignment_scores": [
+          0.025287557393312454,
+          -0.03312792256474495,
+          -0.1070396900177002,
+          -0.16727864742279053,
+          -0.250365674495697,
+          -0.345664918422699,
+          -0.47008782625198364,
+          -0.6341332197189331
+        ],
+        "effective_interval_strengths": [
+          0.0,
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "constant": {
+        "output": {
+          "sha256": "e5920f35ba1c1f57db90ceb0309cfb96fad716351ed24b805c5635666d4550ef",
+          "bytes": 400092
+        },
+        "ON_minus_OFF": 0.0001298493395249043,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "6b37d3df0a740092c6ef5865840e3684647e569ed2bc7959d173a5cf55e0e557",
+          "bytes": 3695
+        },
+        "effective_strength": 0.4522653818130493
+      },
+      "CFP_minus_constant": -0.00018355871240297895
+    },
+    {
+      "case": "dev3-seed29004",
+      "seed": 29004,
+      "OFF": {
+        "sha256": "224e4921cc57e611bf6a417dbd53c9614cf3c0aa80120bd128b7e5f4b26c2298",
+        "bytes": 526865
+      },
+      "common_sigma_weighted_dose": 0.4522653818130493,
+      "cfp": {
+        "output": {
+          "sha256": "1e30577a632ab21418c32d131aa525ba8e6ae6d9f9f941d575ccc4f387f01708",
+          "bytes": 528166
+        },
+        "ON_minus_OFF": 0.0006439809997876482,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "4895ad158e680644046b461ee2aba4e57dccc2cdaf8356b5ea680e1d5b7a95cb",
+          "bytes": 3360
+        },
+        "firings": 6,
+        "gate_seed": 14713937118878232633,
+        "fired_mask": [
+          false,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "alignment_scores": [
+          -0.016942376270890236,
+          -0.020839491859078407,
+          -0.03653049096465111,
+          -0.05625053495168686,
+          -0.07180536538362503,
+          -0.0952737107872963,
+          -0.1267232745885849,
+          -0.17817729711532593
+        ],
+        "effective_interval_strengths": [
+          0.0,
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "constant": {
+        "output": {
+          "sha256": "aaf8306a25045ffc0ab4ab654f20c8b33fac6ab6624d3f3692f88535efdcb044",
+          "bytes": 529725
+        },
+        "ON_minus_OFF": 0.0016742671529452009,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "a8db9d9e7d1fd2ce4f1f5706f31fc1c418e07b8ea565ef067a019e7ad35ff5a7",
+          "bytes": 3399
+        },
+        "effective_strength": 0.4522653818130493
+      },
+      "CFP_minus_constant": -0.0010302861531575527
+    }
+  ],
+  "source_receipts": {
+    "complete_four_case_observation": {
+      "sha256": "9fdb7984711e0a3d2afd4ce5763e3718ab5cde36259b91c4e0f3aed22c3d6a0d",
+      "bytes": 27560
+    },
+    "independent_native_dose_audit": {
+      "sha256": "181ebdd8cefa3398c60ace9595345ee7eb25a2062643e5e0518980f6a249d5d8",
+      "bytes": 9901
+    },
+    "active_CFP_calibration": {
+      "sha256": "99efd5adb7c7df074672bd708a448b21e768348b72d798fb8a1bd885ee6e1d06",
+      "bytes": 148
+    },
+    "effect": {
+      "sha256": "3ed2a97e554d02520bcb9ec5d37bc9aa5e19d23b5c3ebd4435c2e6ac9de1f804",
+      "bytes": 16992
+    },
+    "effect_instrument": {
+      "sha256": "d4ebde33c20e6b7894c0caa56c70e3ac56dc1d6e9f48f5c0fc0e664ba34f0bfc",
+      "bytes": 35594
+    },
+    "effect_parity": {
+      "sha256": "4651e863873800d526d214b56630765e38cebfcf7fe6259cd1597274d3443d66",
+      "bytes": 6209
+    },
+    "integrity": {
+      "sha256": "2535cc5ff1bbcc7bc2610b5625ae0a39e30a8c1db8d4954a7ea0ca0832891ff8",
+      "bytes": 16927
+    },
+    "integrity_qualification": {
+      "sha256": "18f83d5367f013d2cb7fe84ce2deb579b53f3154635e7b059f19f7e076dc287a",
+      "bytes": 19162
+    },
+    "effect_guard": {
+      "sha256": "d87c224337eea8a69bd1de9319a566a75b4cfc14125fb986a81989521befc615",
+      "bytes": 2364
+    },
+    "integrity_guard": {
+      "sha256": "599977b9a07972c73263c00ec72b538f70066d700bb411ad970fdb8d902d8bb5",
+      "bytes": 2184
+    }
+  }
+}
