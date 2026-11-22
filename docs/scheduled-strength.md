@@ -128,8 +128,7 @@ dose separately for every case. [Exact calibration, direction, sigma grid and RA
 CFP was ahead of OFF in two of four cases and ahead of the same-dose
 constant in one of four. All eight CFP and matched constant images passed
 the separate integrity check. These results support an opt-in replay for
-this adapter and panel. CLABS and matched-random effects remain unmeasured
-in this published comparison.
+this adapter and panel.
 
 Use the source-bound archived Krea2 runtime and its guarded CUDA owner with
 the exact RAW already loaded. The archived runtime uses
@@ -159,3 +158,23 @@ The helper verifies the live RAW weights and the realized gate trace before
 rendering the dose-matched constant. It returns the three images and the
 per-image archive hash matches. A hash mismatch records a difference from
 the measured PNG. [Replay source and exact prompts](../scripts/replay_warm_amber_raw8_cfp.py)
+
+
+## Warm Amber RAW8 random timing control
+
+The seeded random gate used the same four cases, saved RAW8 adapter, OFF
+images, 512×512 native sampler, and nominal strength 0.5 as the CFP and
+CLABS comparisons. It drew independently at each Euler interval with
+probability 0.5 and fired on 18 of 32 intervals. Each constant matched
+its case's realized sigma-weighted dose. All eight new finished images
+passed independent integrity checks. [Exact random control, per-case gains, and receipts](../evidence/warm-amber-raw8-random-heldout.json)
+
+| Method | Firings | Gate ON minus OFF | Constant ON minus OFF | Gate minus constant | Cases ahead of constant |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| CFP | 23/32 | +0.000141943 | +0.000090718 | +0.000051225 | 1/4 |
+| CLABS | 22/32 | +0.000022331 | +0.000436411 | −0.000414080 | 0/4 |
+| Random | 18/32 | +0.000276118 | −0.000109414 | +0.000385532 | 2/4 |
+
+The table gives equal weight to the four cases. Read each method against
+its own constant because realized doses differ across methods.
+[CFP evidence](../evidence/warm-amber-raw8-cfp-heldout.json) · [CLABS evidence](../evidence/warm-amber-raw8-clabs-heldout.json)
