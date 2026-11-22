@@ -1,0 +1,400 @@
+{
+  "schema": "krea2-warm-amber-raw8-random-heldout-v1",
+  "profile": "Warm Amber PG0.10.1 G-half RAW8",
+  "qualification": "Seeded random timing control on the saved adapter and four frozen cases",
+  "recommended_default_change": false,
+  "method_status": {
+    "CFP": "separately measured",
+    "CLABS": "separately measured",
+    "random": "measured"
+  },
+  "cohort": {
+    "weights": "raw",
+    "ema_decay": null,
+    "regularizer_updates": 8,
+    "evaluation_optimizer_updates": 0,
+    "raw": {
+      "sha256": "47dabb83bad2026c0e254639fd5a4609725c54252f79d6cb3ad145fbbe3bb2e3",
+      "bytes": 77730047
+    },
+    "krea2_product_commit": "da5bb91ec7081a7bc058bfa337b914b6d7b57bf9",
+    "base": {
+      "model_id": "jimmycarter/krea2-turbo-bbox",
+      "revision": "ec7aa643a4da7e56a08c1778e03e837a2e57a94b",
+      "frozen_model_sha256": "c9f9e5949b53e383c101d11a87341e96c364d0cf0b50d85dc52630dacbae35a5"
+    }
+  },
+  "native_sampler": {
+    "event": "one guidance-zero Euler interval",
+    "steps": 8,
+    "guidance": 0,
+    "mu": 1.15,
+    "resolution": [
+      512,
+      512
+    ],
+    "actual_sigmas": [
+      1.0,
+      0.956723690032959,
+      0.9045307636260986,
+      0.8403487801551819,
+      0.7595109343528748,
+      0.654566764831543,
+      0.5128441452980042,
+      0.31090107560157776,
+      0.0
+    ],
+    "nominal_strength": 0.5,
+    "nominal_strength_source": {
+      "sha256": "02fc7a8d96b45a7368ca0e5dc41272de449947bf90d56b39a068e6b05de74095",
+      "bytes": 25597
+    },
+    "strength_when_gate_is_off": 0.0
+  },
+  "random_control": {
+    "target_rate": 0.5,
+    "procedure": "Draw once independently per native Euler interval from a per-case seeded Bernoulli distribution. Use the saved nominal strength when it fires.",
+    "seed_derivation": "First eight bytes of SHA-256 of the UTF-8 Python JSON array [case ID, original seed, original prompt], interpreted as an unsigned big-endian integer.",
+    "source_paper": {
+      "title": "Right Token, Right Time",
+      "url": "https://arxiv.org/html/2611.18274v1#A2"
+    }
+  },
+  "comparison": {
+    "measure": "Mean of three frozen SigLIP2 positive-minus-neutral cosine margins, comparing finished-image ON minus a shared OFF for each case.",
+    "effect_instrument": {
+      "model": "google/siglip2-base-patch16-224",
+      "revision": "75de2d55ec2d0b4efc50b3e9ad70dba96a7b2fa2"
+    },
+    "constant_control": "Each case uses a constant with the same realized sum of sigma interval width times applied strength.",
+    "equal_weight_cases": 4,
+    "random_mean_ON_minus_OFF": 0.0002761183617015677,
+    "constant_mean_ON_minus_OFF": -0.00010941379393140504,
+    "random_minus_constant": 0.0003855321556329727,
+    "random_ahead_cases": 2,
+    "random_fired_intervals": 18,
+    "random_eligible_intervals": 32,
+    "integrity": "pass",
+    "integrity_passes": 8
+  },
+  "cases": [
+    {
+      "case": "dev0-seed29001",
+      "seed": 29001,
+      "OFF": {
+        "sha256": "6d04fe688ac943aba831e01217ac046dcb2eb5beeb2b4c0bb662cbda6d6f0485",
+        "bytes": 578599
+      },
+      "common_sigma_weighted_dose": 0.26165176928043365,
+      "random": {
+        "output": {
+          "sha256": "496a49f7097768026376fef4581e4a820c9077905b0df681723d38d2cb5e0bc3",
+          "bytes": 581790
+        },
+        "ON_minus_OFF": -0.0006337041656176243,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "7a5110d3a921c93819f170a35b366ff96472c080cfb3865bd7824ea450b64b5f",
+          "bytes": 3405
+        },
+        "effect_first": {
+          "sha256": "2c0ac488e9f28519908784ef4bae85c7285b70187aeab794c99546d07d59272c",
+          "bytes": 426
+        },
+        "firings": 4,
+        "gate_seed": 818611880725711035,
+        "fired_mask": [
+          true,
+          false,
+          true,
+          false,
+          true,
+          false,
+          false,
+          true
+        ],
+        "effective_interval_strengths": [
+          0.5,
+          0.0,
+          0.5,
+          0.0,
+          0.5,
+          0.0,
+          0.0,
+          0.5
+        ]
+      },
+      "constant": {
+        "output": {
+          "sha256": "820c0831a8bc0d18748f951a633650947218723695e5e66a20049e385b6e92c3",
+          "bytes": 580857
+        },
+        "ON_minus_OFF": -0.0007718584189812337,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "596e5882026cfc7f480c90a0977cb07396839472aa0acdd5cf258c6befa38347",
+          "bytes": 3444
+        },
+        "effect_first": {
+          "sha256": "0e0ab6814e0094cd366e060720a6de3ac459675770fcbfbb1e3fc86c4df76692",
+          "bytes": 423
+        },
+        "effective_strength": 0.26165176928043365
+      },
+      "random_minus_constant": 0.00013815425336360931
+    },
+    {
+      "case": "dev1-seed29002",
+      "seed": 29002,
+      "OFF": {
+        "sha256": "079ddbc97065e0a098ba2d1c998055fc8215ede5f3096591196e7d1127c4b42a",
+        "bytes": 238119
+      },
+      "common_sigma_weighted_dose": 0.3773903101682663,
+      "random": {
+        "output": {
+          "sha256": "65bb18076893841c4af05d91e10d0bb543b344c6fba9dcf11f7daed83761073f",
+          "bytes": 237797
+        },
+        "ON_minus_OFF": -0.0010210710267225913,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "dcb827fc007ef8c7d4ed3d59e947072c293af4d83a090b668c517e4f0976b7a6",
+          "bytes": 3621
+        },
+        "effect_first": {
+          "sha256": "c1830f8f05b4b90247d4b3104acfce306cfcb249473aee8038696484749201fd",
+          "bytes": 422
+        },
+        "firings": 6,
+        "gate_seed": 11575022788720468518,
+        "fired_mask": [
+          false,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          true
+        ],
+        "effective_interval_strengths": [
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.5
+        ]
+      },
+      "constant": {
+        "output": {
+          "sha256": "cc84fb8372aa6271a3ad6033561e1ebdcd817641889f6924edf3d780b8b0243b",
+          "bytes": 236869
+        },
+        "ON_minus_OFF": -0.0006725291411081961,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "c2f1123acae2ad0717cf5315bbab3b3168be998c98f15eb140e3ade23f6aa9f3",
+          "bytes": 3628
+        },
+        "effect_first": {
+          "sha256": "ce5101a904945a9f21b65a3e2247446ddbd53250520068805cf2b8ffea655c27",
+          "bytes": 425
+        },
+        "effective_strength": 0.3773903101682663
+      },
+      "random_minus_constant": -0.00034854188561439514
+    },
+    {
+      "case": "dev2-seed29005",
+      "seed": 29005,
+      "OFF": {
+        "sha256": "2b0070819d7379c19a813509247a85241fef5dedfa2e7315041071767a3c55b4",
+        "bytes": 400549
+      },
+      "common_sigma_weighted_dose": 0.09860637784004211,
+      "random": {
+        "output": {
+          "sha256": "e9189218abfb0af441716d98c3eba291cca2477ec3d91713a3ccc7266b6cd7d6",
+          "bytes": 399166
+        },
+        "ON_minus_OFF": 0.00013719933728376967,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "62311baf25246b6fc434c6744aa26e6fa1bb23c9a80a0abe2a84fb1a0a660a61",
+          "bytes": 3401
+        },
+        "effect_first": {
+          "sha256": "9c2fa0e540338f56dcf8aef5c9a69b2e9996d79adffbacb0196256d5f3f798bc",
+          "bytes": 418
+        },
+        "firings": 3,
+        "gate_seed": 14048432624233867394,
+        "fired_mask": [
+          false,
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false
+        ],
+        "effective_interval_strengths": [
+          0.0,
+          0.5,
+          0.5,
+          0.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "constant": {
+        "output": {
+          "sha256": "5beb26644c1ab91ba286851d485e3488017e39ac79273cdfd37618fd3079d63c",
+          "bytes": 401338
+        },
+        "ON_minus_OFF": 0.00015396873156229597,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "167852b028c4d5878c68ea5256944d7a02702b8b145c36a5bd480a1263697295",
+          "bytes": 3452
+        },
+        "effect_first": {
+          "sha256": "a926aa32a17e154a16cb0cc0513b0bd282012c7625f4f9312760e73b0b4cac51",
+          "bytes": 421
+        },
+        "effective_strength": 0.09860637784004211
+      },
+      "random_minus_constant": -1.6769394278526306e-05
+    },
+    {
+      "case": "dev3-seed29004",
+      "seed": 29004,
+      "OFF": {
+        "sha256": "224e4921cc57e611bf6a417dbd53c9614cf3c0aa80120bd128b7e5f4b26c2298",
+        "bytes": 526865
+      },
+      "common_sigma_weighted_dose": 0.3505701422691345,
+      "random": {
+        "output": {
+          "sha256": "b8a67e4f7dc790e991d058cf9fcd471b1156eff47e4a0e1020a6ca3457c7b604",
+          "bytes": 530003
+        },
+        "ON_minus_OFF": 0.0026220493018627167,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "c56d209b1408222b8846edc793e46ccc11bf2d6668cd1f8896c45ed50982c1f3",
+          "bytes": 3365
+        },
+        "effect_first": {
+          "sha256": "6f43dfe516696b5fe03d0a8fd80db158e98d2b99347d255f89bb026541eb6212",
+          "bytes": 421
+        },
+        "firings": 5,
+        "gate_seed": 14713937118878232633,
+        "fired_mask": [
+          true,
+          false,
+          true,
+          true,
+          false,
+          false,
+          true,
+          true
+        ],
+        "effective_interval_strengths": [
+          0.5,
+          0.0,
+          0.5,
+          0.5,
+          0.0,
+          0.0,
+          0.5,
+          0.5
+        ]
+      },
+      "constant": {
+        "output": {
+          "sha256": "6862d5b9749ac302ab6effd7c54500849c3bad3dab9b8b255ac38193a1cc61cc",
+          "bytes": 530052
+        },
+        "ON_minus_OFF": 0.0008527636528015137,
+        "integrity": "pass",
+        "integrity_first": {
+          "sha256": "d0c969e99dc29b8ece192429755b067f713650bc06a322ad4b2fd70f17e6735f",
+          "bytes": 3392
+        },
+        "effect_first": {
+          "sha256": "a11d8a7bb823e258ef14a67e3375d00b60ead0de5c4876caf6f85706deb6b1f7",
+          "bytes": 427
+        },
+        "effective_strength": 0.3505701422691345
+      },
+      "random_minus_constant": 0.001769285649061203
+    }
+  ],
+  "source_receipts": {
+    "complete_four_case_observation": {
+      "sha256": "5755cd199698b95e995cff2d8e685b710b49e35eab1cb38f89db3d4934a2ed32",
+      "bytes": 24086
+    },
+    "native_result": {
+      "sha256": "605f48fdc6f3c45cbdc5b8327442862545951c9247e0f8e7831cf451e9242e78",
+      "bytes": 22556
+    },
+    "random_protocol": {
+      "sha256": "ea0f93174f71968d20f02ace365fd2e5a59d6e37f32ed821ea8470de2843ea88",
+      "bytes": 29729
+    },
+    "native_guard": {
+      "sha256": "5a84cddad7525197ce2f7e80ea8b207cab34a6bd22d1d51e38cfdeeec4c8520d",
+      "bytes": 2011
+    },
+    "observer_handoff": {
+      "sha256": "d7434f8cb6b3d814fbcf82d7304e0b4359fbf21b9be961c39bc24e9a3b10f08a",
+      "bytes": 3572
+    },
+    "effect": {
+      "sha256": "684728148c66a54a7efc41f801fa97f482d4bea126a0bed4725945bd1e0875e7",
+      "bytes": 16999
+    },
+    "effect_instrument": {
+      "sha256": "d4ebde33c20e6b7894c0caa56c70e3ac56dc1d6e9f48f5c0fc0e664ba34f0bfc",
+      "bytes": 35594
+    },
+    "effect_parity": {
+      "sha256": "4651e863873800d526d214b56630765e38cebfcf7fe6259cd1597274d3443d66",
+      "bytes": 6209
+    },
+    "effect_guard": {
+      "sha256": "6ade3a8a66247a093c57a6dffe3c6fccf1a0db60e12850d8d2bb9a69c5bf3415",
+      "bytes": 2361
+    },
+    "integrity_observations": {
+      "sha256": "8ed309f54435cff129de9ebef5dec377aec6882e65c6aa685fdd5b26afb9a467",
+      "bytes": 33451
+    },
+    "integrity_guard": {
+      "sha256": "5e42cee41213819336e2cea818aa3dea1c626b83f6de0d424a9dbf3af5dbd98a",
+      "bytes": 2175
+    },
+    "integrity_qualification": {
+      "sha256": "18f83d5367f013d2cb7fe84ce2deb579b53f3154635e7b059f19f7e076dc287a",
+      "bytes": 19162
+    },
+    "previous_CFP": {
+      "sha256": "9fdb7984711e0a3d2afd4ce5763e3718ab5cde36259b91c4e0f3aed22c3d6a0d",
+      "bytes": 27560
+    },
+    "previous_CLABS": {
+      "sha256": "46bc7077ccae87a6fd23494c874f84e94fb9fb9cb05feabc360989499ca90d82",
+      "bytes": 24033
+    }
+  }
+}
