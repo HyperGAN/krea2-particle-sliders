@@ -101,7 +101,61 @@ rate and `sigma_weighted_dose` with the controls, then score matched finished
 outputs using the frozen intended-effect measure and a separate integrity
 check. Keep the Warm Amber RAW8 fixed-schedule cases for evaluation and use
 separate cases to fit signals and tune budgets. That panel supplies saved
-images and denoiser settings. A Krea2 activation probe and active-rollout
-calibration still need to be measured. The fixed-schedule results above are
-from the archived runtime. Keep source-bound checkpoints with the exact
-runtime that produced them when reopening archived RAW or FULL packets.
+images and denoiser settings.
+
+## Measured Warm Amber RAW8 CFP replay
+
+The four held-out cases used the archived Warm Amber adapter after eight RAW
+updates, with EMA disabled and zero evaluation optimizer updates. The native
+sampler used 512×512 images, eight Euler intervals, guidance zero, mu 1.15
+and nominal strength 0.5. The CFP gate used the archived 64-dimensional
+direction and threshold `-0.03601886751130224`. The readout takes the mean
+of the packed BF16 latents over batch and image positions in float64, casts
+the pooled vector to float32 and applies the shared signed projection.
+The separate calibration panel accepted 17 of 32 firings at a target of
+16 with a one-interval tolerance. On the held-out panel CFP fired on 23 of
+32 intervals. The constant strength matches the realized sigma-weighted
+dose separately for every case. [Exact calibration, direction, sigma grid and RAW identity](../evidence/warm-amber-raw8-cfp-heldout.json)
+
+| Held-out case | Seed | CFP ON minus OFF | Constant ON minus OFF | CFP minus constant |
+| --- | ---: | ---: | ---: | ---: |
+| Blue bicycle beside a stone wall | 29001 | +0.000421529 | −0.001411031 | +0.001832560 |
+| White teapot on a kitchen counter | 29002 | −0.000444029 | −0.000030213 | −0.000413816 |
+| Orange cat beside a green door | 29005 | −0.000053709 | +0.000129849 | −0.000183559 |
+| Wooden bridge over a quiet stream | 29004 | +0.000643981 | +0.001674267 | −0.001030286 |
+| Equal-case mean | | +0.000141943 | +0.000090718 | +0.000051225 |
+
+CFP was ahead of OFF in two of four cases and ahead of the same-dose
+constant in one of four. All eight CFP and matched constant images passed
+the separate integrity check. These results support an opt-in replay for
+this adapter and panel. CLABS and matched-random effects remain unmeasured
+in this published comparison.
+
+Use the source-bound archived Krea2 runtime and its guarded CUDA owner with
+the exact RAW already loaded. The archived runtime uses
+`jimmycarter/krea2-turbo-bbox` at
+`ec7aa643a4da7e56a08c1778e03e837a2e57a94b`. The evidence identifies the
+77,730,047-byte RAW packet by SHA-256
+`47dabb83bad2026c0e254639fd5a4609725c54252f79d6cb3ad145fbbe3bb2e3`.
+Access to that packet and its archived owner is required for GPU replay.
+The repository provides the calibration, exact prompts, seeds and output
+hashes. The helper checks the native adaptive renderer and shared gate
+source against their measured versions. [Measured product source](https://github.com/HyperGAN/krea2-particle-sliders/tree/da5bb91ec7081a7bc058bfa337b914b6d7b57bf9) · [Shared runtime gate](https://github.com/HyperGAN/particle-sliders/blob/b1f780decc516808cfd3019d5e5b674457161f86/packages/particle-sliders-core/src/particle_sliders/adaptive_steering.py) · [Shared calibration source](https://github.com/HyperGAN/particle-sliders/tree/7b26e5b06f5db91e8d3f51a1602d4e459f0f6a22/packages/particle-sliders-core)
+
+From a checkout, call the helper inside the archived owner's existing
+context. Pass its native generator as `native` and its admitted guard
+as `owner`. Use an original OFF PNG when available.
+
+```python
+from scripts.replay_warm_amber_raw8_cfp import replay_warm_amber_raw8_cfp
+
+result = replay_warm_amber_raw8_cfp(
+    native, owner=guard, raw_path=raw8_path, case_id="dev0-seed29001",
+    archived_off=original_off_path,
+)
+```
+
+The helper verifies the live RAW weights and the realized gate trace before
+rendering the dose-matched constant. It returns the three images and the
+per-image archive hash matches. A hash mismatch records a difference from
+the measured PNG. [Replay source and exact prompts](../scripts/replay_warm_amber_raw8_cfp.py)
