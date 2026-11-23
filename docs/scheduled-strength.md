@@ -165,9 +165,13 @@ the measured PNG. [Replay source and exact prompts](../scripts/replay_warm_amber
 The seeded random gate used the same four cases, saved RAW8 adapter, OFF
 images, 512×512 native sampler, and nominal strength 0.5 as the CFP and
 CLABS comparisons. It drew independently at each Euler interval with
-probability 0.5 and fired on 18 of 32 intervals. Each constant matched
-its case's realized sigma-weighted dose. All eight new finished images
-passed independent integrity checks. [Exact random control, per-case gains, and receipts](../evidence/warm-amber-raw8-random-heldout.json)
+probability 0.5 and fired on 18 of 32 intervals. Each control used the
+FP32 constant nearest its case's realized sigma-weighted dose. Two of
+the four random pairs matched exactly at the native scalar multiply.
+The largest absolute dose difference was 1.49 × 10⁻⁸. All eight new
+finished images passed independent integrity checks.
+[Random control, per-case gains, and receipts](../evidence/warm-amber-raw8-random-heldout.json) ·
+[Pinned CUDA scalar multiplication](https://raw.githubusercontent.com/pytorch/pytorch/5811a8d7da873dd699ff6687092c225caffcf1bb/aten/src/ATen/native/cuda/BinaryMulKernel.cu).
 
 | Method | Firings | Gate ON minus OFF | Constant ON minus OFF | Gate minus constant | Cases ahead of constant |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -176,5 +180,7 @@ passed independent integrity checks. [Exact random control, per-case gains, and 
 | Random | 18/32 | +0.000276118 | −0.000109414 | +0.000385532 | 2/4 |
 
 The table gives equal weight to the four cases. Read each method against
-its own constant because realized doses differ across methods.
+its own constant because realized doses differ across methods. All four
+CFP and all four CLABS pairs matched exactly at the native FP32 scalar
+multiply.
 [CFP evidence](../evidence/warm-amber-raw8-cfp-heldout.json) · [CLABS evidence](../evidence/warm-amber-raw8-clabs-heldout.json)
